@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <!--<constant name="struts.action.extension" value="lp" /> -->
+    <constant name="struts.ui.theme" value="simple" />
+    <package name="struts2" namespace="/" extends="struts-default">
+        <action name="login" class="loginAction">
+            <result name="loginSuccess">/login_success.jsp</result>
+            <result name="loginFailure">/login_failure.jsp</result>
+            <result name="login">/login.jsp</result>
+            <!--<result name="list">/customer_list.jsp</result> -->
+            <result name="customerList" type="redirect">listCustomer</result>
+            <result name="scoreList" type="redirect">listScore</result>
+        </action>
+        <action name="logout" method="logout" class="loginAction">
+            <result name="logsucc">/login.jsp</result>
+        </action>
+        <action name="modifyPass" method="modifyPass" class="loginAction">
+            <result name="modify">/modify_pass.jsp</result>
+        </action>
+        <action name="modifyPassDel" method="modifyPassDel" class="loginAction">
+            <result name="success">/login.jsp</result>
+            <result name="failure">/modify_pass.jsp</result>
+        </action>
+        <action name="listCustomer" method="list" class="customerAction">
+            <result name="listCustomer">/customer_list.jsp</result>
+        </action>
+        <action name="listCustomerByCompany" method="listByCompany" class="customerAction">
+            <result name="listCustomer">/customer_list.jsp</result>
+        </action>
+        <action name="listCustomerByCompanyAndLegalRepr" method="listByCompanyAndLegalRepr" class="customerAction">
+            <result name="listCustomer">/customer_list.jsp</result>
+        </action>
+        <action name="addCustomer" method="add" class="customerAction">
+            <result name="addCustomer">/login_success.jsp</result>
+        </action>
+        <action name="updateCustomer" method="update" class="customerAction">
+            <result name="updateCustomer">/login_success.jsp</result>
+        </action>
+        <action name="deleteCustomer" method="delete" class="customerAction">
+            <result name="listCustomer" type="redirect">listCustomer</result>
+        </action>
+        <action name="listScore" method="scoreListByRealName" class="scoreAction">
+            <result name="listScoreByRealName">/score_list.jsp</result>
+            <result name="listScore">/score_list.jsp</result>
+        </action>
+        <action name="addCustomerPrevious" method="previousAdd" class="customerAction">
+            <result name="addCustomer">/customer_add.jsp</result>
+        </action>
+        <action name="updateCustomerPrevious" method="previousUpdate" class="customerAction">
+            <result name="updateCustomer">/customer_update.jsp</result>
+        </action>
+        <action name="listCustomerByDepartment" method="listByDepartment" class="customerAction">
+            <result name="listCustomer">/customer_list.jsp</result>
+        </action>
+        <action name="listCustomerByArea" method="listByArea" class="customerAction">
+            <result name="listCustomer">/customer_list.jsp</result>
+        </action>
+    </package>
+</struts>
