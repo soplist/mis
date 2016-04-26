@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>no_filter_jquery_html_1.html</title>
+	<script type="text/javascript" src="jquery-2.2.3.min.js"></script>
+    <script type="text/javascript">
+       $(document).ready(function(){
+           $("p").click(function(){
+           $(this).hide();
+           });
+           $("#id_1").click(function(){
+           $("#id_1").hide();
+           });
+       });
+    </script>
+  </head>
+  
+  <body>
+    <p>if you click on me,I will disappear.</p>
+    <h1 id="id_1">if you click on me,I will disappear.</h1>
+  </body>
+</html>

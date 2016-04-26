@@ -28,6 +28,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <a style="font-size: 10px" href="angular_js/no_filter_agl_7.jsp">angular 7</a><br>
     <a style="font-size: 10px" href="angular_js/no_filter_agl_8.jsp">angular 8</a><br>
     </div>
+    <div>
+    <a style="font-size: 10px" href="jquery/no_filter_jquery_1.jsp">jquery 1</a><br>
+    <a style="font-size: 10px" href="jquery/no_filter_jquery_2.jsp">jquery 2</a><br>
+    </div>
     <center>
     <fieldset style="width: 250px">
        <legend><spring:message code="login.login"/></legend> 

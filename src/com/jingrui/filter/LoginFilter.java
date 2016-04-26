@@ -37,6 +37,11 @@ public class LoginFilter implements  Filter{
 		    return;
 		}
 		
+		if(path.indexOf("jquery-2.2.3.min.js") > -1){
+			chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
 		if(path.indexOf("/login.jsp") > -1) {
 		    chain.doFilter(servletRequest, servletResponse);
 		    return;
