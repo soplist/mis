@@ -16,5 +16,6 @@
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.lib.spring31.MYECLIPSE_SPRING31_Persistence"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.27-bin.jar"/>
 	<classpathentry kind="lib" path="D:/wangkang/setup/jxl.jar"/>
+	<classpathentry kind="lib" path="D:/wangkang/file/jar/log4j-1.2.17.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

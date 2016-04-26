@@ -31,23 +31,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
             }
             if (xmlhttp!=null){
-                var a = document.getElementById("start_date").value;
-                var b = document.getElementById("company").value;
-                var c = document.getElementById("cost").value;
-                var d = document.getElementById("legal_representative").value;
-                var e = document.getElementById("office_staff").value;
-                var f = document.getElementById("detailed_address").value;
-                var g = document.getElementById("office_telephone").value;
-                var h = document.getElementById("cellphone").value;
-                var i = document.getElementById("qq").value;
-                var j = document.getElementById("micromsg").value;
-                var k = document.getElementById("introduction").value;
-                var l = document.getElementById("cooperation_project").value;
-                var m = document.getElementById("possible_business").value;
-                var n = document.getElementById("client_evaluation").value;
-                var o = document.getElementById("comment").value;
-                var p = document.getElementById("department").value;
-                var q = document.getElementById("area").value;
+                var a = trim(document.getElementById("start_date").value);
+                var b = trim(document.getElementById("company").value);
+                var c = trim(document.getElementById("cost").value);
+                var d = trim(document.getElementById("legal_representative").value);
+                var e = trim(document.getElementById("office_staff").value);
+                var f = trim(document.getElementById("detailed_address").value);
+                var g = trim(document.getElementById("office_telephone").value);
+                var h = trim(document.getElementById("cellphone").value);
+                var i = trim(document.getElementById("qq").value);
+                var j = trim(document.getElementById("micromsg").value);
+                var k = trim(document.getElementById("introduction").value);
+                var l = trim(document.getElementById("cooperation_project").value);
+                var m = trim(document.getElementById("possible_business").value);
+                var n = trim(document.getElementById("client_evaluation").value);
+                var o = trim(document.getElementById("comment").value);
+                var p = trim(document.getElementById("department").value);
+                var q = trim(document.getElementById("area").value);
                 
                 
                 if(a==null||b==null||c==null||d==null||e==null
@@ -162,6 +162,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	            alert("Problem retrieving data:" + xmlhttp.statusText);
                 }
             }
+        }
+        function trim(str){ 
+
+             return str.replace(/(^\s*)|(\s*$)/g, ""); 
+
         }
 
     </script>

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.jingrui.domain.Area;
 import com.jingrui.domain.User;
 import com.jingrui.service.DepartmentService;
@@ -20,6 +22,8 @@ public class LoginAction {
     private String sys;
     private UserService userService;
     private DepartmentService deptService;
+    
+    private static Logger logger = Logger.getLogger(LoginAction.class);
     
     public DepartmentService getDeptService() {
 		return deptService;
@@ -52,6 +56,7 @@ public class LoginAction {
 		this.userService = userService;
 	}
 	public String execute() throws Exception{
+		logger.info("login");
     	if(""!=username&&""!=password){
     		User u = userService.findUserByName(username);
     		if(null!=u && password.equals(u.getPassword())){
@@ -89,6 +94,7 @@ public class LoginAction {
 	}
 	
 	public String modifyPassDel(){
+		logger.info("modify password");
 		System.out.println("modifyPassDel User.uid:"+this.uid);
 		System.out.println("modifyPassDel User.username:"+this.username);
 		System.out.println("modifyPassDel User.password:"+this.password);
@@ -117,6 +123,7 @@ public class LoginAction {
 	}
 	
 	public String logout(){
+		logger.info("logout");
 		ActionContext.getContext().getSession().remove("user");
 		return "logsucc";
 	}

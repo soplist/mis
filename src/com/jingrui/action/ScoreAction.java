@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 
 import com.jingrui.domain.StaffScore;
 import com.jingrui.domain.User;
@@ -11,6 +13,9 @@ import com.jingrui.service.ScoreService;
 import com.opensymphony.xwork2.ActionContext;
 
 public class ScoreAction {
+	
+	private static Logger logger = Logger.getLogger(ScoreAction.class);
+	
 	private ScoreService scoreService;
     
 	public ScoreService getScoreService() {
@@ -22,6 +27,7 @@ public class ScoreAction {
 	}
 
 	public String scoreListByRealName(){
+		logger.info("score list by real Name");
 		Map request = (Map)ActionContext.getContext().get("request");
 		Map session = (Map)ActionContext.getContext().getSession();
 		User u = (User) session.get("user");

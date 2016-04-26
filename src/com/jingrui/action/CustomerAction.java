@@ -11,6 +11,7 @@ import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -27,6 +28,9 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class CustomerAction extends ActionSupport {
+	
+	private static Logger logger = Logger.getLogger(CustomerAction.class);
+	
 	private CustomerService customerService;
 	//private UserService userService;
 	private DepartmentService departmentService;
@@ -182,6 +186,7 @@ public class CustomerAction extends ActionSupport {
 	}
 
 	public String add(){
+		logger.info("add customer.");
 		HttpServletRequest request = ServletActionContext.getRequest();
 		this.startDate = request.getParameter("startDate");
 		this.company = request.getParameter("company");
@@ -236,6 +241,7 @@ public class CustomerAction extends ActionSupport {
     }
 	
 	public String update(){
+		logger.info("update customer.");
 		HttpServletRequest request = ServletActionContext.getRequest();
 		this.startDate = request.getParameter("startDate");
 		this.company = request.getParameter("company");
@@ -294,6 +300,7 @@ public class CustomerAction extends ActionSupport {
 	}
 	
 	public String previousAdd(){
+		logger.info("previous add customer.");
 		Map request = (Map)ActionContext.getContext().get("request");
 		List<Department> list = departmentService.listDptm();
 		System.out.println("previousAdd list.size():"+list.size());
@@ -312,6 +319,7 @@ public class CustomerAction extends ActionSupport {
 	}
 	
 	public String previousUpdate(){
+		logger.info("previous update customer.");
 		Map request = (Map)ActionContext.getContext().get("request");
 		List<Department> list = departmentService.listDptm();
 		System.out.println("previousAdd list.size():"+list.size());
@@ -336,6 +344,7 @@ public class CustomerAction extends ActionSupport {
 	}
     
     public String list(){
+    	logger.info("list customer.");
     	HttpServletRequest req = ServletActionContext.getRequest();
 		String sflag = req.getParameter("sflag");
 		if(sflag!=null && "1".equals(sflag)){
@@ -354,6 +363,7 @@ public class CustomerAction extends ActionSupport {
     	//HttpServletRequest req = ServletActionContext.getRequest();
 		//String company = req.getParameter("company");
 		//System.out.println("method listByCompany in CustomerAction,company="+company);
+    	logger.info("list customer by company.");
     	
     	Map request = (Map)ActionContext.getContext().get("request");
     	List<Customer> list = null;
@@ -369,6 +379,7 @@ public class CustomerAction extends ActionSupport {
     }
     
     public String listByCompanyAndLegalRepr(){
+    	logger.info("list customer by company and representative.");
     	Map request = (Map)ActionContext.getContext().get("request");
     	List<Customer> list = null;
     	try {
@@ -383,6 +394,7 @@ public class CustomerAction extends ActionSupport {
     }
     
     public String listByDepartment(){
+    	logger.info("list customer by department.");
     	HttpServletRequest req = ServletActionContext.getRequest();
 		Map session = (Map)ActionContext.getContext().getSession();
 		Map request = (Map)ActionContext.getContext().get("request");
@@ -404,6 +416,7 @@ public class CustomerAction extends ActionSupport {
     }
     
     public String listByArea(){
+    	logger.info("list customer by area");
     	HttpServletRequest req = ServletActionContext.getRequest();
 		Map session = (Map)ActionContext.getContext().getSession();
 		Map request = (Map)ActionContext.getContext().get("request");
@@ -424,6 +437,7 @@ public class CustomerAction extends ActionSupport {
     }
     
     public String delete(){
+    	logger.info("delete customer by id");
     	int id = new Integer(ServletActionContext.getRequest().getParameter("id").trim()) ;
     	System.out.println("delete customer id:"+id);
     	customerService.deleteById(id);
