@@ -32,10 +32,17 @@ public class LoginFilter implements  Filter{
 		System.out.println("request url:"+path);
 		User u =  (User) session.getAttribute("user");
 		
+		if(path.indexOf("no_filter") > -1){
+			chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
 		if(path.indexOf("/login.jsp") > -1) {
 		    chain.doFilter(servletRequest, servletResponse);
 		    return;
-		}else{
+		}
+		
+		else{
 			if (u == null) {
 				servletResponse.sendRedirect("/mis/login.jsp");
 			} else {

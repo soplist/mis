@@ -18,6 +18,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
+    <div style="display:none">
+    <a style="font-size: 10px" href="angular_js/no_filter_agl_1.jsp">angular 1</a><br>
+    <a style="font-size: 10px" href="angular_js/no_filter_agl_2.jsp">angular 2</a><br>
+    <a style="font-size: 10px" href="angular_js/no_filter_agl_3.jsp">angular 3</a><br>
+    <a style="font-size: 10px" href="angular_js/no_filter_agl_4.jsp">angular 4</a><br>
+    <a style="font-size: 10px" href="angular_js/no_filter_agl_5.jsp">angular 5</a><br>
+    <a style="font-size: 10px" href="angular_js/no_filter_agl_6.jsp">angular 6</a><br>
+    <a style="font-size: 10px" href="angular_js/no_filter_agl_7.jsp">angular 7</a><br>
+    <a style="font-size: 10px" href="angular_js/no_filter_agl_8.jsp">angular 8</a><br>
+    </div>
     <center>
     <fieldset style="width: 250px">
        <legend><spring:message code="login.login"/></legend> 
