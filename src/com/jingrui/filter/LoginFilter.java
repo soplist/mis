@@ -42,7 +42,17 @@ public class LoginFilter implements  Filter{
 		    return;
 		}
 		
+		if(path.endsWith(".css")){
+			chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
 		if(path.indexOf("/login.jsp") > -1) {
+		    chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
+		if(path.indexOf("login") > -1) {
 		    chain.doFilter(servletRequest, servletResponse);
 		    return;
 		}

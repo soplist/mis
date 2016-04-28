@@ -29,7 +29,10 @@
 	height: 600px;
 	width: 200px;
 	background-color: #4682B4;
-	float:left
+	float:left;
+	_position:absolute; 
+	_top:expression(offsetParent.scrollTop); 
+	_left:expression(offsetParent.scrollLeft);
 }
 .div_3{
 	height: 150px;

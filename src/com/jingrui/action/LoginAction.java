@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.jingrui.domain.Area;
+import com.jingrui.domain.Permission;
 import com.jingrui.domain.User;
 import com.jingrui.service.DepartmentService;
 import com.jingrui.service.UserService;
@@ -22,9 +23,17 @@ public class LoginAction {
     private String sys;
     private UserService userService;
     private DepartmentService deptService;
+    private Integer pid;
     
     private static Logger logger = Logger.getLogger(LoginAction.class);
     
+    public Integer getPid() {
+		return pid;
+	}
+	public void setPid(Integer pid) {
+		this.pid = pid;
+	}
+	
     public DepartmentService getDeptService() {
 		return deptService;
 	}
@@ -103,6 +112,9 @@ public class LoginAction {
 		u.setName(this.username);
 		u.setPassword(this.password);
 		u.setRealName(this.realName);
+		Permission p = new Permission();
+		p.setPid(this.pid);
+		u.setPermission(p);
 		Map session = (Map)ActionContext.getContext().getSession();
 		if(this.confirmPass.equals(this.password)){
 			if(this.password.equals("")){

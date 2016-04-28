@@ -15,6 +15,13 @@
     <link rel="stylesheet" href="style/customer_list.css" type="text/css"></link>
     <link rel="icon" href="img/64556.gif" type="image/gif">
     <script type="text/javascript">
+        window.onload=function(){ 
+            if ((navigator.userAgent.indexOf('MSIE') >= 0) && (navigator.userAgent.indexOf('Opera') < 0)){
+                var box = document.getElementById('div_2');
+                box.style.marginTop = '110px';
+            }
+        };
+    
         var xmlhttp=null;
         function search(){
             
@@ -68,7 +75,7 @@
       <s:submit></s:submit>
   </s:form>
     <div class="div_1">
-    <div class="div_2">
+    <div id="div_2" class="div_2">
        <div class="div_3">
            <s:iterator value="#session.dptmlist" id="dpt"> 
                <s:a cssClass="a_1" action="listCustomerByDepartment">

@@ -75,15 +75,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         document.getElementById("error").innerHTML="";
                         document.getElementById("error").innerHTML="费用格式不正确!";
                     }
-                    else if(g!=""&&!gflag){
+                    else if(g!="无"&&!gflag){
                         document.getElementById("error").innerHTML="";
                         document.getElementById("error").innerHTML="电话号码格式不正确!";
                     }
-                    else if(h!=""&&!hflag){
+                    else if(h!="无"&&!hflag){
                         document.getElementById("error").innerHTML="";
                         document.getElementById("error").innerHTML="手机号码格式不正确!";
                     }
-                    else if(i!=""&&isNaN(i)){
+                    else if(i!="无"&&isNaN(i)){
                         document.getElementById("error").innerHTML="";
                         document.getElementById("error").innerHTML="qq格式不正确!";
                     }
