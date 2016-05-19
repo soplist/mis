@@ -226,8 +226,8 @@ public class ImportExcelHelper1 {
     public static void main(String[] args) {
     	ImportExcelHelper1 ieh1 = new ImportExcelHelper1();
 	    //String excelPath = "D:"+ File.separator + "wangkang"+ File.separator+"doc"+ File.separator+"客户信息标准版、4.12家居.xls";
-    	//String excelPath = "D:"+ File.separator + "wangkang"+ File.separator+"doc"+ File.separator+"在安康传媒客户信息标准版.xls";
-    	String excelPath = "D:"+ File.separator + "wangkang"+ File.separator+"doc"+ File.separator+"客户信息标准版、(1).xls";
+    	String excelPath = "D:"+ File.separator + "wangkang"+ File.separator+"doc"+ File.separator+"在安康传媒客户信息标准版.xls";
+    	//String excelPath = "D:"+ File.separator + "wangkang"+ File.separator+"doc"+ File.separator+"客户信息标准版、(1).xls";
     	ArrayList<Customer1> customers = ieh1.readExcel(excelPath);
 	    ieh1.insertIntoDB(customers);
 	    

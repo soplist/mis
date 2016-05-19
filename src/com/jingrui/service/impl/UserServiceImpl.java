@@ -21,6 +21,11 @@ public class UserServiceImpl implements UserService {
 		return baseDao;
 	}
 
+    public List<User> findAllUser(){
+    	List<User> list = baseDao.qryInfo("from User");
+    	return list;
+    }
+    
 	public void setBaseDao(BaseDAO baseDao) {
 		this.baseDao = baseDao;
 	}

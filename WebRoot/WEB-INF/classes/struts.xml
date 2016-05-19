@@ -44,6 +44,36 @@
             <result name="listScoreByRealName">/score_list.jsp</result>
             <result name="listScore">/score_list.jsp</result>
         </action>
+        <action name="previousLaunchScoreForm" method="previousLaunch" class="scoreAction">
+            <result name="launchScoreForm">/launch_score_task.jsp</result>
+        </action>
+        <action name="previousRelaunchScoreForm" method="previousRelaunch" class="scoreAction">
+            <result name="relaunchScoreForm">/relaunch_score_task.jsp</result>
+        </action>
+        <action name="launchScoreForm" method="launch" class="scoreAction">
+            <result name="launchSuccess">/launch_success.jsp</result>
+        </action>
+        <action name="loadTasks" method="loadTasks" class="scoreAction">
+            <result name="loadTasksSuccess">/score_list.jsp</result>
+        </action>
+        <action name="agreeNotice" method="agree" class="scoreAction">
+            <result name="agreeSuccess">/score_list.jsp</result>
+        </action>
+        <action name="reject" method="reject" class="scoreAction">
+            <result name="rejectSuccess">/score_list.jsp</result>
+        </action>
+        <action name="delete" method="delete" class="scoreAction">
+            <result name="deleteSuccess">/score_list.jsp</result>
+        </action>
+        <action name="approve" method="approve" class="scoreAction">
+            <result name="approveSuccess">/score_list.jsp</result>
+        </action>
+        <action name="getArchiveByMonth" method="getArchiveByMonth" class="scoreAction">
+            <result name="getArchiveByMonthSuccess">/score_list.jsp</result>
+        </action>
+        <action name="getDetailTask" method="getDetailTask" class="scoreAction">
+            <result name="getDetailTaskSuccess">/task_detail.jsp</result>
+        </action>
         <action name="addCustomerPrevious" method="previousAdd" class="customerAction">
             <result name="addCustomer">/customer_add.jsp</result>
         </action>

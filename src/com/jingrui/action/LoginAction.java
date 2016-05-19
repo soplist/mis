@@ -1,16 +1,25 @@
 package com.jingrui.action;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
 import com.jingrui.domain.Area;
+import com.jingrui.domain.NoticePeople;
 import com.jingrui.domain.Permission;
+import com.jingrui.domain.Task;
 import com.jingrui.domain.User;
 import com.jingrui.service.DepartmentService;
+import com.jingrui.service.TaskService;
 import com.jingrui.service.UserService;
+import com.jingrui.util.StatisticsHelper;
 import com.opensymphony.xwork2.ActionContext;
 
 
@@ -23,7 +32,8 @@ public class LoginAction {
     private String sys;
     private UserService userService;
     private DepartmentService deptService;
-    private Integer pid;
+    private TaskService taskService;
+	private Integer pid;
     
     private static Logger logger = Logger.getLogger(LoginAction.class);
     
@@ -39,6 +49,12 @@ public class LoginAction {
 	}
 	public void setDeptService(DepartmentService deptService) {
 		this.deptService = deptService;
+	}
+    public TaskService getTaskService() {
+		return taskService;
+	}
+	public void setTaskService(TaskService taskService) {
+		this.taskService = taskService;
 	}
 	public String getRealName() {
 		return realName;
@@ -86,6 +102,27 @@ public class LoginAction {
     		    	 
                      return "customerList";
     		     }else{
+    		    	 List<Task> taskList_1 = taskService.getApproveTask();
+    		    	 session.put("approveTaskList", taskList_1);
+    		    	 
+    		    	 TreeMap<String,Integer> table=StatisticsHelper.getStatistics(u.getNoticePeoplesForUserId());
+    		    	 session.put("task_a", table);
+    		    	 
+    		    	 List<String> months = new ArrayList<String>();
+    		    	 Set<NoticePeople> noticePeoples = u.getNoticePeoplesForUserId();
+    		    	 for (NoticePeople np : noticePeoples) {
+    		    		 String month = np.getTaskByTaskId().getDate().substring(0, 7);
+    		    		 if(!months.contains(month)){
+    		    			 months.add(month);
+    		    		 }
+					 }
+    		    	 session.put("months", months);
+    		    	 
+    		    	 DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    		         String date = format.format(new Date());
+    		    	 List<NoticePeople> nps = StatisticsHelper.getNoticePeoplesByMonth(date.substring(0, 7),u.getNoticePeoplesForUserId());
+    		    	 session.put("nps", nps);
+    		    	 
     		    	 return "scoreList";
     		     }
     		}else{

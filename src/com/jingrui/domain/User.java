@@ -26,10 +26,10 @@ public class User implements java.io.Serializable {
 	private Set staffScoresForWhoFillPaperId = new HashSet(0);
 	private Set staffScoresForNameId = new HashSet(0);
 	private Permission permission;
+	private Set noticePeoplesForUserId = new HashSet(0);
+	private Set OperatesForUserId = new HashSet(0);
 
 	// Constructors
-
-	
 
 	/** default constructor */
 	public User() {
@@ -57,7 +57,7 @@ public class User implements java.io.Serializable {
 		this.staffScoresForNameId = staffScoresForNameId;
 	}
 
-	/** full constructor */
+	
 	public User(String name, String password, String realName,
 			Set staffScoresForOperatorId, Set staffScoresForWhoFillPaperId,
 			Set staffScoresForNameId,Permission permission) {
@@ -69,7 +69,34 @@ public class User implements java.io.Serializable {
 		this.staffScoresForNameId = staffScoresForNameId;
 		this.permission = permission;
 	}
+	
+	public User(String name, String password, String realName,
+			Set staffScoresForOperatorId, Set staffScoresForWhoFillPaperId,
+			Set staffScoresForNameId,Permission permission,Set noticePeoplesForUserId) {
+		this.name = name;
+		this.password = password;
+		this.realName = realName;
+		this.staffScoresForOperatorId = staffScoresForOperatorId;
+		this.staffScoresForWhoFillPaperId = staffScoresForWhoFillPaperId;
+		this.staffScoresForNameId = staffScoresForNameId;
+		this.permission = permission;
+		this.noticePeoplesForUserId = noticePeoplesForUserId;
+	}
 
+	/** full constructor */
+	public User(String name, String password, String realName,
+			Set staffScoresForOperatorId, Set staffScoresForWhoFillPaperId,
+			Set staffScoresForNameId,Permission permission,Set noticePeoplesForUserId,Set OperatesForUserId) {
+		this.name = name;
+		this.password = password;
+		this.realName = realName;
+		this.staffScoresForOperatorId = staffScoresForOperatorId;
+		this.staffScoresForWhoFillPaperId = staffScoresForWhoFillPaperId;
+		this.staffScoresForNameId = staffScoresForNameId;
+		this.permission = permission;
+		this.noticePeoplesForUserId = noticePeoplesForUserId;
+		this.OperatesForUserId = OperatesForUserId;
+	}
 	// Property accessors
 
 	public Integer getUid() {
@@ -134,6 +161,22 @@ public class User implements java.io.Serializable {
 
 	public void setPermission(Permission permission) {
 		this.permission = permission;
+	}
+	
+	public Set getNoticePeoplesForUserId() {
+		return noticePeoplesForUserId;
+	}
+
+	public void setNoticePeoplesForUserId(Set noticePeoplesForUserId) {
+		this.noticePeoplesForUserId = noticePeoplesForUserId;
+	}
+	
+	public Set getOperatesForUserId() {
+		return OperatesForUserId;
+	}
+
+	public void setOperatesForUserId(Set operatesForUserId) {
+		OperatesForUserId = operatesForUserId;
 	}
 
 }

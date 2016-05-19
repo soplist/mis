@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
-validator.Checked=WebRoot/js/jquery-1.7.2.min.js,src/struts.xml,WebRoot/jquery/jquery-2.2.3.min.js,WebRoot/jquery/jquery-1.7.2.min.js,WebRoot/js/angular.min.js
+validator.Checked=WebRoot/js/amazeui.min.js,WebRoot/js/build/jquery.datetimepicker.full.min.js,WebRoot/js/build/jquery.datetimepicker.min.js,WebRoot/js/build/jquery.datetimepicker.full.js,WebRoot/jquery/jquery-1.7.2.min.js,WebRoot/js/jquery.js,WebRoot/js/angular.min.js,WebRoot/js/jquery.datetimepicker.full.js,WebRoot/js/jquery-1.7.2.min.js,WebRoot/js/jquery.datetimepicker.js,src/struts.xml,WebRoot/js/amazeui.ie8polyfill.js,WebRoot/jquery/jquery-2.2.3.min.js
 validator.Unchecked=

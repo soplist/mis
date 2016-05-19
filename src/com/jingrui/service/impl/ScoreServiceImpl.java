@@ -55,4 +55,5 @@ public class ScoreServiceImpl implements ScoreService {
 		List<StaffScore> StaffScore = baseDao.qryInfo("from StaffScore");
 		return StaffScore;
 	}
+	
 }

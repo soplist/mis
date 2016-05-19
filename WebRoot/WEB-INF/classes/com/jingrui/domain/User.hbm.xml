@@ -40,5 +40,17 @@
         <many-to-one name="permission" class="com.jingrui.domain.Permission" fetch="select" lazy="false">
             <column name="pid" not-null="true" />
         </many-to-one>
+        <set name="noticePeoplesForUserId" inverse="true" lazy="false" order-by="nid desc">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jingrui.domain.NoticePeople" />
+        </set>
+        <set name="OperatesForUserId" inverse="true" lazy="false" order-by="oid desc">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="com.jingrui.domain.Operate" />
+        </set>
     </class>
 </hibernate-mapping>

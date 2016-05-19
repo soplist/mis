@@ -1,0 +1,42 @@
+*{
+    font-size:10px;
+    color:gray;
+ }
+ .fieldset_1{
+    width: 500px;
+    height: 170px;
+ }
+.text_1{
+	width: 400px;
+}
+.text_2{
+	width: 50px
+}
+.textarea_1{
+	width: 400px;
+}
+.div_1{
+	width: 85px;
+	float: left;
+	text-align: center;
+}
+.div_2{
+	float: left
+}
+.div_3{
+	float: left
+}
+.div_4{
+	float: right
+}
+.div_5{
+	width: 700px;
+	height: 300px;
+	background-color:#EED2EE;
+	margin-left: 20px;
+	margin-top: 30px;
+	float:left;
+}
+.span_1{
+	color: #6E8B3D
+}

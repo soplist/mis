@@ -47,12 +47,47 @@ public class LoginFilter implements  Filter{
 		    return;
 		}
 		
+		if(path.endsWith(".js")){
+			chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
 		if(path.indexOf("/login.jsp") > -1) {
 		    chain.doFilter(servletRequest, servletResponse);
 		    return;
 		}
 		
 		if(path.indexOf("login") > -1) {
+		    chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
+		if(path.indexOf("launch_score_task.jsp") > -1) {
+		    chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
+		if(path.indexOf("task_detail.jsp") > -1) {
+		    chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
+		if(path.indexOf("test.jsp") > -1) {
+		    chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
+		if(path.indexOf("jfreeChart.jsp") > -1) {
+		    chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
+		if(path.indexOf(".png") > -1) {
+		    chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
+		if(path.indexOf("DisplayChart") > -1) {
 		    chain.doFilter(servletRequest, servletResponse);
 		    return;
 		}
