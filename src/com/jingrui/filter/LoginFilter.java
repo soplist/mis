@@ -77,7 +77,12 @@ public class LoginFilter implements  Filter{
 		    return;
 		}
 		
-		if(path.indexOf("jfreeChart.jsp") > -1) {
+		if(path.indexOf("jfreePieChart.jsp") > -1) {
+		    chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
+		if(path.indexOf("jfreeBarChart.jsp") > -1) {
 		    chain.doFilter(servletRequest, servletResponse);
 		    return;
 		}

@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.util.*" %>    
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -44,11 +45,24 @@
         <tr class="tr_6">
             <th><spring:message code="score_list.statistics_time"/></th>
             <th><spring:message code="score_list.statistics_value"/></th>
+            <th><spring:message code="score_list.statistics_chart"/></th>
         </tr>
         <s:iterator value="#session.task_a" id="entry">
             <tr>
             <td><s:property value="key"/></td>   
             <td><s:property value="value"/></td>   
+            <td>
+                <c:if test="${fn:length(key)==7}">
+                <a class="a_4" onclick="window.open('pieChartForabcPerMonth?month=${key}')">
+                     <spring:message code="score_list.statistics_chart"/>
+                </a>
+                </c:if> 
+                <c:if test="${fn:length(key)==4}">
+                <a class="a_4" onclick="window.open('barChartForYear?year=${key}')">
+                     <spring:message code="score_list.statistics_yearchart"/>
+                </a>
+                </c:if> 
+            </td>
             </tr>
         </s:iterator> 
     </table>

@@ -4,109 +4,104 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.entity.StandardEntityCollection;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.Plot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.servlet.ServletUtilities;
 import org.jfree.chart.title.TextTitle;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
+
+import com.jingrui.domain.NoticePeople;
+import com.jingrui.domain.User;
+import com.opensymphony.xwork2.ActionContext;
 
 
 
 public class Piechart {
-   
-    private static PieDataset createDataset()
+	   
+    private static PieDataset createDataset(String month)
     {
-        String s1="棉花";
-        String s2="小麦";
-        String s3="大豆";
-        String s4="花生";
-        String s5="玉米";
+    	Map mapsession = (Map)ActionContext.getContext().getSession();
+		User u = (User) mapsession.get("user");
+		Set<NoticePeople> nps = u.getNoticePeoplesForUserId();
+		int sum = 0;
+		int aValue=0;
+		int bValue=0;
+		int cValue=0;
+		for (NoticePeople noticePeople : nps) {
+			if(noticePeople.getTaskByTaskId().getDate().substring(0,7).equals(month)){
+			    String scoreClass = noticePeople.getTaskByTaskId().getScoreClass();
+			    sum +=noticePeople.getTaskByTaskId().getValue();
+			    if(scoreClass.equals("a")){
+				    aValue+=noticePeople.getTaskByTaskId().getValue();
+			    }
+			    else if(scoreClass.equals("b")){
+				    bValue+=noticePeople.getTaskByTaskId().getValue();
+			    }else{
+				    cValue+=noticePeople.getTaskByTaskId().getValue();
+			    }
+			}
+		}
+		
+        String s1="a类";
+        String s2="b类";
+        String s3="产值分";
         DefaultPieDataset defaultpieDataset=new DefaultPieDataset();
        
-        defaultpieDataset.setValue(s1,0.25);
-        defaultpieDataset.setValue(s2,0.30);
-        defaultpieDataset.setValue(s3,0.05);
-        defaultpieDataset.setValue(s4,0.15);
-        defaultpieDataset.setValue(s5,0.25);
+        float a = (float)aValue/sum;
+        float b = (float)bValue/sum;
+        float c = 1-a-b;
+        defaultpieDataset.setValue(s1,a);
+        defaultpieDataset.setValue(s2,b);
+        defaultpieDataset.setValue(s3,c);
         return defaultpieDataset;
     }
 
     private static JFreeChart createChart(PieDataset pieDataset)
     {
-        String name="某地区主要农作物比例饼状图";
-        String x_name="省份";
-        String y_name="数量";
+        String name="分数类别比例饼状图";
         JFreeChart jfreechart=ChartFactory.createPieChart(name,pieDataset,true,true,false);
        
         jfreechart.setBackgroundPaint(Color.white);//Color 是paint类型的对象
         PiePlot pieplot=(PiePlot)jfreechart.getPlot();
        
-       
         pieplot.setLabelFont(new Font("黑体", 12, 12));
           
-          //定义字体格式 
-          Font font = new Font("微软雅黑", Font.CENTER_BASELINE, 12);
-          TextTitle title = new TextTitle(name); 
-          //设置标题的格式 
-          title.setFont(font); 
-          //把标题设置到图片里面 
-          jfreechart.setTitle(title);
+        Font font = new Font("微软雅黑", Font.CENTER_BASELINE, 12);
+        TextTitle title = new TextTitle(name); 
+        title.setFont(font); 
+        jfreechart.setTitle(title);
             
-         jfreechart.getLegend().setItemFont(new Font("宋体", Font.PLAIN, 12)); 
+        jfreechart.getLegend().setItemFont(new Font("宋体", Font.PLAIN, 12)); 
          
          
         return jfreechart;
        
     }
    
-    public static String generateBarChart(HttpSession session,PrintWriter pw)
+    public static String generatePieChart(String month)
     {
-    	String tempDirName = System.getProperty("java.io.tmpdir");
-    	System.out.println("tempDirName:"+tempDirName);
-    	String prefix = ServletUtilities.getTempFilePrefix();
-    	System.out.println("getTempFilePrefix:"+prefix);
-        String userdir = System.getProperty("user.dir");
-        System.out.println("userdir:"+userdir);
-        String filename="";
-        
-        
-        File file = new File("\\新建文件夹");
-        file.mkdirs();
-       
-        PieDataset categorydataset=createDataset();
-        JFreeChart jfreechart=createChart(categorydataset);
-       
-        ChartRenderingInfo info=new ChartRenderingInfo(new StandardEntityCollection());
-       
+    	File tempFile = null;
         try{
-            filename=ServletUtilities.saveChartAsPNG(jfreechart,500,300,info,session);
-        }catch(IOException e)
-        {
+        	File file = new File("webapps//mis//temp");
+            if(!file.exists())
+        	    file.mkdir();
+            String prefix = ServletUtilities.getTempFilePrefix(); 
+            tempFile = File.createTempFile(prefix, ".png", file);
+		 
+            PieDataset categorydataset=createDataset(month);//在类里可以调用私有的成员啊
+            JFreeChart jfreechart=createChart(categorydataset);
+        
+            ChartUtilities.saveChartAsPNG(tempFile,jfreechart,500,300);
+        }catch(Exception e){
             e.printStackTrace();
         }
-        try{
-            ChartUtilities.writeImageMap(pw,filename,info,false);
-        }catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        pw.flush();
-        return filename;
-   
+        return tempFile.getName();
     }
 }

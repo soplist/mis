@@ -116,6 +116,9 @@
          <property name="taskService" ref="taskServiceImpl" />
          <property name="pipe" ref="pipeImpl" />
     </bean>
+    <bean id="chartAction" class="com.jingrui.action.ChartAction">
+         <property name="scoreService" ref="scoreServiceImpl" />
+    </bean>
     
     <!-- i18n -->
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">

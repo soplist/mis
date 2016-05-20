@@ -60,7 +60,7 @@
     
     <servlet-mapping>
         <servlet-name>DisplayChart</servlet-name>
-        <url-pattern>/DisplayChart</url-pattern>
+        <url-pattern>/servlet/DisplayChart</url-pattern>
     </servlet-mapping>
 	
   
