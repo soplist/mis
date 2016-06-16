@@ -149,7 +149,6 @@
                     </s:a>
                     <!--</s:submit>-->
                     </s:if>
-                    
                     <s:if test="#np.taskByTaskId.status!=3&&#np.status==false">
                     
                     <s:a cssClass="a_2" action="reject">

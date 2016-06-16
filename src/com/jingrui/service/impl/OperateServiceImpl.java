@@ -2,6 +2,7 @@ package com.jingrui.service.impl;
 
 import com.jingrui.dao.BaseDAO;
 import com.jingrui.domain.Operate;
+import com.jingrui.domain.Options;
 import com.jingrui.service.OperateService;
 
 public class OperateServiceImpl implements OperateService {

@@ -88,7 +88,8 @@ public class LoginAction {
     		     System.out.println("user name:"+u.getName()+", password:"+u.getPassword());
     		     Map session = (Map)ActionContext.getContext().getSession();
     		     session.put("user",u);
-    		     if(sys.equals("1")){
+    		     System.out.println(sys.equals("2"));
+    		     if(sys.equals("2")){
     		    	 session.put("dptmlist",deptService.listDptm());
     		    	 
     		    	 String []s= {"汉滨区","旬阳县","石泉县","汉阴县","平利县","白河县","紫阳县","岚皋县","宁陕县","镇坪县"};
@@ -101,7 +102,7 @@ public class LoginAction {
     		 	     session.put("areaList",areaList);
     		    	 
                      return "customerList";
-    		     }else{
+    		     }else if(sys.equals("1")){
     		    	 List<Task> taskList_1 = taskService.getApproveTask();
     		    	 session.put("approveTaskList", taskList_1);
     		    	 
@@ -124,6 +125,11 @@ public class LoginAction {
     		    	 session.put("nps", nps);
     		    	 
     		    	 return "scoreList";
+    		     }else if(sys.equals("3")){
+    		    	 
+    		    	 return "performanceMeasurement";
+    		     }else{
+    		    	 return "login";
     		     }
     		}else{
     			return "login";

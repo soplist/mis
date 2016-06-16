@@ -136,7 +136,7 @@ public class Barchart {
     {
     	File tempFile = null;
         try{
-        	File file = new File("webapps/mis/temp");
+        	File file = new File("../webapps/mis/temp");
             if(!file.exists())
         	    file.mkdir();
             String prefix = ServletUtilities.getTempFilePrefix(); 

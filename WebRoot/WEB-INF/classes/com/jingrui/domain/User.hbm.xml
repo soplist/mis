@@ -52,5 +52,17 @@
             </key>
             <one-to-many class="com.jingrui.domain.Operate" />
         </set>
+        <many-to-one name="department" class="com.jingrui.domain.Department" fetch="select" lazy="false">
+            <column name="did" not-null="true" />
+        </many-to-one>
+        <many-to-one name="option" class="com.jingrui.domain.Options" fetch="select" lazy="false">
+            <column name="pmset" not-null="true" />
+        </many-to-one>
+        <property name="ismanager" type="java.lang.Boolean">
+            <column name="ismanager" />
+        </property>
+        <property name="isboss" type="java.lang.Boolean">
+            <column name="isboss" />
+        </property>
     </class>
 </hibernate-mapping>

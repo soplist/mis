@@ -28,10 +28,13 @@ public class User implements java.io.Serializable {
 	private Permission permission;
 	private Set noticePeoplesForUserId = new HashSet(0);
 	private Set OperatesForUserId = new HashSet(0);
+	private Department department;
+	private Options option;
+	private Boolean ismanager;
+	private Boolean isboss;
 
 	// Constructors
-
-	/** default constructor */
+    /** default constructor */
 	public User() {
 	}
 	
@@ -82,8 +85,7 @@ public class User implements java.io.Serializable {
 		this.permission = permission;
 		this.noticePeoplesForUserId = noticePeoplesForUserId;
 	}
-
-	/** full constructor */
+	
 	public User(String name, String password, String realName,
 			Set staffScoresForOperatorId, Set staffScoresForWhoFillPaperId,
 			Set staffScoresForNameId,Permission permission,Set noticePeoplesForUserId,Set OperatesForUserId) {
@@ -96,6 +98,23 @@ public class User implements java.io.Serializable {
 		this.permission = permission;
 		this.noticePeoplesForUserId = noticePeoplesForUserId;
 		this.OperatesForUserId = OperatesForUserId;
+	}
+	/** full constructor */
+	public User(String name, String password, String realName,
+			Set staffScoresForOperatorId, Set staffScoresForWhoFillPaperId,
+			Set staffScoresForNameId,Permission permission,Set noticePeoplesForUserId,Set OperatesForUserId,
+			Department department,Options option) {
+		this.name = name;
+		this.password = password;
+		this.realName = realName;
+		this.staffScoresForOperatorId = staffScoresForOperatorId;
+		this.staffScoresForWhoFillPaperId = staffScoresForWhoFillPaperId;
+		this.staffScoresForNameId = staffScoresForNameId;
+		this.permission = permission;
+		this.noticePeoplesForUserId = noticePeoplesForUserId;
+		this.OperatesForUserId = OperatesForUserId;
+		this.department=department;
+		this.option=option;
 	}
 	// Property accessors
 
@@ -177,6 +196,38 @@ public class User implements java.io.Serializable {
 
 	public void setOperatesForUserId(Set operatesForUserId) {
 		OperatesForUserId = operatesForUserId;
+	}
+	
+    public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+    
+	public Options getOption() {
+		return option;
+	}
+
+	public void setOption(Options option) {
+		this.option = option;
+	}
+	
+	public Boolean getIsmanager() {
+		return ismanager;
+	}
+
+	public void setIsmanager(Boolean ismanager) {
+		this.ismanager = ismanager;
+	}
+	
+	public Boolean getIsboss() {
+		return isboss;
+	}
+
+	public void setIsboss(Boolean isboss) {
+		this.isboss = isboss;
 	}
 
 }

@@ -19,10 +19,9 @@ public class Department implements java.io.Serializable {
 	private String departmentName;
 	private Set staffScores = new HashSet(0);
 	private Set customers = new HashSet(0);
+	private Set users = new HashSet(0);
 
 	// Constructors
-
-	
 
 	/** default constructor */
 	public Department() {
@@ -75,6 +74,14 @@ public class Department implements java.io.Serializable {
 
 	public void setCustomers(Set customers) {
 		this.customers = customers;
+	}
+	
+	public Set getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set users) {
+		this.users = users;
 	}
 
 }

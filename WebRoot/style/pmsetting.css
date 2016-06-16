@@ -1,0 +1,22 @@
+*{
+    font-size:12px;
+}
+ .table_1{
+    border-collapse: collapse;
+    border-width: 1px;
+	border-color: #666666;
+	float:left
+}
+.img_1{
+	width: 20px;
+	height: 15px;
+}
+.span_1{
+	color:red
+}
+.span_2{
+	color:gray
+}
+.th_1{
+	width: 40px
+}

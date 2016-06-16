@@ -7,7 +7,6 @@
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.j2eedt.core.MYECLIPSE_JAVAEE_5_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="D:/wangkang/setup/mysql-connector-java-5.1.27/mysql-connector-java-5.1.27/mysql-connector-java-5.1.27-bin.jar"/>
 	<classpathentry kind="lib" path="D:/wangkang/file/jar/jcommon-1.0.23.jar"/>
 	<classpathentry kind="lib" path="D:/wangkang/file/jar/jfreechart-1.0.19.jar"/>
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.struts2.MYECLIPSE_STRUTS21_CORE"/>
@@ -19,5 +18,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.27-bin.jar"/>
 	<classpathentry kind="lib" path="D:/wangkang/setup/jxl.jar"/>
 	<classpathentry kind="lib" path="D:/wangkang/file/jar/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="D:/wangkang/setup/mysql-connector-java-5.1.27/mysql-connector-java-5.1.27/mysql-connector-java-5.1.27-bin.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

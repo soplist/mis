@@ -8,4 +8,5 @@ public interface UserService {
 	public User findUserByName(String name); 
 	public void modifyUserPass(User u);
 	public List<User> findAllUser();
+	public void update(User u);
 }

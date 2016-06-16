@@ -47,5 +47,9 @@ public class UserServiceImpl implements UserService {
 		System.out.println("User.uid:"+u.getUid());
 		baseDao.update(u);
 	}
+	
+	public void update(User u){
+		baseDao.update(u);
+	}
 
 }

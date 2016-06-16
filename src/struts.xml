@@ -11,6 +11,7 @@
             <!--<result name="list">/customer_list.jsp</result> -->
             <result name="customerList" type="redirect">listCustomer</result>
             <result name="scoreList" type="redirect">listScore</result>
+            <result name="performanceMeasurement">/performance_measurement.jsp</result>
         </action>
         <action name="logout" method="logout" class="loginAction">
             <result name="logsucc">/login.jsp</result>
@@ -91,6 +92,15 @@
         </action>
         <action name="barChartForYear" method="barChartForYear" class="chartAction">
             <result name="showBarChart">/jfreeBarChart.jsp</result>
+        </action>
+        <action name="getAllPmSetting" method="getAllPmSetting" class="performanceMeasurementAction">
+            <result name="setting">/pmsetting.jsp</result>
+        </action>
+        <action name="updatePercentage" method="updatePercentage" class="performanceMeasurementAction">
+            <result name="setting">/pmsetting.jsp</result>
+        </action>
+        <action name="updateJoinin" method="updateJoinin" class="performanceMeasurementAction">
+            <result name="setting">/pmsetting.jsp</result>
         </action>
     </package>
 </struts>
