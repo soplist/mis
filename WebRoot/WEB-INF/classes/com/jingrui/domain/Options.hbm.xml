@@ -40,5 +40,11 @@
             </key>
             <one-to-many class="com.jingrui.domain.Joinin" />
         </set>
+        <set name="pmTasksForSid" inverse="true" lazy="false">
+            <key>
+                <column name="sid" not-null="true" />
+            </key>
+            <one-to-many class="com.jingrui.domain.PmTask" />
+        </set>
     </class>
 </hibernate-mapping>

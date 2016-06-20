@@ -46,7 +46,7 @@
             </key>
             <one-to-many class="com.jingrui.domain.NoticePeople" />
         </set>
-        <set name="OperatesForUserId" inverse="true" lazy="false" order-by="oid desc">
+        <set name="OperatesForUserId" inverse="true" lazy="false">
             <key>
                 <column name="user_id" not-null="true" />
             </key>
@@ -64,5 +64,17 @@
         <property name="isboss" type="java.lang.Boolean">
             <column name="isboss" />
         </property>
+        <set name="pmTablesForUid" inverse="true" lazy="false">
+            <key>
+                <column name="uid" not-null="true" />
+            </key>
+            <one-to-many class="com.jingrui.domain.PmTable" />
+        </set>
+        <set name="pmTasksForUid" inverse="true" lazy="false">
+            <key>
+                <column name="uid" not-null="true" />
+            </key>
+            <one-to-many class="com.jingrui.domain.PmTask" />
+        </set>
     </class>
 </hibernate-mapping>

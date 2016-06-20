@@ -15,7 +15,8 @@ public class Options {
     private Set users = new HashSet(0);
     private String tag="Setting";
     private Set joininsForSid = new HashSet(0);
-	
+	private Set pmTasksForSid = new HashSet(0);
+    
     public Options(){
 		
 	}
@@ -43,6 +44,20 @@ public class Options {
 		this.colleaguesEval = colleaguesEval;
 		this.users = users;
 		this.joininsForSid = joininsForSid;
+	}
+    
+    public Options(Integer sid,Date settingTime,Integer selfEval,
+    		Integer deptEval,Integer managerEval,Integer companyEval,Integer colleaguesEval,Set users,Set joininsForSid,Set pmTasksForSid){
+		this.sid = sid;
+		this.settingTime = settingTime;
+		this.selfEval = selfEval;
+		this.deptEval = deptEval;
+		this.managerEval = managerEval;
+		this.companyEval = companyEval;
+		this.colleaguesEval = colleaguesEval;
+		this.users = users;
+		this.joininsForSid = joininsForSid;
+		this.pmTasksForSid = pmTasksForSid;
 	}
     
     public Integer getSid() {
@@ -124,5 +139,13 @@ public class Options {
 
 	public void setJoininsForSid(Set joininsForSid) {
 		this.joininsForSid = joininsForSid;
+	}
+	
+	public Set getPmTasksForSid() {
+		return pmTasksForSid;
+	}
+
+	public void setPmTasksForSid(Set pmTasksForSid) {
+		this.pmTasksForSid = pmTasksForSid;
 	}
 }

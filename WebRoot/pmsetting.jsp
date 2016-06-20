@@ -161,13 +161,15 @@
                     </select>
                 </td>
                 <td>
+                    <select onblur="getJoinins(${u.uid},4)" autocomplete="off" id="company_${u.uid}" name="company">
                     <s:if test="#session.userList!=null">
                     <s:iterator value="#session.userList" id="user"> 
                     <c:if test="${user.isboss==true}">
-                    <s:property value="#user.realName"/>
+                    <option value="<s:property value="#user.uid"/>"><s:property value="#user.realName"/></option>
                     </c:if>
                     </s:iterator>
                     </s:if>
+                    </select>
                 </td>
                 <td>
                     <select onchange="getJoinins(${u.uid},5)" autocomplete="off" id="company_staff_${u.uid}" name="company_staff" class="cmy_evaluate_staff" multiple="multiple">
@@ -194,7 +196,7 @@
                     </select>
                 </td>
                 <td>
-                    <input type="button" value="launch"/>
+                    <input onclick="launchTask(${u.uid})" type="button" value="launch"/>
                 </td>
             </tr>
          </s:iterator>

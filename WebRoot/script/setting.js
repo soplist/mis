@@ -1,4 +1,16 @@
 var propen = 0;
+var settingChange=0;
+
+function setChangeStatus(){
+	settingChange = 1;
+}
+
+function launchPmTask(id){
+	if(settingChange==1){
+		
+	}
+}
+
 function setTextView(id,kind){
 	if(propen==0){
 		var xmlhttp=null;
@@ -29,12 +41,12 @@ function setTextView(id,kind){
 	    	//alert("heihei");
 	    	var val = input.value;
 	    	if(isNaN(val)){
-	    	    alert("ÇëÊäÈëÊı×Ö");
+	    	    alert("æ¯”ä¾‹éœ€ä¸ºæ•°å­—");
 	    	    return false;
 	    	}
 	    	var intval = parseInt(val);
 	    	if(intval>100||intval<0){
-	    		alert("±ÈÀı·¶Î§1-100");
+	    		alert("æ¯”ä¾‹èŒƒå›´åœ¨0-100ä¹‹é—´");
 	    		return false;
 	    	}
 	    	//submit data
@@ -158,6 +170,33 @@ function getJoinins(id,type){
         xmlhttp.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" ) ;
         xmlhttp.send(data);
 	}
+	if(type=="4"){
+		var companyCtl = document.getElementById("company_"+id);
+		var joinin_1=companyCtl.value;
+		alert(companyCtl.value);
+		
+		if (window.XMLHttpRequest){// code for Firefox, Mozilla, IE7, etc.
+            xmlhttp=new XMLHttpRequest();
+        }
+        else if (window.ActiveXObject){// code for IE6, IE5
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        var data = "joinin_1="+joinin_1+"&type="+type+"&user_id="+id;
+        xmlhttp.onreadystatechange=function(){
+        	if (xmlhttp.readyState==4){// 4 = "loaded"
+                if (xmlhttp.status==200){// 200 = "OK"
+                    //alert("form has been submit!");
+                	location.reload();
+                }
+      	        else{
+        	        alert("Problem retrieving data:" + xmlhttp.statusText);
+                }
+            }
+        };
+        xmlhttp.open("post","updateJoinin");
+        xmlhttp.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" ) ;
+        xmlhttp.send(data);
+	}
 	if(type=="5"){
 		var companyStaffCtl = document.getElementById("company_staff_"+id);
         var companyJoinin="";
@@ -189,4 +228,28 @@ function getJoinins(id,type){
         xmlhttp.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" ) ;
         xmlhttp.send(data);
 	}
+}
+
+function launchTask(id){
+	if (window.XMLHttpRequest){// code for Firefox, Mozilla, IE7, etc.
+        xmlhttp=new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject){// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    var data = "user_id="+id;
+    xmlhttp.onreadystatechange=function(){
+    	if (xmlhttp.readyState==4){// 4 = "loaded"
+            if (xmlhttp.status==200){// 200 = "OK"
+                //alert("form has been submit!");
+            	alert("launch success");
+            }
+  	        else{
+    	        alert("Problem retrieving data:" + xmlhttp.statusText);
+            }
+        }
+    };
+    xmlhttp.open("post","launchTask");
+    xmlhttp.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" ) ;
+    xmlhttp.send(data);
 }

@@ -12,8 +12,12 @@ import org.apache.struts2.ServletActionContext;
 
 import com.jingrui.domain.Joinin;
 import com.jingrui.domain.Options;
+import com.jingrui.domain.PmTable;
+import com.jingrui.domain.PmTask;
 import com.jingrui.domain.User;
 import com.jingrui.service.JoininService;
+import com.jingrui.service.PmTableService;
+import com.jingrui.service.PmTaskService;
 import com.jingrui.service.SettingService;
 import com.jingrui.service.UserService;
 import com.opensymphony.xwork2.ActionContext;
@@ -24,6 +28,19 @@ public class PerformanceMeasurementAction  extends ActionSupport{
 	private UserService userService;
 	private SettingService settingService;
 	private JoininService joininService;
+	private PmTaskService pmTaskService;
+	private PmTableService pmTableService;
+	
+	private Integer item1;
+	private Integer item2;
+	private Integer item3;
+	private Integer item4;
+	private Integer item5;
+	private Integer item6;
+	private Integer item7;
+	private Integer item8;
+	private Integer item9;
+	private Integer item10;
 	
     /**
 	 * 
@@ -49,6 +66,79 @@ public class PerformanceMeasurementAction  extends ActionSupport{
 	public void setJoininService(JoininService joininService) {
 		this.joininService = joininService;
 	}
+	public PmTaskService getPmTaskService() {
+		return pmTaskService;
+	}
+	public void setPmTaskService(PmTaskService pmTaskService) {
+		this.pmTaskService = pmTaskService;
+	}
+	public PmTableService getPmTableService() {
+		return pmTableService;
+	}
+	public void setPmTableService(PmTableService pmTableService) {
+		this.pmTableService = pmTableService;
+	}
+	
+	public Integer getItem1() {
+		return item1;
+	}
+	public void setItem1(Integer item1) {
+		this.item1 = item1;
+	}
+	public Integer getItem2() {
+		return item2;
+	}
+	public void setItem2(Integer item2) {
+		this.item2 = item2;
+	}
+	public Integer getItem3() {
+		return item3;
+	}
+	public void setItem3(Integer item3) {
+		this.item3 = item3;
+	}
+	public Integer getItem4() {
+		return item4;
+	}
+	public void setItem4(Integer item4) {
+		this.item4 = item4;
+	}
+	public Integer getItem5() {
+		return item5;
+	}
+	public void setItem5(Integer item5) {
+		this.item5 = item5;
+	}
+	public Integer getItem6() {
+		return item6;
+	}
+	public void setItem6(Integer item6) {
+		this.item6 = item6;
+	}
+	public Integer getItem7() {
+		return item7;
+	}
+	public void setItem7(Integer item7) {
+		this.item7 = item7;
+	}
+	public Integer getItem8() {
+		return item8;
+	}
+	public void setItem8(Integer item8) {
+		this.item8 = item8;
+	}
+	public Integer getItem9() {
+		return item9;
+	}
+	public void setItem9(Integer item9) {
+		this.item9 = item9;
+	}
+	public Integer getItem10() {
+		return item10;
+	}
+	public void setItem10(Integer item10) {
+		this.item10 = item10;
+	}
 	
 	public String getAllPmSetting(){
 		try{
@@ -60,6 +150,107 @@ public class PerformanceMeasurementAction  extends ActionSupport{
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
+		return "setting";
+	}
+	
+	public String previousEvaluate(){
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String pm_table_id = request.getParameter("pm_table_id");
+		Integer int_pm_table_id = Integer.parseInt(pm_table_id);
+		//session.user.pmTablesForUid
+		Map session = (Map)ActionContext.getContext().getSession();
+		User user = (User) session.get("user");
+		Set<PmTable> tableList = user.getPmTablesForUid();
+		
+		PmTable pt_1 = null;
+		for (PmTable pmTable : tableList) {
+			if(pmTable.getPid()==int_pm_table_id){
+				pt_1 = pmTable;
+			}
+		}
+		
+		session.remove("table");
+		session.put("table", pt_1);
+		return "evaluate";
+	}
+	
+	public String evaluate(){
+		/*System.out.println(date);
+		System.out.println(item1);
+		System.out.println(item2);
+		System.out.println(item3);
+		System.out.println(item4);
+		System.out.println(item5);
+		System.out.println(item6);
+		System.out.println(item7);
+		System.out.println(item8);
+		System.out.println(item9);
+		System.out.println(item10);*/
+		Map session = (Map)ActionContext.getContext().getSession();
+		PmTable pt = (PmTable) session.get("table");
+		pt.setItem1(item1);
+		pt.setItem2(item2);
+		pt.setItem3(item3);
+		pt.setItem4(item4);
+		pt.setItem5(item5);
+		pt.setItem6(item6);
+		pt.setItem7(item7);
+		pt.setItem8(item8);
+		pt.setItem9(item9);
+		pt.setItem10(item10);
+		pt.setStatu(true);
+		
+		pmTableService.update(pt);
+		List<PmTable> pmTableList = pmTableService.getPmTableByPmTaskId(pt.getPmTaskByTid().getPid());
+		boolean passed = true;
+	    for (PmTable pmTable : pmTableList) {
+			if(!pmTable.isStatu()){
+				passed = false;
+				break;
+			}
+		}
+	    
+	    if(passed){
+	    	PmTask pmTask = pt.getPmTaskByTid();
+		    pmTask.setStatu(true);
+	    	pmTaskService.update(pmTask);
+	    }
+		
+		
+		return "success";
+	}
+	
+	public String launchTask(){
+		HttpServletRequest request = ServletActionContext.getRequest();
+		Map session = (Map)ActionContext.getContext().getSession();
+		String user_id = request.getParameter("user_id");
+		Integer int_user_id = Integer.parseInt(user_id);
+		List<User> users = (List<User>) session.get("userList");
+		
+		User user_1 = null;
+		for (User u : users) {
+			if(u.getUid()==int_user_id){
+				user_1 = u;
+			}
+		}
+		
+		PmTask pt = new PmTask();
+		pt.setOptionsBySid(user_1.getOption());
+		pt.setStatu(false);
+		pt.setUserByUid(user_1);
+		Integer pt_id = pmTaskService.add(pt);
+		System.out.println("pt_id:"+pt_id);
+		
+		Set<Joinin> joinins = user_1.getOption().getJoininsForSid();
+		for (Joinin joinin : joinins) {
+			PmTable pmtable = new PmTable();
+			pmtable.setUserByUid(joinin.getUserByUid());
+			pmtable.setPmTaskByTid(pt);
+			pmtable.setStatu(false);
+			pmtable.setType(joinin.getType());
+			pmTableService.add(pmtable);
+		}
+		
 		return "setting";
 	}
 	
@@ -182,6 +373,42 @@ public class PerformanceMeasurementAction  extends ActionSupport{
 			if(!exist){
 				Joinin joinin = new Joinin();
 				joinin.setType(3);
+				joinin.setUserByUid(user_1);
+				joinin.setOptionsBySid(user_2.getOption());
+				joininService.insert(joinin);
+			}
+			
+		}
+		if(type.equals("4")){
+			String joinin_1 = request.getParameter("joinin_1");
+			String user_id = request.getParameter("user_id");
+			Integer int_join_user_id = Integer.parseInt(joinin_1);
+			Integer int_user_id = Integer.parseInt(user_id);
+			
+			User user_1 = null;
+			User user_2 = null;
+			for (User u : users) {
+				if(u.getUid()==int_join_user_id){
+					user_1 = u;
+				}
+				if(u.getUid()==int_user_id){
+					user_2 = u;
+				}
+				
+			}
+			
+			Set<Joinin> joinins = user_2.getOption().getJoininsForSid();
+			boolean exist = false;
+			for (Joinin joinin : joinins) {
+				if((joinin.getType()==4)&&(joinin.getOptionsBySid().getSid()==user_2.getOption().getSid())){
+					joinin.setUserByUid(user_1);
+					joininService.update(joinin);
+					exist = true;
+				}
+			}
+			if(!exist){
+				Joinin joinin = new Joinin();
+				joinin.setType(4);
 				joinin.setUserByUid(user_1);
 				joinin.setOptionsBySid(user_2.getOption());
 				joininService.insert(joinin);

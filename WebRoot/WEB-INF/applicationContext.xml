@@ -49,6 +49,8 @@
 				<value>com/jingrui/domain/Operate.hbm.xml</value>
 				<value>com/jingrui/domain/Options.hbm.xml</value>
 				<value>com/jingrui/domain/Joinin.hbm.xml</value>
+				<value>com/jingrui/domain/PmTask.hbm.xml</value>
+				<value>com/jingrui/domain/PmTable.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -98,6 +100,12 @@
     <bean id="joininServiceImpl" class="com.jingrui.service.impl.JoininServiceImpl" scope="singleton">  
         <property name="baseDao" ref="baseDAOImpl" />  
     </bean>
+    <bean id="pmTaskServiceImpl" class="com.jingrui.service.impl.PmTaskServiceImpl" scope="singleton">  
+        <property name="baseDao" ref="baseDAOImpl" />  
+    </bean>
+    <bean id="pmTableServiceImpl" class="com.jingrui.service.impl.PmTableServiceImpl" scope="singleton">  
+        <property name="baseDao" ref="baseDAOImpl" />  
+    </bean>
     
     <!-- util -->
     <bean id="pipeImpl" class="com.jingrui.workflow.impl.PipeImpl" scope="singleton"> 
@@ -130,6 +138,8 @@
          <property name="userService" ref="userServiceImpl" />
          <property name="settingService" ref="settingServiceImpl" />
          <property name="joininService" ref="joininServiceImpl" />
+         <property name="pmTaskService" ref="pmTaskServiceImpl" />
+         <property name="pmTableService" ref="pmTableServiceImpl" />
     </bean>
     
     <!-- i18n -->

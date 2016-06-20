@@ -32,6 +32,8 @@ public class User implements java.io.Serializable {
 	private Options option;
 	private Boolean ismanager;
 	private Boolean isboss;
+	private Set pmTablesForUid = new HashSet(0);
+	private Set pmTasksForUid = new HashSet(0);
 
 	// Constructors
     /** default constructor */
@@ -228,6 +230,21 @@ public class User implements java.io.Serializable {
 
 	public void setIsboss(Boolean isboss) {
 		this.isboss = isboss;
+	}
+	public Set getPmTablesForUid() {
+		return pmTablesForUid;
+	}
+
+	public void setPmTablesForUid(Set pmTablesForUid) {
+		this.pmTablesForUid = pmTablesForUid;
+	}
+	
+	public Set getPmTasksForUid() {
+		return pmTasksForUid;
+	}
+
+	public void setPmTasksForUid(Set pmTasksForUid) {
+		this.pmTasksForUid = pmTasksForUid;
 	}
 
 }

@@ -102,5 +102,15 @@
         <action name="updateJoinin" method="updateJoinin" class="performanceMeasurementAction">
             <result name="setting">/pmsetting.jsp</result>
         </action>
+        <action name="launchTask" method="launchTask" class="performanceMeasurementAction">
+            <result name="setting">/pmsetting.jsp</result>
+        </action>
+        <action name="previousEvaluate" method="previousEvaluate" class="performanceMeasurementAction">
+            <result name="evaluate">/evaluate.jsp</result>
+        </action>
+        <action name="evaluate" method="evaluate" class="performanceMeasurementAction">
+            <result name="evaluate">/evaluate.jsp</result>
+            <result name="success">/evaluate_success.jsp</result>
+        </action>
     </package>
 </struts>
