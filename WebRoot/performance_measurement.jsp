@@ -21,9 +21,9 @@
             <tr class="tr_3">
                 <th><spring:message code="peme.no"/></th>
                 <th><spring:message code="peme.type"/></th>
-                <th><spring:message code="peme.statu"/></th>
                 <th><spring:message code="peme.name"/></th>
                 <th><spring:message code="peme.evaluate"/></th>
+                <th><spring:message code="peme.statu"/></th>
             </tr>
         
             <s:if test="#session.user.pmTablesForUid!=null">
@@ -91,14 +91,6 @@
                         <td>
                             <s:property value="#pt.userByUid.realName"/>
                         </td>
-                        <td>
-                            <s:if test="#pt.statu==true">
-                                <spring:message code="peme.task.statu_1"/>
-                            </s:if>
-                            <s:if test="#pt.statu==false">
-                                <spring:message code="peme.task.statu_2"/>
-                            </s:if>
-                        </td>
                         <td class="td_1">
                             <s:iterator value="#pt.pmTablesForTid" id="table">
                                 <span class="span_1">
@@ -145,8 +137,7 @@
                                 <c:set var="score_5" value="0"></c:set>
                                 <c:set var="score_2_num" value="0"></c:set>
                                 <c:set var="score_5_num" value="0"></c:set>
-                                <c:set var="my_1" value="3"></c:set>
-                                <c:set var="my_2" value="0"></c:set>
+                                
                                 <s:iterator value="#pt.pmTablesForTid" id="table">
                                     <s:if test="#table.type==1">
                                         <c:set var="score_1" value="${score_1+(table.item1+table.item2+table.item3+table.item4+table.item5+table.item6+table.item7+table.item8+table.item9+table.item10)}"></c:set>
@@ -167,6 +158,34 @@
                                     </s:if>
                                 </s:iterator>
                                 
+                                <c:set var="max_without_score_1" value="${score_2/score_2_num}"></c:set>
+                                <c:if test="${score_3>max_without_score_1}">
+                                    <c:set var="max_without_score_1" value="${score_3}"></c:set>
+                                </c:if>
+                                <c:if test="${score_4>max_without_score_1}">
+                                    <c:set var="max_without_score_1" value="${score_4}"></c:set>
+                                </c:if>
+                                <c:if test="${(score_5/score_5_num)>max_without_score_1}">
+                                    <c:set var="max_without_score_1" value="${score_5/score_5_num}"></c:set>
+                                </c:if>
+                                
+                                <c:set var="min_without_score_1" value="${score_2/score_2_num}"></c:set>
+                                <c:if test="${score_3<min_without_score_1}">
+                                    <c:set var="min_without_score_1" value="${score_3}"></c:set>
+                                </c:if>
+                                <c:if test="${score_4<min_without_score_1}">
+                                    <c:set var="min_without_score_1" value="${score_4}"></c:set>
+                                </c:if>
+                                <c:if test="${(score_5/score_5_num)<min_without_score_1}">
+                                    <c:set var="min_without_score_1" value="${score_5/score_5_num}"></c:set>
+                                </c:if>
+                                
+                                <c:set var="exception" value="0"></c:set>
+                                <c:if test="${score_1>(max_without_score_1+15)}">
+                                    <c:set var="exception" value="1"></c:set>
+                                </c:if>
+                                
+                                <c:if test="${exception==0}">
                                 <span class="span_5">
                                 <spring:message code="peme.task.total_score"/>:
                                     ${(score_1*pt.optionsBySid.selfEval/100)}+
@@ -177,8 +196,32 @@
                                     =${(score_1*pt.optionsBySid.selfEval/100)+((score_2/score_2_num)*pt.optionsBySid.deptEval/100)+(score_3*pt.optionsBySid.managerEval/100)+(score_4*pt.optionsBySid.companyEval/100)+((score_5/score_5_num)*pt.optionsBySid.colleaguesEval/100)}
                                     <!-- ${(score_1*pt.optionsBySid.selfEval/100)+((score_2/score_2_num)*pt.optionsBySid.deptEval/100)+(score_3*pt.optionsBySid.managerEval/100)+(score_4*pt.optionsBySid.companyEval/100)+((score_5/score_5_num)*pt.optionsBySid.colleaguesEval/100)} -->
                                 </span>
+                                </c:if>
+                                
+                                <c:if test="${exception==1}">
+                                <span class="span_3">
+                                    <spring:message code="peme.task.exception"/>
+                                    <spring:message code="peme.task.total_score"/>:
+                                        ${min_without_score_1}
+                                </span>
+                                </c:if>
                             </s:if>
                             
+                        </td>
+                        <td>
+                            <s:if test="#pt.statu==true">
+                                <c:if test="${exception==1}">
+                                <span class="span_3">
+                                <spring:message code="peme.task.statu_1"/>
+                                </span>
+                                </c:if>
+                                <c:if test="${exception==0}">
+                                <spring:message code="peme.task.statu_1"/>
+                                </c:if>
+                            </s:if>
+                            <s:if test="#pt.statu==false">
+                                <spring:message code="peme.task.statu_2"/>
+                            </s:if>
                         </td>
                     </tr>
                 </s:iterator>

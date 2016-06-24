@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import com.jingrui.service.PmTableService;
 import com.jingrui.service.PmTaskService;
 import com.jingrui.service.SettingService;
 import com.jingrui.service.UserService;
+import com.jingrui.util.UserSet;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -164,7 +166,8 @@ public class PerformanceMeasurementAction  extends ActionSupport{
 		
 		PmTable pt_1 = null;
 		for (PmTable pmTable : tableList) {
-			if(pmTable.getPid()==int_pm_table_id){
+			System.out.println(pmTable.getPid()+","+int_pm_table_id+":"+(pmTable.getPid()==int_pm_table_id));
+			if(pmTable.getPid().equals(int_pm_table_id)){
 				pt_1 = pmTable;
 			}
 		}
@@ -229,7 +232,7 @@ public class PerformanceMeasurementAction  extends ActionSupport{
 		
 		User user_1 = null;
 		for (User u : users) {
-			if(u.getUid()==int_user_id){
+			if(u.getUid().equals(int_user_id)){
 				user_1 = u;
 			}
 		}
@@ -248,6 +251,27 @@ public class PerformanceMeasurementAction  extends ActionSupport{
 			pmtable.setPmTaskByTid(pt);
 			pmtable.setStatu(false);
 			pmtable.setType(joinin.getType());
+			if(!pmtable.getType().equals(5)){
+			    pmTableService.add(pmtable);
+			}
+		}
+		
+		//add company staff evaluate
+		Random rand = new Random();
+		int range = users.size();
+		UserSet user3 = new UserSet();
+		boolean full = false;
+		while(!full){
+		    int random_id = rand.nextInt(range);
+		    User u = users.get(random_id);
+		    full=user3.add(u);
+		}
+		for (User u : user3.getUserSet()) {
+			PmTable pmtable = new PmTable();
+			pmtable.setUserByUid(u);
+			pmtable.setPmTaskByTid(pt);
+			pmtable.setStatu(false);
+			pmtable.setType(5);
 			pmTableService.add(pmtable);
 		}
 		
