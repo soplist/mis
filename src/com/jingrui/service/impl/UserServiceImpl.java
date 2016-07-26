@@ -20,15 +20,16 @@ public class UserServiceImpl implements UserService {
     public BaseDAO getBaseDao() {
 		return baseDao;
 	}
+    public void setBaseDao(BaseDAO baseDao) {
+		this.baseDao = baseDao;
+	}
 
     public List<User> findAllUser(){
     	List<User> list = baseDao.qryInfo("from User");
     	return list;
     }
     
-	public void setBaseDao(BaseDAO baseDao) {
-		this.baseDao = baseDao;
-	}
+	
 	
 	public User findUserByName(String name) {
 		// TODO Auto-generated method stub
@@ -51,5 +52,6 @@ public class UserServiceImpl implements UserService {
 	public void update(User u){
 		baseDao.update(u);
 	}
+	
 
 }

@@ -16,7 +16,7 @@
         <property name="statu" type="java.lang.Boolean">
             <column name="statu" />
         </property>
-        <set name="pmTablesForTid" inverse="true" lazy="false">
+        <set name="pmTablesForTid" inverse="true" lazy="false" order-by="pid asc">
             <key>
                 <column name="tid" not-null="true" />
             </key>
@@ -25,5 +25,11 @@
         <many-to-one name="userByUid" class="com.jingrui.domain.User" fetch="select" lazy="false">
             <column name="uid" not-null="true" />
         </many-to-one>
+        <property name="managerEvaluate" type="java.lang.Boolean">
+            <column name="manager_evaluate" />
+        </property>
+        <property name="launchTime" type="java.util.Date">
+            <column name="launch_time" length="10" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -106,6 +106,9 @@
     <bean id="pmTableServiceImpl" class="com.jingrui.service.impl.PmTableServiceImpl" scope="singleton">  
         <property name="baseDao" ref="baseDAOImpl" />  
     </bean>
+    <bean id="permissionServiceImpl" class="com.jingrui.service.impl.PermissionServiceImpl" scope="singleton">  
+        <property name="baseDao" ref="baseDAOImpl" />  
+    </bean>
     
     <!-- util -->
     <bean id="pipeImpl" class="com.jingrui.workflow.impl.PipeImpl" scope="singleton"> 
@@ -124,6 +127,7 @@
          <property name="userService" ref="userServiceImpl" />
          <property name="deptService" ref="departmentServiceImpl" />
          <property name="taskService" ref="taskServiceImpl" />
+         <property name="pmTaskService" ref="pmTaskServiceImpl" />
     </bean>
     <bean id="scoreAction" class="com.jingrui.action.ScoreAction">
          <property name="scoreService" ref="scoreServiceImpl" />
@@ -140,6 +144,10 @@
          <property name="joininService" ref="joininServiceImpl" />
          <property name="pmTaskService" ref="pmTaskServiceImpl" />
          <property name="pmTableService" ref="pmTableServiceImpl" />
+    </bean>
+    <bean id="permissionAction" class="com.jingrui.action.PermissionAction">
+         <property name="permissionService" ref="permissionServiceImpl" />
+         <property name="userService" ref="userServiceImpl" />
     </bean>
     
     <!-- i18n -->

@@ -64,17 +64,23 @@
         <property name="isboss" type="java.lang.Boolean">
             <column name="isboss" />
         </property>
-        <set name="pmTablesForUid" inverse="true" lazy="false">
+        <set name="pmTablesForUid" inverse="true" lazy="false" order-by="pid desc">
             <key>
                 <column name="uid" not-null="true" />
             </key>
             <one-to-many class="com.jingrui.domain.PmTable" />
         </set>
-        <set name="pmTasksForUid" inverse="true" lazy="false">
+        <set name="pmTasksForUid" inverse="true" lazy="false" order-by="pid asc">
             <key>
                 <column name="uid" not-null="true" />
             </key>
             <one-to-many class="com.jingrui.domain.PmTask" />
         </set>
+        <property name="position" type="java.lang.String">
+            <column name="position" length="20" />
+        </property>
+        <property name="joined" type="java.util.Date">
+            <column name="joined" length="10" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

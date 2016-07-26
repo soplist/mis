@@ -1,8 +1,12 @@
 package com.jingrui.service.impl;
 
+import java.util.List;
+
 import com.jingrui.dao.BaseDAO;
 import com.jingrui.domain.Customer;
+import com.jingrui.domain.Permission;
 import com.jingrui.domain.PmTask;
+import com.jingrui.domain.User;
 import com.jingrui.service.PmTaskService;
 
 public class PmTaskServiceImpl implements PmTaskService {
@@ -23,5 +27,19 @@ public class PmTaskServiceImpl implements PmTaskService {
 	
 	public void update(PmTask pt){
 		baseDao.update(pt);
+	}
+	
+	public List<PmTask> getAll(){
+    	List<PmTask> list = baseDao.qryInfo("from PmTask");
+    	return list;
+    }
+	
+	public boolean currentMonthPMExist(User u,String month){
+		List<PmTask> list = baseDao.qryInfo("from PmTask pt where pt.launchTime like '"+month+"%' and pt.userByUid.uid="+u.getUid());
+		if(list.size()>0){
+			return true;
+		}else{
+		    return false;
+		}
 	}
 }

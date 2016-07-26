@@ -25,35 +25,47 @@
         <property name="finishTime" type="java.util.Date">
             <column name="finish_time" length="10" not-null="true" />
         </property>
-        <property name="item1" type="java.lang.Integer">
+        <property name="item1" type="java.lang.Float">
             <column name="item_1"/>
         </property>
-        <property name="item2" type="java.lang.Integer">
+        <property name="item2" type="java.lang.Float">
             <column name="item_2"/>
         </property>
-        <property name="item3" type="java.lang.Integer">
+        <property name="item3" type="java.lang.Float">
             <column name="item_3"/>
         </property>
-        <property name="item4" type="java.lang.Integer">
+        <property name="item4" type="java.lang.Float">
             <column name="item_4"/>
         </property>
-        <property name="item5" type="java.lang.Integer">
+        <property name="item5" type="java.lang.Float">
             <column name="item_5"/>
         </property>
-        <property name="item6" type="java.lang.Integer">
+        <property name="item6" type="java.lang.Float">
             <column name="item_6"/>
         </property>
-        <property name="item7" type="java.lang.Integer">
+        <property name="item7" type="java.lang.Float">
             <column name="item_7"/>
         </property>
-        <property name="item8" type="java.lang.Integer">
+        <property name="item8" type="java.lang.Float">
             <column name="item_8"/>
         </property>
-        <property name="item9" type="java.lang.Integer">
+        <property name="item9" type="java.lang.Float">
             <column name="item_9"/>
         </property>
-        <property name="item10" type="java.lang.Integer">
+        <property name="item10" type="java.lang.Float">
             <column name="item_10"/>
+        </property>
+        <property name="simple" type="java.lang.Boolean">
+            <column name="simple" />
+        </property>
+        <property name="item11" type="java.lang.Float">
+            <column name="item_11"/>
+        </property>
+        <property name="item12" type="java.lang.Float">
+            <column name="item_12"/>
+        </property>
+        <property name="item13" type="java.lang.Float">
+            <column name="item_13"/>
         </property>
     </class>
 </hibernate-mapping>

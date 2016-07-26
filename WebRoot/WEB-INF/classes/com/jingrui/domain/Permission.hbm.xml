@@ -25,11 +25,20 @@
         <property name="d" type="java.lang.Boolean">
             <column name="d" />
         </property>
-        <set name="users" inverse="true">
+        <set name="usersForPid" inverse="true" lazy="false">
             <key>
                 <column name="pid" not-null="true" />
             </key>
             <one-to-many class="com.jingrui.domain.User" />
         </set>
+        <property name="pmsetting" type="java.lang.Boolean">
+            <column name="pmsetting" />
+        </property>
+        <property name="psetting" type="java.lang.Boolean">
+            <column name="psetting" />
+        </property>
+        <property name="viewAllPm" type="java.lang.Boolean">
+            <column name="view_all_pm" />
+        </property>
     </class>
 </hibernate-mapping>

@@ -14,16 +14,20 @@ import org.apache.log4j.Logger;
 import com.jingrui.domain.Area;
 import com.jingrui.domain.NoticePeople;
 import com.jingrui.domain.Permission;
+import com.jingrui.domain.PmTable;
+import com.jingrui.domain.PmTask;
 import com.jingrui.domain.Task;
 import com.jingrui.domain.User;
 import com.jingrui.service.DepartmentService;
+import com.jingrui.service.PmTaskService;
 import com.jingrui.service.TaskService;
 import com.jingrui.service.UserService;
 import com.jingrui.util.StatisticsHelper;
 import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 
 
-public class LoginAction {
+public class LoginAction extends ActionSupport{
 	private Integer uid;
 	private String username;
     private String password;
@@ -34,6 +38,7 @@ public class LoginAction {
     private DepartmentService deptService;
     private TaskService taskService;
 	private Integer pid;
+	private PmTaskService pmTaskService;
     
     private static Logger logger = Logger.getLogger(LoginAction.class);
     
@@ -82,62 +87,106 @@ public class LoginAction {
 	}
 	public String execute() throws Exception{
 		logger.info("login");
-    	if(""!=username&&""!=password){
-    		User u = userService.findUserByName(username);
-    		if(null!=u && password.equals(u.getPassword())){
-    		     System.out.println("user name:"+u.getName()+", password:"+u.getPassword());
-    		     Map session = (Map)ActionContext.getContext().getSession();
-    		     session.put("user",u);
-    		     System.out.println(sys.equals("2"));
-    		     if(sys.equals("2")){
-    		    	 session.put("dptmlist",deptService.listDptm());
-    		    	 
-    		    	 String []s= {"汉滨区","旬阳县","石泉县","汉阴县","平利县","白河县","紫阳县","岚皋县","宁陕县","镇坪县"};
-    		 	     List<Area> areaList = new ArrayList<Area>();
-    		 	     for(int i=0;i<s.length;i++){
-    		 	    	 Area a = new Area(s[i],s[i]);
-    		 	    	 areaList.add(a);
-    		 	     }
-    		 	     session.remove("areaList");
-    		 	     session.put("areaList",areaList);
-    		    	 
-                     return "customerList";
-    		     }else if(sys.equals("1")){
-    		    	 List<Task> taskList_1 = taskService.getApproveTask();
-    		    	 session.put("approveTaskList", taskList_1);
-    		    	 
-    		    	 TreeMap<String,Integer> table=StatisticsHelper.getStatistics(u.getNoticePeoplesForUserId());
-    		    	 session.put("task_a", table);
-    		    	 
-    		    	 List<String> months = new ArrayList<String>();
-    		    	 Set<NoticePeople> noticePeoples = u.getNoticePeoplesForUserId();
-    		    	 for (NoticePeople np : noticePeoples) {
-    		    		 String month = np.getTaskByTaskId().getDate().substring(0, 7);
-    		    		 if(!months.contains(month)){
-    		    			 months.add(month);
-    		    		 }
-					 }
-    		    	 session.put("months", months);
-    		    	 
-    		    	 DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    		         String date = format.format(new Date());
-    		    	 List<NoticePeople> nps = StatisticsHelper.getNoticePeoplesByMonth(date.substring(0, 7),u.getNoticePeoplesForUserId());
-    		    	 session.put("nps", nps);
-    		    	 
-    		    	 return "scoreList";
-    		     }else if(sys.equals("3")){
-    		    	 
-    		    	 return "performanceMeasurement";
-    		     }else{
-    		    	 return "login";
-    		     }
-    		}else{
-    			return "login";
-    		}
-    		//return "loginSuccess";
+		Map session = (Map)ActionContext.getContext().getSession();
+		User u = userService.findUserByName(username);
+    	if(u.getPermission().getViewAllPm()){
+    		List<PmTask> allPmTask = pmTaskService.getAll();
+    		session.remove("allPmTask");
+		 	session.put("allPmTask",allPmTask);
     	}
-    	else{
+    	
+    	session.put("user",u);
+    	System.out.println(sys.equals("2"));
+    	if(sys.equals("2")){
+    	    session.put("dptmlist",deptService.listDptm());
+    		    	 
+    	    String []s= {"汉滨区","旬阳县","石泉县","汉阴县","平利县","白河县","紫阳县","岚皋县","宁陕县","镇坪县"};
+    		List<Area> areaList = new ArrayList<Area>();
+    		for(int i=0;i<s.length;i++){
+    		 	Area a = new Area(s[i],s[i]);
+    		 	areaList.add(a);
+    		}
+    		session.remove("areaList");
+    		session.put("areaList",areaList);
+    		    	 
+            return "customerList";
+    	}else if(sys.equals("1")){
+    		List<Task> taskList_1 = taskService.getApproveTask();
+    		session.put("approveTaskList", taskList_1);
+    		    	 
+    		TreeMap<String,Integer> table=StatisticsHelper.getStatistics(u.getNoticePeoplesForUserId());
+    		session.put("task_a", table);
+    		    	 
+    		List<String> months = new ArrayList<String>();
+    		Set<NoticePeople> noticePeoples = u.getNoticePeoplesForUserId();
+    		for (NoticePeople np : noticePeoples) {
+    		    String month = np.getTaskByTaskId().getDate().substring(0, 7);
+    		    if(!months.contains(month)){
+    		        months.add(month);
+    		    }
+			}
+    		session.put("months", months);
+    		    	 
+    		DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    		String date = format.format(new Date());
+    		List<NoticePeople> nps = StatisticsHelper.getNoticePeoplesByMonth(date.substring(0, 7),u.getNoticePeoplesForUserId());
+    		session.put("nps", nps);
+    		    	 
+    		return "scoreList";
+    	}else if(sys.equals("3")){
+    		Set<PmTable> pmTablesForCurrentUser=u.getPmTablesForUid();
+    		List<PmTable> SelfAndDeptAndStaffAndManagerPmTables = new ArrayList<PmTable>();
+    		List<PmTable> managerPmTables = new ArrayList<PmTable>();
+    		List<PmTable> companyPmTables = new ArrayList<PmTable>();
+    		for (PmTable pmTable : pmTablesForCurrentUser) {
+    			if(pmTable.getType().equals(3)&&!pmTable.isStatu()){
+    				managerPmTables.add(pmTable);
+    			}
+    			else if(pmTable.getType().equals(4)&&!pmTable.isStatu()){
+    				companyPmTables.add(pmTable);
+    			}
+    			else{
+    				SelfAndDeptAndStaffAndManagerPmTables.add(pmTable);
+    			}
+			}
+    		session.put("SelfAndDeptAndStaffAndManagerPmTables", SelfAndDeptAndStaffAndManagerPmTables);
+    		session.put("managerPmTables", managerPmTables);
+    		session.put("companyPmTables", companyPmTables);
+    		return "performanceMeasurement";
+    	}else{
     		return "login";
+    	}
+    		//return "loginSuccess";
+    	
+    }
+	
+    @Override
+    public void validate() {
+    	try{
+    		System.out.println(username);
+    		this.clearErrorsAndMessages();
+    	    if(username.equals("")){
+			    this.addFieldError("error", "用户名不能为空");
+		    }
+    	    if(password.equals("")){
+			    this.addFieldError("error", "密码不能为空");
+		    }
+    	    if(sys.equals("0")){
+    	    	this.addFieldError("error", "请选择登录系统");
+    	    }
+    	    if(!username.equals("")&&!password.equals("")){
+    	    	User u = userService.findUserByName(username);
+        	    if(null==u){
+        	    	this.addFieldError("error", "用户不存在");
+        	    }
+        	    else{
+        	    	if(!u.getPassword().equals(password)){
+            	    	this.addFieldError("error", "密码不正确");
+            	    }
+        	    }
+    	    }
+    	}catch(Exception ex){
+    		ex.printStackTrace();
     	}
     }
 	
@@ -206,6 +255,13 @@ public class LoginAction {
 	}
 	public void setConfirmPass(String confirmPass) {
 		this.confirmPass = confirmPass;
+	}
+	
+	public PmTaskService getPmTaskService() {
+		return pmTaskService;
+	}
+	public void setPmTaskService(PmTaskService pmTaskService) {
+		this.pmTaskService = pmTaskService;
 	}
 	
 }

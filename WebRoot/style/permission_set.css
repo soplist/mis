@@ -1,0 +1,9 @@
+*{
+    font-size:12px;
+}
+ .table_1{
+    border-collapse: collapse;
+    border-width: 1px;
+	border-color: #666666;
+	float:left
+}

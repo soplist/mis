@@ -90,7 +90,7 @@
                     </c:if>
                 </td>
                 <td> 
-                    <select onblur="getJoinins(${u.uid},1)" autocomplete="off" id="personal_${u.uid}" name="personal">
+                    <!--<select onblur="getJoinins(${u.uid},1)" autocomplete="off" id="personal_${u.uid}" name="personal">
                     <s:if test="#session.userList!=null">
                     <s:iterator value="#session.userList" id="user"> 
                     
@@ -99,7 +99,6 @@
                                 <c:if test="${(ji.type==1)&&(user.uid==ji.userByUid.uid)}">
                                     <c:set var="slct" value="1"></c:set>
                                 </c:if>
-                            
                         </s:iterator>
                         
                         <c:if test="${slct==0}">
@@ -110,10 +109,18 @@
                         </c:if>
                     </s:iterator>
                     </s:if>
-                    </select>
+                    </select>-->
+                    <s:property value="#u.realName"/>
                 </td>
                 <td>  
-                    <select onchange="getJoinins(${u.uid},2)" autocomplete="off" id="dept_staff_${u.uid}" name="dept_staff" class="dept_evaluate_staff" multiple="multiple">
+                    <s:if test="#session.userList!=null">
+                    <s:iterator value="#session.userList" id="user"> 
+                        <c:if test="${(user.department.did==u.department.did)&&(user.uid!=u.uid)}">
+                             <s:property value="#user.realName"/>,       
+                        </c:if>
+                    </s:iterator>
+                    </s:if>
+                    <!--<select onchange="getJoinins(${u.uid},2)" autocomplete="off" id="dept_staff_${u.uid}" name="dept_staff" class="dept_evaluate_staff" multiple="multiple">
                     <s:if test="#session.userList!=null">
                     <s:iterator value="#session.userList" id="user"> 
                     
@@ -134,7 +141,7 @@
                     
                     </s:iterator>
                     </s:if>
-                    </select>
+                    </select>-->
                 </td>
                 <td>
                     <select onblur="getJoinins(${u.uid},3)" autocomplete="off" id="manager_${u.uid}" name="manager">
@@ -146,7 +153,6 @@
                                 <c:if test="${(ji.type==3)&&(user.uid==ji.userByUid.uid)}">
                                     <c:set var="slct" value="1"></c:set>
                                 </c:if>
-                            
                         </s:iterator>
                         
                         <c:if test="${(slct==0)&&user.ismanager}">
@@ -161,7 +167,7 @@
                     </select>
                 </td>
                 <td>
-                    <select onblur="getJoinins(${u.uid},4)" autocomplete="off" id="company_${u.uid}" name="company">
+                    <!--<select onblur="getJoinins(${u.uid},4)" autocomplete="off" id="company_${u.uid}" name="company">
                     <s:if test="#session.userList!=null">
                     <s:iterator value="#session.userList" id="user"> 
                     <c:if test="${user.isboss==true}">
@@ -169,10 +175,20 @@
                     </c:if>
                     </s:iterator>
                     </s:if>
-                    </select>
+                    </select>-->
+                    <s:if test="#session.userList!=null">
+                    <s:iterator value="#session.userList" id="user"> 
+                        <c:if test="${(user.ismanager)&&(user.uid!=u.uid)}">
+                             <s:property value="#user.realName"/>,       
+                        </c:if>
+                    </s:iterator>
+                    </s:if>
                 </td>
                 <td>
-                    <select onchange="getJoinins(${u.uid},5)" autocomplete="off" id="company_staff_${u.uid}" name="company_staff" class="cmy_evaluate_staff" multiple="multiple">
+                    <span class="span_3">
+                        <spring:message code="pm.random5"/>
+                    </span>
+                    <!-- <select onchange="getJoinins(${u.uid},5)" autocomplete="off" id="company_staff_${u.uid}" name="company_staff" class="cmy_evaluate_staff" multiple="multiple">
                     <s:if test="#session.userList!=null">
                     <s:iterator value="#session.userList" id="user"> 
                     
@@ -193,9 +209,12 @@
                     
                     </s:iterator>
                     </s:if>
-                    </select>
+                    </select> -->
                 </td>
                 <td>
+                    <c:if test="${u.ismanager}">
+                        <input onclick="launchManagerTask(${u.uid})" type="button" value="launchManager"/>
+                    </c:if>
                     <input onclick="launchTask(${u.uid})" type="button" value="launch"/>
                 </td>
             </tr>

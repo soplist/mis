@@ -21,7 +21,10 @@ public class Permission implements java.io.Serializable {
 	private Boolean r;
 	private Boolean u;
 	private Boolean d;
-	private Set users = new HashSet(0);
+	private Set usersForPid = new HashSet(0);
+	private Boolean pmsetting;
+	private Boolean psetting;
+	private Boolean viewAllPm;
 
 	// Constructors
 
@@ -36,13 +39,13 @@ public class Permission implements java.io.Serializable {
 
 	/** full constructor */
 	public Permission(String pmnName, Boolean c, Boolean r, Boolean u,
-			Boolean d, Set users) {
+			Boolean d, Set usersForPid) {
 		this.pmnName = pmnName;
 		this.c = c;
 		this.r = r;
 		this.u = u;
 		this.d = d;
-		this.users = users;
+		this.usersForPid = usersForPid;
 	}
 
 	// Property accessors
@@ -95,12 +98,36 @@ public class Permission implements java.io.Serializable {
 		this.d = d;
 	}
 
-	public Set getUsers() {
-		return this.users;
+	public Set getUsersForPid() {
+		return this.usersForPid;
 	}
 
-	public void setUsers(Set users) {
-		this.users = users;
+	public void setUsersForPid(Set usersForPid) {
+		this.usersForPid = usersForPid;
+	}
+	
+	public Boolean getPmsetting() {
+		return pmsetting;
+	}
+
+	public void setPmsetting(Boolean pmsetting) {
+		this.pmsetting = pmsetting;
+	}
+	
+	public Boolean getPsetting() {
+		return psetting;
+	}
+
+	public void setPsetting(Boolean psetting) {
+		this.psetting = psetting;
+	}
+	
+	public Boolean getViewAllPm() {
+		return viewAllPm;
+	}
+
+	public void setViewAllPm(Boolean viewAllPm) {
+		this.viewAllPm = viewAllPm;
 	}
 
 }

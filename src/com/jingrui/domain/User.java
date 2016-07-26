@@ -1,5 +1,6 @@
 package com.jingrui.domain;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,6 +35,9 @@ public class User implements java.io.Serializable {
 	private Boolean isboss;
 	private Set pmTablesForUid = new HashSet(0);
 	private Set pmTasksForUid = new HashSet(0);
+	private boolean thisMonthPMlaunched;
+	private String position;
+	private Date joined;
 
 	// Constructors
     /** default constructor */
@@ -247,4 +251,27 @@ public class User implements java.io.Serializable {
 		this.pmTasksForUid = pmTasksForUid;
 	}
 
+	public boolean isThisMonthPMlaunched() {
+		return thisMonthPMlaunched;
+	}
+
+	public void setThisMonthPMlaunched(boolean thisMonthPMlaunched) {
+		this.thisMonthPMlaunched = thisMonthPMlaunched;
+	}
+	
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public Date getJoined() {
+		return joined;
+	}
+
+	public void setJoined(Date joined) {
+		this.joined = joined;
+	}
 }

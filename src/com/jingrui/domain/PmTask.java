@@ -1,5 +1,6 @@
 package com.jingrui.domain;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,6 +10,8 @@ public class PmTask {
 	private boolean statu;
 	private Set pmTablesForTid = new HashSet(0);
 	private User userByUid;
+	private boolean managerEvaluate = false;
+	private Date launchTime;
 	
 	public Integer getPid() {
 		return pid;
@@ -39,5 +42,17 @@ public class PmTask {
 	}
 	public void setUserByUid(User userByUid) {
 		this.userByUid = userByUid;
+	}
+	public boolean isManagerEvaluate() {
+		return managerEvaluate;
+	}
+	public void setManagerEvaluate(boolean managerEvaluate) {
+		this.managerEvaluate = managerEvaluate;
+	}
+	public Date getLaunchTime() {
+		return launchTime;
+	}
+	public void setLaunchTime(Date launchTime) {
+		this.launchTime = launchTime;
 	}
 }

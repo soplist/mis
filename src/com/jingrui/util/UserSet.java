@@ -7,8 +7,13 @@ import com.jingrui.domain.User;
 
 public class UserSet {
 	private Set<User> userSet = new HashSet<User>();
-	private int capacity = 0;
+	private int capacity = 5;//
+	private int size=0;
 	private boolean full = false;
+	private User currentUser = null;
+	public UserSet(User u){
+		currentUser = u;
+	}
 	public Set<User> getUserSet() {
 		return userSet;
 	}
@@ -22,11 +27,11 @@ public class UserSet {
 				exist = true;
 			}
 		}
-		if(!exist&&u.getIsmanager().equals(false)){
+		if(!exist&&u.getIsmanager().equals(false)&&u.getIsboss().equals(false)&&!u.getUid().equals(currentUser.getUid())&&size<capacity){
 			userSet.add(u);
-			capacity++;
+			size++;
 		}
-		if(capacity==3){
+		if(size==capacity){
 			full = true;
 			return full;
 		}else{

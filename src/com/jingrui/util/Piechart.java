@@ -95,7 +95,7 @@ public class Piechart {
             String prefix = ServletUtilities.getTempFilePrefix(); 
             tempFile = File.createTempFile(prefix, ".png", file);
 		 
-            PieDataset categorydataset=createDataset(month);//在类里可以调用私有的成员啊
+            PieDataset categorydataset=createDataset(month);
             JFreeChart jfreechart=createChart(categorydataset);
         
             ChartUtilities.saveChartAsPNG(tempFile,jfreechart,500,300);

@@ -87,7 +87,7 @@ function getJoinins(id,type){
 	if(type=="1"){
 		var personalCtl = document.getElementById("personal_"+id);
 		var joinin_1=personalCtl.value;
-		alert(personalCtl.value);
+		//alert(personalCtl.value);
 		
 		if (window.XMLHttpRequest){// code for Firefox, Mozilla, IE7, etc.
             xmlhttp=new XMLHttpRequest();
@@ -146,7 +146,7 @@ function getJoinins(id,type){
 	if(type=="3"){
 		var managerCtl = document.getElementById("manager_"+id);
 		var joinin_1=managerCtl.value;
-		alert(managerCtl.value);
+		//alert(managerCtl.value);
 		
 		if (window.XMLHttpRequest){// code for Firefox, Mozilla, IE7, etc.
             xmlhttp=new XMLHttpRequest();
@@ -173,7 +173,7 @@ function getJoinins(id,type){
 	if(type=="4"){
 		var companyCtl = document.getElementById("company_"+id);
 		var joinin_1=companyCtl.value;
-		alert(companyCtl.value);
+		//alert(companyCtl.value);
 		
 		if (window.XMLHttpRequest){// code for Firefox, Mozilla, IE7, etc.
             xmlhttp=new XMLHttpRequest();
@@ -238,6 +238,36 @@ function launchTask(id){
         xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
     }
     var data = "user_id="+id;
+    xmlhttp.onreadystatechange=function(data){
+    	if (xmlhttp.readyState==4){// 4 = "loaded"
+            if (xmlhttp.status==200){// 200 = "OK"
+                //alert("form has been submit!");
+            	var exit = xmlhttp.responseText.trim();
+            	if(exit=="exist"){
+            		alert("pm exist");
+            	}
+            	else{
+            		alert("launch success");
+            	}
+            }
+  	        else{
+    	        alert("Problem retrieving data:" + xmlhttp.statusText);
+            }
+        }
+    };
+    xmlhttp.open("post","launchTask");
+    xmlhttp.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" ) ;
+    xmlhttp.send(data);
+}
+
+function launchManagerTask(id){
+	if (window.XMLHttpRequest){// code for Firefox, Mozilla, IE7, etc.
+        xmlhttp=new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject){// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    var data = "user_id="+id;
     xmlhttp.onreadystatechange=function(){
     	if (xmlhttp.readyState==4){// 4 = "loaded"
             if (xmlhttp.status==200){// 200 = "OK"
@@ -249,7 +279,7 @@ function launchTask(id){
             }
         }
     };
-    xmlhttp.open("post","launchTask");
+    xmlhttp.open("post","launchManagerTask");
     xmlhttp.setRequestHeader( "Content-Type" , "application/x-www-form-urlencoded" ) ;
     xmlhttp.send(data);
 }

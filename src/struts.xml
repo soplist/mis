@@ -8,6 +8,7 @@
             <result name="loginSuccess">/login_success.jsp</result>
             <result name="loginFailure">/login_failure.jsp</result>
             <result name="login">/login.jsp</result>
+            <result name="input">/login.jsp</result>
             <!--<result name="list">/customer_list.jsp</result> -->
             <result name="customerList" type="redirect">listCustomer</result>
             <result name="scoreList" type="redirect">listScore</result>
@@ -105,12 +106,41 @@
         <action name="launchTask" method="launchTask" class="performanceMeasurementAction">
             <result name="setting">/pmsetting.jsp</result>
         </action>
+        <action name="launchManagerTask" method="launchManagerTask" class="performanceMeasurementAction">
+            <result name="setting">/pmsetting.jsp</result>
+        </action>
         <action name="previousEvaluate" method="previousEvaluate" class="performanceMeasurementAction">
             <result name="evaluate">/evaluate.jsp</result>
+            <result name="evaluate_1">/evaluate_1.jsp</result>
+            <result name="evaluate_2">/evaluate_2.jsp</result>
         </action>
-        <action name="evaluate" method="evaluate" class="performanceMeasurementAction">
+        <action name="previousManagerOrCompanyEvaluate" method="previousManagerOrCompanyEvaluate" class="performanceMeasurementAction">
+            <result name="evaluate">/evaluate_3.jsp</result>
+        </action>
+        <action name="evaluate1" method="evaluate1" class="performanceMeasurementAction">
+            <result name="login">/login.jsp</result>
+            <result name="success">/evaluate_success.jsp</result>
+        </action>
+        <action name="evaluate2" method="evaluate2" class="performanceMeasurementAction">
             <result name="evaluate">/evaluate.jsp</result>
             <result name="success">/evaluate_success.jsp</result>
+        </action>
+        <action name="evaluate3" method="evaluate3" class="performanceMeasurementAction">
+            <result name="login">/login.jsp</result>
+            <result name="success">/evaluate_success.jsp</result>
+        </action>
+        <action name="evaluate4" method="evaluate4" class="performanceMeasurementAction">
+            <result name="login">/login.jsp</result>
+            <result name="success">/evaluate_success.jsp</result>
+        </action>
+        <action name="previousPermissionSet" method="previousPermissionSet" class="permissionAction">
+            <result name="set">/permission_set.jsp</result>
+        </action>
+        <action name="updatePermissionSetting" method="updatePermissionSetting" class="permissionAction">
+            <result name="set">/permission_set.jsp</result>
+        </action>
+        <action name="updateUsers" method="updateUsers" class="permissionAction">
+            <result name="set">/permission_set.jsp</result>
         </action>
     </package>
 </struts>
