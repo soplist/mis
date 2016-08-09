@@ -25,6 +25,7 @@ public class Permission implements java.io.Serializable {
 	private Boolean pmsetting;
 	private Boolean psetting;
 	private Boolean viewAllPm;
+	private Boolean mes;
 
 	// Constructors
 
@@ -130,4 +131,11 @@ public class Permission implements java.io.Serializable {
 		this.viewAllPm = viewAllPm;
 	}
 
+	public Boolean getMes() {
+		return mes;
+	}
+
+	public void setMes(Boolean mes) {
+		this.mes = mes;
+	}
 }

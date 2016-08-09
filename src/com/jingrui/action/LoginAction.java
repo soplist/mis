@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.jingrui.domain.Area;
 import com.jingrui.domain.NoticePeople;
+import com.jingrui.domain.Page;
 import com.jingrui.domain.Permission;
 import com.jingrui.domain.PmTable;
 import com.jingrui.domain.PmTask;
@@ -22,6 +23,7 @@ import com.jingrui.service.DepartmentService;
 import com.jingrui.service.PmTaskService;
 import com.jingrui.service.TaskService;
 import com.jingrui.service.UserService;
+import com.jingrui.util.PageUtil;
 import com.jingrui.util.StatisticsHelper;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -89,11 +91,7 @@ public class LoginAction extends ActionSupport{
 		logger.info("login");
 		Map session = (Map)ActionContext.getContext().getSession();
 		User u = userService.findUserByName(username);
-    	if(u.getPermission().getViewAllPm()){
-    		List<PmTask> allPmTask = pmTaskService.getAll();
-    		session.remove("allPmTask");
-		 	session.put("allPmTask",allPmTask);
-    	}
+    	
     	
     	session.put("user",u);
     	System.out.println(sys.equals("2"));
@@ -152,6 +150,18 @@ public class LoginAction extends ActionSupport{
     		session.put("SelfAndDeptAndStaffAndManagerPmTables", SelfAndDeptAndStaffAndManagerPmTables);
     		session.put("managerPmTables", managerPmTables);
     		session.put("companyPmTables", companyPmTables);
+    		
+    		//if(u.getPermission().getViewAllPm()){
+        		//List<PmTask> allPmTask = pmTaskService.getAll();
+        		//session.remove("allPmTask");
+    		 	//session.put("allPmTask",allPmTask);
+        	//}
+    		Long totalPmTaskCount = pmTaskService.getTotalCount();
+    		Page page = PageUtil.createPage(10, totalPmTaskCount, 1);
+    		List<PmTask> tasks = pmTaskService.queryByPage(page);
+    		session.put("page", page);
+    		session.put("allPmTask", tasks);
+    		
     		return "performanceMeasurement";
     	}else{
     		return "login";

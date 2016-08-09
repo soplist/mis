@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.Query;
 
+import com.jingrui.domain.Page;
+
 public interface BaseDAO<T> {
 	@SuppressWarnings("unchecked")
     public List<T> qryInfo(String hql);
@@ -15,4 +17,6 @@ public interface BaseDAO<T> {
     public void add(T cls);
     public void setQueryParams(Query qry, Object[] params);
     public T get(Class<T> c, Serializable id);
+    public Long getTotalCount(String table);
+    public List<T> queryByPage(String hql,Page page);
 }

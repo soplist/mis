@@ -53,5 +53,8 @@ public class UserServiceImpl implements UserService {
 		baseDao.update(u);
 	}
 	
-
+    public List<User> getAllManagers(){
+    	List<User> list = baseDao.qryInfo("from User where ismanager=true");
+    	return list;
+    }
 }

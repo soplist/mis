@@ -190,10 +190,10 @@ public class ImportExcelHelper1 {
         	Class.forName("com.mysql.jdbc.Driver");
         	System.out.println("success loading mysql driver!");
 		
-			connect = DriverManager.getConnection(
-					"jdbc:mysql://61.150.109.162:3306/misdb?characterEncoding=utf8","root","root");
-        	//connect = DriverManager.getConnection(
-			          //"jdbc:mysql://localhost:3306/misdb?characterEncoding=utf8","root","root");
+			//connect = DriverManager.getConnection(
+					//"jdbc:mysql://61.150.109.162:3306/misdb?characterEncoding=utf8","root","root");
+        	connect = DriverManager.getConnection(
+			          "jdbc:mysql://localhost:3306/misdb?characterEncoding=utf8","root","root");
 			System.out.println("success connect mysql driver!");
 			stmt = connect.createStatement();
 			
@@ -226,7 +226,7 @@ public class ImportExcelHelper1 {
     public static void main(String[] args) {
     	ImportExcelHelper1 ieh1 = new ImportExcelHelper1();
 	    //String excelPath = "D:"+ File.separator + "wangkang"+ File.separator+"doc"+ File.separator+"客户信息标准版、4.12家居.xls";
-    	String excelPath = "D:"+ File.separator + "wangkang"+ File.separator+"doc"+ File.separator+"在安康传媒客户信息标准版.xls";
+    	String excelPath = "D:"+ File.separator + "wangkang"+ File.separator+"doc"+ File.separator+"companydoc"+File.separator+"客户信息标准版、4.12家居.xls";
     	//String excelPath = "D:"+ File.separator + "wangkang"+ File.separator+"doc"+ File.separator+"客户信息标准版、(1).xls";
     	ArrayList<Customer1> customers = ieh1.readExcel(excelPath);
 	    ieh1.insertIntoDB(customers);

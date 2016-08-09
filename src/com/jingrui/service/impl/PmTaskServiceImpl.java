@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.jingrui.dao.BaseDAO;
 import com.jingrui.domain.Customer;
+import com.jingrui.domain.Page;
 import com.jingrui.domain.Permission;
 import com.jingrui.domain.PmTask;
 import com.jingrui.domain.User;
 import com.jingrui.service.PmTaskService;
+import com.jingrui.util.PageUtil;
 
 public class PmTaskServiceImpl implements PmTaskService {
     private BaseDAO<PmTask> baseDao;
@@ -41,5 +43,14 @@ public class PmTaskServiceImpl implements PmTaskService {
 		}else{
 		    return false;
 		}
+	}
+	
+	public Long getTotalCount(){
+		return baseDao.getTotalCount("PmTask");
+	}
+	
+	public List<PmTask> queryByPage(Page page){
+		List<PmTask> list = baseDao.queryByPage("from PmTask order by pid desc", page);
+		return list;
 	}
 }

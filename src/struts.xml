@@ -133,6 +133,12 @@
             <result name="login">/login.jsp</result>
             <result name="success">/evaluate_success.jsp</result>
         </action>
+        <action name="summaryGetPage" method="summaryGetPage" class="performanceMeasurementAction">
+            <result name="performanceMeasurement">/performance_measurement.jsp</result>
+        </action>
+        <action name="previousManagerEvaluateSetting" method="previousManagerEvaluateSetting" class="performanceMeasurementAction">
+            <result name="managerEvaluateSetting">/manager_evaluate_setting.jsp</result>
+        </action>
         <action name="previousPermissionSet" method="previousPermissionSet" class="permissionAction">
             <result name="set">/permission_set.jsp</result>
         </action>
@@ -141,6 +147,9 @@
         </action>
         <action name="updateUsers" method="updateUsers" class="permissionAction">
             <result name="set">/permission_set.jsp</result>
+        </action>
+        <action name="updateManagerEvaluateFixedScore" method="updateManagerEvaluateFixedScore" class="performanceMeasurementAction">
+            <result name="managerEvaluateSetting">/manager_evaluate_setting.jsp</result>
         </action>
     </package>
 </struts>

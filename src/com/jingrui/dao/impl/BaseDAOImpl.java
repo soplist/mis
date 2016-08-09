@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jingrui.dao.BaseDAO;
+import com.jingrui.domain.Page;
 
 public class BaseDAOImpl<T> implements BaseDAO<T>{
 	  
@@ -100,4 +101,25 @@ public class BaseDAOImpl<T> implements BaseDAO<T>{
     public T get(Class<T> c, Serializable id) {  
         return (T) this.getCurrentSession().get(c, id);  
     }  
+    
+    public Long getTotalCount(String table){
+    	return (Long) this.getCurrentSession().createQuery("select count(*) from "+table).uniqueResult();
+	}
+    
+    public List<T> queryByPage(String hql,Page page){
+    	Query qry = null;
+    	List<T> list = null;
+    	try {
+    		Session session = this.qryCurrentSesion();
+    		qry = session.createQuery(hql);
+    		qry.setMaxResults(page.getEveryPage());  
+            qry.setFirstResult(page.getBeginIndex());  
+            list = qry.list();
+            session.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+    	return list;
+    }
 }

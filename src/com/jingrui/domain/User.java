@@ -38,6 +38,7 @@ public class User implements java.io.Serializable {
 	private boolean thisMonthPMlaunched;
 	private String position;
 	private Date joined;
+	private ManagerEvaluateSetting managerEvaluateSetting;
 
 	// Constructors
     /** default constructor */
@@ -273,5 +274,14 @@ public class User implements java.io.Serializable {
 
 	public void setJoined(Date joined) {
 		this.joined = joined;
+	}
+	
+	public ManagerEvaluateSetting getManagerEvaluateSetting() {
+		return managerEvaluateSetting;
+	}
+
+	public void setManagerEvaluateSetting(
+			ManagerEvaluateSetting managerEvaluateSetting) {
+		this.managerEvaluateSetting = managerEvaluateSetting;
 	}
 }

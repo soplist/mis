@@ -4,7 +4,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Options {
+public class Options implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4601175922127960473L;
 	private Integer sid;
 	private Date settingTime;
 	private Integer selfEval;

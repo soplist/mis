@@ -9,4 +9,5 @@ public interface UserService {
 	public void modifyUserPass(User u);
 	public List<User> findAllUser();
 	public void update(User u);
+	public List<User> getAllManagers();
 }

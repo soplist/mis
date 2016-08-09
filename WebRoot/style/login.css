@@ -1,6 +1,10 @@
 *{
     font-size:14px;
 }
+body{
+	background-image: url("../img/Website-Design-Background.png");
+	background-size: cover;
+}
 .text_1 {      
     width:300px;
     height:30px;

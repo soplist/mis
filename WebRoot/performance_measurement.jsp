@@ -23,7 +23,7 @@
 	    });
 	</script>
     </head>
-    
+    <!-- background="img/Website-Design-Background.png" -->
   <body>
     <!-- <a href="getAllPmSetting"><img class="img_1" src="img/setting.png"></img><spring:message code="pm.setting"/></a> -->
     <c:if test="${user.permission.pmsetting==true}">
@@ -32,6 +32,11 @@
     <c:if test="${user.permission.psetting==true}">
     <a class="a_1" onclick="window.open('previousPermissionSet')">
     <spring:message code="peme.permission"/>
+    </a>
+    </c:if>
+    <c:if test="${user.permission.mes==true}">
+    <a class="a_1" onclick="window.open('previousManagerEvaluateSetting')">
+    <spring:message code="peme.manager_evaluate_setting"/>
     </a>
     </c:if>
     <s:a action="logout"><spring:message code="list.logout"/></s:a>
@@ -126,8 +131,8 @@
                                 <spring:message code="peme.type_5"/>
                             </s:if>
                             <s:if test="#pt.type==6">
-                                    <spring:message code="peme.type_6"/>
-                                </s:if>
+                                <spring:message code="peme.type_6"/>
+                            </s:if>
                         </td>
                         <!-- <td>
                             <s:if test="#pt.statu==false">
@@ -143,14 +148,14 @@
                         <td>
                             <s:if test="#pt.type!=6">
                             <s:if test="#pt.simple==false">
-                            <a class="a_1" onclick="window.open('previousEvaluate?pm_table_id=${pt.pid}&&type=1')">
+                            <a href="#" class="a_1" onclick="window.open('previousEvaluate?pm_table_id=${pt.pid}&&type=1')">
                             <s:if test="#pt.statu==false">
                                 <spring:message code="peme.evaluate"/>
                             </s:if>
                             </a>
                             </s:if>
                             <s:if test="#pt.simple==true">
-                            <a class="a_1" onclick="window.open('previousEvaluate?pm_table_id=${pt.pid}&&type=2')">
+                            <a href="#" class="a_1" onclick="window.open('previousEvaluate?pm_table_id=${pt.pid}&&type=2')">
                             <s:if test="#pt.statu==false">
                                 <spring:message code="peme.evaluate"/>
                             </s:if>
@@ -158,7 +163,7 @@
                             </s:if>
                             </s:if>
                             <s:if test="#pt.type==6">
-                            <a class="a_1" onclick="window.open('previousEvaluate?pm_table_id=${pt.pid}&&type=3')">
+                            <a href="#" onclick="window.open('previousEvaluate?pm_table_id=${pt.pid}&&type=3')">
                             <s:if test="#pt.statu==false">
                                 <spring:message code="peme.evaluate"/>
                             </s:if>
@@ -272,6 +277,39 @@
             <c:if test="${user.permission.viewAllPm==true}">
             <input name="show" type="button" onClick="showTask();" value="show">
             <input name="show" type="button" onClick="hiddenTask();" value="hidden">
+            <s:if test="#session.page!=null">
+                <s:if test="#session.page.hasPrePage==true">
+                    <a class="a_1" href="summaryGetPage?pageIndex=${page.currentPage-1}">
+                        <spring:message code="peme.previous_page"/>
+                    </a>
+                </s:if>
+                <s:if test="#session.page.hasPrePage==false">
+                    <span class="span_2">
+                        <spring:message code="peme.previous_page"/>
+                    </span>
+                </s:if>
+                
+                <c:forEach  begin="1" end="${page.totalPage}" var="pageIndex"> 
+                <c:if test="${pageIndex==page.currentPage}">
+                ${pageIndex}
+                </c:if>
+                <c:if test="${pageIndex!=page.currentPage}">
+                <a href="summaryGetPage?pageIndex=${pageIndex}">${pageIndex}</a> 
+                </c:if>
+                </c:forEach>
+                
+                <s:if test="#session.page.hasNextPage==true">
+                    <a class="a_1" href="summaryGetPage?pageIndex=${page.currentPage+1}">
+                        <spring:message code="peme.next_page"/>
+                    </a>
+                </s:if>
+                <s:if test="#session.page.hasNextPage==false">
+                    <span class="span_2">
+                        <spring:message code="peme.next_page"/>
+                    </span>
+                </s:if>
+            </s:if>
+            
             <table border="1" class="table_1">
             <tr class="tr_3">
                 <th><spring:message code="peme.task.no"/></th>
@@ -523,7 +561,7 @@
                         </td>
                         <td><s:property value="#pt.userByUid.realName"/></td>
                         <td>
-                            <s:if test="#pt.statu==false">
+                            <!--<s:if test="#pt.statu==false">
                                 <s:iterator value="#pt.pmTablesForTid" id="table">
                                     <spring:message code="peme.type_6"/>:
                                     <s:property value="#table.userByUid.realName"/>,
@@ -535,11 +573,53 @@
                                     <spring:message code="peme.type_6"/>:
                                     <s:property value="#table.userByUid.realName"/>,
                                     <spring:message code="peme.items_score"/>
-                                    ${table.item1},${table.item2},${table.item3},${table.item4},${table.item5},${table.item6},${table.item7},${table.item8},${table.item9},${table.item10},${table.item11},${table.item12},${table.item13}
+                                    ${table.item1},${table.item2},${table.item3},${table.item4},${table.item5},
+                                    <span class="span_1">
+                                    ${table.item1+table.item2+table.item3+table.item4+table.item5},
+                                    </span>
+                                    ${table.item6},${table.item7},${table.item8},${table.item9},
+                                    <span class="span_1">
+                                    ${table.item6+table.item7+table.item8+table.item9},
+                                    </span>
+                                    ${table.item10},${table.item11},
+                                    <span class="span_1">
+                                    ${table.item10+table.item11},
+                                    </span>
+                                    ${table.item12},${table.item13},
+                                    <span class="span_1">
+                                    ${table.item12+table.item13},
+                                    </span>
                                     <spring:message code="peme.task.total_score"/>:
-                                    ${(table.item1+table.item2+table.item3+table.item4+table.item5)*0.4+(table.item6+table.item7+table.item8+table.item9)*0.3+(table.item10+table.item11)*0.15+(table.item12+table.item13)*0.15}
+                                    <fmt:formatNumber type="number" value="${(table.item1+table.item2+table.item3+table.item4+table.item5)*0.4+(table.item6+table.item7+table.item8+table.item9)*0.3+(table.item10+table.item11)*0.15+(table.item12+table.item13)*0.15}" maxFractionDigits="2"/>
                                 </s:iterator>
-                            </s:if>
+                            </s:if>-->
+                            
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <spring:message code="peme.type_6"/>:
+                                <s:property value="#table.userByUid.realName"/>,
+                                <s:if test="#table.statu==true">
+                                <spring:message code="peme.items_score"/>
+                                ${table.item1},${table.item2},${table.item3},${table.item4},${table.item5},
+                                <span class="span_1">
+                                ${table.item1+table.item2+table.item3+table.item4+table.item5},
+                                </span>
+                                ${table.item6},${table.item7},${table.item8},${table.item9},
+                                <span class="span_1">
+                                ${table.item6+table.item7+table.item8+table.item9},
+                                </span>
+                                ${table.item10},${table.item11},
+                                <span class="span_1">
+                                ${table.item10+table.item11},
+                                </span>
+                                ${table.item12},${table.item13},
+                                <span class="span_1">
+                                ${table.item12+table.item13},
+                                </span>
+                                <spring:message code="peme.task.total_score"/>:
+                                <fmt:formatNumber type="number" value="${(table.item1+table.item2+table.item3+table.item4+table.item5)*0.4+(table.item6+table.item7+table.item8+table.item9)*0.3+(table.item10+table.item11)*0.15+(table.item12+table.item13)*0.15}" maxFractionDigits="2"/>
+                                </s:if>
+                                <br>
+                            </s:iterator>
                         </td>
                         <td>
                             <s:if test="#pt.statu==true">
@@ -783,7 +863,7 @@
                         </td>
                         <td><s:property value="#pt.userByUid.realName"/></td>
                         <td>
-                            <s:if test="#pt.statu==false">
+                            <!--<s:if test="#pt.statu==false">
                                 <s:iterator value="#pt.pmTablesForTid" id="table">
                                     <spring:message code="peme.type_6"/>:
                                     <s:property value="#table.userByUid.realName"/>,
@@ -799,7 +879,34 @@
                                     <spring:message code="peme.task.total_score"/>:
                                     ${(table.item1+table.item2+table.item3+table.item4+table.item5)*0.4+(table.item6+table.item7+table.item8+table.item9)*0.3+(table.item10+table.item11)*0.15+(table.item12+table.item13)*0.15}
                                 </s:iterator>
-                            </s:if>
+                            </s:if>-->
+                            
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <spring:message code="peme.type_6"/>:
+                                <s:property value="#table.userByUid.realName"/>,
+                                <s:if test="#table.statu==true">
+                                <spring:message code="peme.items_score"/>
+                                ${table.item1},${table.item2},${table.item3},${table.item4},${table.item5},
+                                <span class="span_1">
+                                ${table.item1+table.item2+table.item3+table.item4+table.item5},
+                                </span>
+                                ${table.item6},${table.item7},${table.item8},${table.item9},
+                                <span class="span_1">
+                                ${table.item6+table.item7+table.item8+table.item9},
+                                </span>
+                                ${table.item10},${table.item11},
+                                <span class="span_1">
+                                ${table.item10+table.item11},
+                                </span>
+                                ${table.item12},${table.item13},
+                                <span class="span_1">
+                                ${table.item12+table.item13},
+                                </span>
+                                <spring:message code="peme.task.total_score"/>:
+                                <fmt:formatNumber type="number" value="${(table.item1+table.item2+table.item3+table.item4+table.item5)*0.4+(table.item6+table.item7+table.item8+table.item9)*0.3+(table.item10+table.item11)*0.15+(table.item12+table.item13)*0.15}" maxFractionDigits="2"/>
+                                </s:if>
+                                <br>
+                            </s:iterator>
                         </td>
                         <td>
                             <s:if test="#pt.statu==true">

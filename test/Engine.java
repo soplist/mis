@@ -29,11 +29,11 @@ public class Engine {
             HttpURLConnection connect = (HttpURLConnection) url.openConnection();  
             
             if (httpMethod.length() > 0) {  
-            	connect.setDoOutput(true);  
-                OutputStreamWriter out = new OutputStreamWriter(connect.getOutputStream());  
-                out.write(httpMethod);  
-                out.flush();  
-                out.close();  
+            	//connect.setDoOutput(true);  
+                //OutputStreamWriter out = new OutputStreamWriter(connect.getOutputStream());  
+                //out.write(httpMethod);  
+                //out.flush();  
+                //out.close();  
             }  
               
             InputStream inputStream = connect.getInputStream();
@@ -48,6 +48,7 @@ public class Engine {
             
             return sb.toString();
         } catch (Exception e) {
+        	e.printStackTrace();
         	return null;
         }  
     }  
@@ -156,6 +157,8 @@ public class Engine {
 		// TODO Auto-generated method stub
 		Engine engine = new Engine();
 		String data = engine.getContent("https://www.hao123.com", "post");
+		//String data = engine.getContent("http://www.qkankan.com/north-america/america/joy/200712/295.html", "get");
+		System.out.println(data);
 		//engine.writeFile(data,"D:\\wangkang\\html.txt");
 		List<String> hrefs = engine.extract(data);
 		//for (String href : hrefs) {

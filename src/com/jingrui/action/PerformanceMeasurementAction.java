@@ -17,15 +17,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 
 import com.jingrui.domain.Joinin;
+import com.jingrui.domain.ManagerEvaluateSetting;
 import com.jingrui.domain.Options;
+import com.jingrui.domain.Page;
 import com.jingrui.domain.PmTable;
 import com.jingrui.domain.PmTask;
 import com.jingrui.domain.User;
 import com.jingrui.service.JoininService;
+import com.jingrui.service.ManagerEvaluateSettingService;
 import com.jingrui.service.PmTableService;
 import com.jingrui.service.PmTaskService;
 import com.jingrui.service.SettingService;
 import com.jingrui.service.UserService;
+import com.jingrui.util.PageUtil;
 import com.jingrui.util.UserSet;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -37,6 +41,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	private JoininService joininService;
 	private PmTaskService pmTaskService;
 	private PmTableService pmTableService;
+	private ManagerEvaluateSettingService managerEvaluateSettingService;
 	
 	private Float item1;
 	private Float item2;
@@ -87,6 +92,13 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	}
 	public void setPmTableService(PmTableService pmTableService) {
 		this.pmTableService = pmTableService;
+	}
+	public ManagerEvaluateSettingService getManagerEvaluateSettingService() {
+		return managerEvaluateSettingService;
+	}
+	public void setManagerEvaluateSettingService(
+			ManagerEvaluateSettingService managerEvaluateSettingService) {
+		this.managerEvaluateSettingService = managerEvaluateSettingService;
 	}
 	
 	public Float getItem1() {
@@ -313,26 +325,37 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		Map session = (Map)ActionContext.getContext().getSession();
 		PmTable pt = (PmTable) session.get("table");
 		if(null!=pt){
-		    pt.setItem1(item1);
+		    pt.setItem1(pt.getPmTaskByTid().getUserByUid().getManagerEvaluateSetting().getItem1());
 		    pt.setItem2(item2);
 		    pt.setItem3(item3);
 		    pt.setItem4(item4);
 		    pt.setItem5(item5);
-		    pt.setItem6(item6);
+		    pt.setItem6(pt.getPmTaskByTid().getUserByUid().getManagerEvaluateSetting().getItem6());
 		    pt.setItem7(item7);
 		    pt.setItem8(item8);
 		    pt.setItem9(item9);
 		    pt.setItem10(item10);
 		    pt.setItem11(item11);
-		    pt.setItem12(item12);
-		    pt.setItem13(item13);
+		    pt.setItem12(pt.getPmTaskByTid().getUserByUid().getManagerEvaluateSetting().getItem12());
+		    pt.setItem13(pt.getPmTaskByTid().getUserByUid().getManagerEvaluateSetting().getItem13());
 		    pt.setStatu(true);
 		    pt.setSimple(false);
 		    pmTableService.update(pt);
 		    
 		    PmTask pmTask = pt.getPmTaskByTid();
-			pmTask.setStatu(true);
-		    pmTaskService.update(pmTask);
+		    Set<PmTable> pmTableList = pmTask.getPmTablesForTid();
+			boolean passed = true;
+		    for (PmTable pmTable : pmTableList) {
+				if(!pmTable.isStatu()){
+					passed = false;
+					break;
+				}
+			}
+		    
+		    if(passed){
+		    	pmTask.setStatu(true);
+		    	pmTaskService.update(pmTask);
+		    }
 			
 			return "success";
 		}
@@ -517,7 +540,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		    //add staff evaluate
 		    Random rand = new Random();
 		    int range = outDepartmentUsers.size();
-		    UserSet user5 = new UserSet(user_1);
+		    UserSet user5 = new UserSet(user_1,5);
 		    if(range>5){
 		        boolean full = false;
 		        while(!full){
@@ -580,6 +603,46 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		    pmtable.setStatu(false);
 		    pmtable.setType(6);
 		    pmTableService.add(pmtable);
+		    
+		    //add self evaluate
+		    PmTable selfPmtable = new PmTable();
+		    pmtable.setUserByUid(user_1);
+		    pmtable.setPmTaskByTid(pt);
+		    pmtable.setStatu(false);
+		    pmtable.setType(6);
+		    pmTableService.add(pmtable);
+		    
+		    //add staff evaluate
+		    List<User> inDepartmentUsers = new ArrayList<User>();
+		    for(User u : allUsers){
+			    if(u.getDepartment().getDid().equals(user_1.getDepartment().getDid())){
+				    inDepartmentUsers.add(u);
+			    }
+		    }
+		    
+		    Random rand = new Random();
+		    int range = inDepartmentUsers.size();
+		    UserSet user3 = new UserSet(user_1,3);
+		    if(range>3){
+		        boolean full = false;
+		        while(!full){
+		            int random_id = rand.nextInt(range);
+		            User u = inDepartmentUsers.get(random_id);
+		            full=user3.add(u);
+		        }
+            }else{
+			    for (User u : inDepartmentUsers) {
+			    	user3.add(u);
+			    }
+		    }
+		    for (User u : user3.getUserSet()) {
+			    PmTable pmt = new PmTable();
+			    pmt.setUserByUid(u);
+			    pmt.setPmTaskByTid(pt);
+			    pmt.setStatu(false);
+			    pmt.setType(6);
+			    pmTableService.add(pmt);
+		    }
 		    
 		}catch(Exception e){
 			e.printStackTrace();
@@ -846,4 +909,65 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		return "setting";
 	}
 	
+	public String summaryGetPage(){
+		Map session = (Map)ActionContext.getContext().getSession();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		
+		String pageIndex = request.getParameter("pageIndex");
+		Integer int_pageIndex = Integer.parseInt(pageIndex);
+		Page page = (Page) session.get("page");
+		page = PageUtil.createPage(page.getEveryPage(), page.getTotalCount(), int_pageIndex);
+		page.setCurrentPage(int_pageIndex);
+		
+		List<PmTask> tasks = pmTaskService.queryByPage(page);
+		
+		session.put("page", page);
+		session.put("allPmTask", tasks);
+		
+		return "performanceMeasurement";
+	}
+	
+	public String previousManagerEvaluateSetting(){
+		Map session = (Map)ActionContext.getContext().getSession();
+		List<User> managers = userService.getAllManagers();
+		session.put("managers", managers);
+		return "managerEvaluateSetting";
+	}
+	
+	public String updateManagerEvaluateFixedScore(){
+		//System.out.println("managerEvaluateSetting");
+        HttpServletRequest request = ServletActionContext.getRequest();
+        Map session = (Map)ActionContext.getContext().getSession();
+		
+		String score = request.getParameter("score");
+		String mid = request.getParameter("mid");
+		String kind = request.getParameter("kind");
+		Float float_score = Float.parseFloat(score);
+		Integer int_mid = Integer.parseInt(mid);
+		
+		ManagerEvaluateSetting currentManagerEvaluateSetting = null;
+		List<User> managers = (List<User>) session.get("managers");
+		for (User u : managers) {
+			if(u.getManagerEvaluateSetting().getMid().equals(int_mid)){
+				currentManagerEvaluateSetting=u.getManagerEvaluateSetting();
+			}
+		}
+		
+		if(kind.equals("1")){
+			currentManagerEvaluateSetting.setItem1(float_score);
+		}
+		else if(kind.equals("2")){
+			currentManagerEvaluateSetting.setItem6(float_score);
+		}
+        else if(kind.equals("3")){
+        	currentManagerEvaluateSetting.setItem12(float_score);
+		}
+        else if(kind.equals("4")){
+        	currentManagerEvaluateSetting.setItem13(float_score);
+		}
+		
+		managerEvaluateSettingService.update(currentManagerEvaluateSetting);
+		
+		return "managerEvaluateSetting";
+	}
 }

@@ -51,6 +51,7 @@
 				<value>com/jingrui/domain/Joinin.hbm.xml</value>
 				<value>com/jingrui/domain/PmTask.hbm.xml</value>
 				<value>com/jingrui/domain/PmTable.hbm.xml</value>
+				<value>com/jingrui/domain/ManagerEvaluateSetting.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -109,6 +110,9 @@
     <bean id="permissionServiceImpl" class="com.jingrui.service.impl.PermissionServiceImpl" scope="singleton">  
         <property name="baseDao" ref="baseDAOImpl" />  
     </bean>
+    <bean id="managerEvaluateSettingServiceImpl" class="com.jingrui.service.impl.ManagerEvaluateSettingServiceImpl" scope="singleton">  
+        <property name="baseDao" ref="baseDAOImpl" />  
+    </bean>
     
     <!-- util -->
     <bean id="pipeImpl" class="com.jingrui.workflow.impl.PipeImpl" scope="singleton"> 
@@ -144,6 +148,7 @@
          <property name="joininService" ref="joininServiceImpl" />
          <property name="pmTaskService" ref="pmTaskServiceImpl" />
          <property name="pmTableService" ref="pmTableServiceImpl" />
+         <property name="managerEvaluateSettingService" ref="managerEvaluateSettingServiceImpl" />
     </bean>
     <bean id="permissionAction" class="com.jingrui.action.PermissionAction">
          <property name="permissionService" ref="permissionServiceImpl" />

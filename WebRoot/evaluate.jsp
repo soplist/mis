@@ -181,7 +181,7 @@
             <td  rowspan="4"><input class="input_1" type="text"  name="item5" id="item5"></input></td>
         </tr>
         <tr>
-            <td  colspan="5"><spring:message code="evaluate.content_5_2"/>/td>
+            <td  colspan="5"><spring:message code="evaluate.content_5_2"/>
             <td><spring:message code="evaluate.class_2"/></td>
             <td><spring:message code="evaluate.score_class_2"/></td>
         </tr>

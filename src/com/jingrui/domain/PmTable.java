@@ -2,8 +2,12 @@ package com.jingrui.domain;
 
 import java.util.Date;
 
-public class PmTable {
-    private Integer pid;
+public class PmTable implements java.io.Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2686864906087890077L;
+	private Integer pid;
     private User userByUid;
     private PmTask pmTaskByTid;
     private boolean statu;

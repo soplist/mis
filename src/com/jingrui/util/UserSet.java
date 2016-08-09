@@ -7,12 +7,13 @@ import com.jingrui.domain.User;
 
 public class UserSet {
 	private Set<User> userSet = new HashSet<User>();
-	private int capacity = 5;//
+	private int capacity = 0;//
 	private int size=0;
 	private boolean full = false;
 	private User currentUser = null;
-	public UserSet(User u){
+	public UserSet(User u,int capacity){
 		currentUser = u;
+		this.capacity = capacity;
 	}
 	public Set<User> getUserSet() {
 		return userSet;

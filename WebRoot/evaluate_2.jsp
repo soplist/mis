@@ -13,29 +13,29 @@
 	<script type="text/javascript">
         
         function submitForm(){
-            var item1=document.getElementById("item1").value;
+            //var item1=document.getElementById("item1").value;
             var item2=document.getElementById("item2").value;
             var item3=document.getElementById("item3").value;
             var item4=document.getElementById("item4").value;
             var item5=document.getElementById("item5").value;
-            var item6=document.getElementById("item6").value;
+            //var item6=document.getElementById("item6").value;
             var item7=document.getElementById("item7").value;
             var item8=document.getElementById("item8").value;
             var item9=document.getElementById("item9").value;
             var item10=document.getElementById("item10").value;
             var item11=document.getElementById("item11").value;
-            var item12=document.getElementById("item12").value;
-            var item13=document.getElementById("item13").value;
-            if(item1==""||item2==""||item3==""||item4==""||item5==""||item6==""||item7==""||item8==""||item9==""||item10==""||item11==""||item12==""||item13==""){
+            //var item12=document.getElementById("item12").value;
+            //var item13=document.getElementById("item13").value;
+            if(item2==""||item3==""||item4==""||item5==""||item7==""||item8==""||item9==""||item10==""||item11==""){
                 alert("数据不能为空");
                 return;
             }
-            if(item1<0||item2<0||item3<0||item4<0||item5<0||item6<0||item7<0||item8<0||item9<0||item10<0||item11<0||item12<0||item13<0
-            ||item1>15||item2>35||item3>15||item4>25||item5>10||item6>40||item7>12||item8>25||item9>23||item10>65||item11>35||item12>30||item13>70){
+            if(item2<0||item3<0||item4<0||item5<0||item7<0||item8<0||item9<0||item10<0||item11<0
+            ||item2>35||item3>15||item4>25||item5>10||item7>12||item8>25||item9>23||item10>65||item11>35){
                 alert("分数大于等于0小于等于10");
                 return;
             }
-            if(isNaN(item1)||isNaN(item2)||isNaN(item3)||isNaN(item4)||isNaN(item5)||isNaN(item6)||isNaN(item7)||isNaN(item8)||isNaN(item9)||isNaN(item10)||isNaN(item11)||isNaN(item12)||isNaN(item13)){
+            if(isNaN(item2)||isNaN(item3)||isNaN(item4)||isNaN(item5)||isNaN(item7)||isNaN(item8)||isNaN(item9)||isNaN(item10)||isNaN(item11)){
                 alert("分数格式错误");
                 return;
             }
@@ -93,7 +93,7 @@
             <td rowspan="3"><spring:message code="manager_evaluate.content_1_2_1"/></td>
             <td><spring:message code="manager_evaluate.content_1_3_1"/></td>
             <td>15-13</td>
-            <td rowspan="3"><input class="input_1" type="text" name="item1" id="item1"></td>
+            <td rowspan="3"><s:property value="#session.table.pmTaskByTid.userByUid.managerEvaluateSetting.item1"/></td>
         </tr>
         <tr>
             <td><spring:message code="manager_evaluate.content_1_3_2"/></td>
@@ -172,7 +172,7 @@
             <td rowspan="4"><spring:message code="manager_evaluate.content_3_2_1"/></td>
             <td><spring:message code="manager_evaluate.content_3_3_1"/></td>
             <td>40-35</td>
-            <td rowspan="4"><input class="input_1" type="text" name="item6" id="item6"></td>
+            <td rowspan="4"><s:property value="#session.table.pmTaskByTid.userByUid.managerEvaluateSetting.item6"/></td>
         </tr>
         <tr>
             <td><spring:message code="manager_evaluate.content_3_3_2"/></td>
@@ -277,13 +277,13 @@
             <td rowspan="4"><spring:message code="manager_evaluate.content_7"/></td>
             <td><spring:message code="manager_evaluate.content_7_2_1"/></td>
             <td colspan="2"><spring:message code="manager_evaluate.content_7_3_1"/></td>
-            <td><input class="input_1" type="text" name="item12" id="item12"></td>
+            <td><s:property value="#session.table.pmTaskByTid.userByUid.managerEvaluateSetting.item12"/></td>
         </tr>
         <tr>
             <td rowspan="3"><spring:message code="manager_evaluate.content_7_2_2"/></td>
             <td><spring:message code="manager_evaluate.content_7_3_2"/></td>
             <td>70-62</td>
-            <td rowspan="3"><input class="input_1" type="text" name="item13" id="item13"></td>
+            <td rowspan="3"><s:property value="#session.table.pmTaskByTid.userByUid.managerEvaluateSetting.item13"/></td>
         </tr>
         <tr>
             <td><spring:message code="manager_evaluate.content_7_3_3"/></td>

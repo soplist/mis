@@ -4,7 +4,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class PmTask {
+public class PmTask implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2558615661371560966L;
 	private Integer pid;
 	private Options optionsBySid;
 	private boolean statu;

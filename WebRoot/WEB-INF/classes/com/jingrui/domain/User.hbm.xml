@@ -82,5 +82,8 @@
         <property name="joined" type="java.util.Date">
             <column name="joined" length="10" not-null="true" />
         </property>
+        <many-to-one name="managerEvaluateSetting" class="com.jingrui.domain.ManagerEvaluateSetting" fetch="select" lazy="false">
+            <column name="mesid" not-null="true" />
+        </many-to-one>
     </class>
 </hibernate-mapping>
