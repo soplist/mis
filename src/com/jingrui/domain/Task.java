@@ -17,6 +17,7 @@ public class Task  implements java.io.Serializable {
     private Integer value;
     private Set NoticePeoplesForTaskId = new HashSet(0);
     private Integer status;
+    //0--notice 1--approve 2--archive 3--reject 
     private Set OperatesForTaskId = new HashSet(0);
     
     

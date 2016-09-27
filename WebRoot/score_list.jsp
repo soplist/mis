@@ -47,7 +47,7 @@
             <th><spring:message code="score_list.statistics_value"/></th>
             <th><spring:message code="score_list.statistics_chart"/></th>
         </tr>
-        <s:iterator value="#session.task_a" id="entry">
+        <s:iterator value="#session.statisticsTable" id="entry">
             <tr>
             <td><s:property value="key"/></td>   
             <td><s:property value="value"/></td>   
@@ -179,7 +179,6 @@
             <th><spring:message code="score_list.notice_peoples"/></th>
             <th><spring:message code="score_list.notice_operator"/></th>
         </tr>
-        <s:if test="#session.user.noticePeoplesForUserId!=null">
         <s:iterator value="#session.nps" id="npfui">
         
             <!-- if tasks status is 2,task do not show -->
@@ -233,7 +232,6 @@
             </tr>
             </s:if>
         </s:iterator>
-        </s:if>
      </table>
      
      <div class="div_4">

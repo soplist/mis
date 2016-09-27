@@ -41,9 +41,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <!--<s:radio list="#{'1':'客户信息管理系统','0':'积分系统'}" name="sys" value="1"></s:radio><br></br>-->
           <select class="select_1" name="sys">
               <option value="0">--select--</option>
-              <option value="1">积分系统</option>
+              <option value="1">员工绩效评测系统</option>
               <option value="2">客户信息管理系统</option>
-              <option value="3">员工绩效评测系统</option>
+              <option value="3">积分系统</option>
           </select>
           <s:fielderror cssClass="fielderror_1" fieldName="error" theme="simple"/><br><br>
           <s:submit cssClass="button_1" label="submit" value="登录"></s:submit>

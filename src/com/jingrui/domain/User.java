@@ -39,6 +39,7 @@ public class User implements java.io.Serializable {
 	private String position;
 	private Date joined;
 	private ManagerEvaluateSetting managerEvaluateSetting;
+	private boolean validity;
 
 	// Constructors
     /** default constructor */
@@ -283,5 +284,13 @@ public class User implements java.io.Serializable {
 	public void setManagerEvaluateSetting(
 			ManagerEvaluateSetting managerEvaluateSetting) {
 		this.managerEvaluateSetting = managerEvaluateSetting;
+	}
+	
+	public boolean isValidity() {
+		return validity;
+	}
+
+	public void setValidity(boolean validity) {
+		this.validity = validity;
 	}
 }

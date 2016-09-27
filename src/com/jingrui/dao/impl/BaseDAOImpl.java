@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.jingrui.dao.BaseDAO;
 import com.jingrui.domain.Page;
+import com.jingrui.domain.User;
 
 public class BaseDAOImpl<T> implements BaseDAO<T>{
 	  
@@ -104,6 +105,10 @@ public class BaseDAOImpl<T> implements BaseDAO<T>{
     
     public Long getTotalCount(String table){
     	return (Long) this.getCurrentSession().createQuery("select count(*) from "+table).uniqueResult();
+	}
+    
+    public Long getPmTableFinishedTotalCountByUser(User user){
+    	return (Long) this.getCurrentSession().createQuery("select count(*) from PmTable pt where pt.userByUid.uid="+user.getUid()+" and pt.statu=true").uniqueResult();
 	}
     
     public List<T> queryByPage(String hql,Page page){

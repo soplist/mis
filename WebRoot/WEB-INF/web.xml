@@ -58,10 +58,14 @@
     </servlet-class>
   </servlet>
     
-    <servlet-mapping>
-        <servlet-name>DisplayChart</servlet-name>
-        <url-pattern>/servlet/DisplayChart</url-pattern>
-    </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DisplayChart</servlet-name>
+    <url-pattern>/servlet/DisplayChart</url-pattern>
+  </servlet-mapping>
 	
+  <!-- add scope session on action use -->
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
   
   </web-app>

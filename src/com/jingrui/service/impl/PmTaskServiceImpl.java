@@ -53,4 +53,9 @@ public class PmTaskServiceImpl implements PmTaskService {
 		List<PmTask> list = baseDao.queryByPage("from PmTask order by pid desc", page);
 		return list;
 	}
+	
+	public List<PmTask> getPmTasksByUser(User user){
+		List<PmTask> list = baseDao.qryInfo("from PmTask pt where pt.userByUid.uid="+user.getUid());
+		return list;
+	}
 }

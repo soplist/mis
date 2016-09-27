@@ -24,12 +24,12 @@
        </tr>
        <tr>
           <td><spring:message code="lst.date"/></td>
-          <td>${task_1.date}</td>
+          <td>${task.date}</td>
        </tr>
        <tr>
           <td><spring:message code="lst.who"/></td>
           <td>
-             <s:iterator value="#session.task_1.NoticePeoplesForTaskId" id="np">
+             <s:iterator value="#session.task.NoticePeoplesForTaskId" id="np">
                         <c:set var="reject" value="0"></c:set>
                         <s:iterator value="#np.userByUserId.OperatesForUserId" id="op">
                             <s:if test="#op.opt==3">
@@ -59,15 +59,15 @@
        </tr>
        <tr>
           <td><spring:message code="lst.reason"/></td>
-          <td>${task_1.reason}</td>
+          <td>${task.reason}</td>
        </tr>
        <tr>
           <td><spring:message code="lst.score_class"/></td>
-          <td>${task_1.scoreClass}</td>
+          <td>${task.scoreClass}</td>
        </tr>
        <tr>
           <td><spring:message code="lst.value"/></td>
-          <td>${task_1.value}</td>
+          <td>${task.value}</td>
        </tr>
     </table>
     
@@ -78,8 +78,8 @@
           <th>operation user</th>
           <th>operation</th>
        </tr>
-       <s:if test="#session.task_1.OperatesForTaskId!=null">
-          <s:iterator value="#session.task_1.OperatesForTaskId" id="op">
+       <s:if test="#session.task.OperatesForTaskId!=null">
+          <s:iterator value="#session.task.OperatesForTaskId" id="op">
               <tr>
               <td>
                     <s:property value="#op.date"/>

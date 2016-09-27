@@ -15,16 +15,11 @@
     <link rel="stylesheet" href="style/performance_measurement.css" type="text/css"></link>
     <script type="text/javascript" src="script/performance_measurement.js"></script>
     <script type="text/javascript" src="jquery/jquery-2.2.3.min.js"></script>
-    <script type="text/javascript" src="script/tabScript.js"></script>
+    <!--<script type="text/javascript" src="script/tabScript.js"></script>-->
     <link rel="stylesheet" href="style/tabStyle.css" type="text/css"></link>
-    <script>
-	    $(function(){
-	        loadTab();
-	    });
-	</script>
     </head>
     <!-- background="img/Website-Design-Background.png" -->
-  <body>
+    <body onload="load_performance_measurement_page()">
     <!-- <a href="getAllPmSetting"><img class="img_1" src="img/setting.png"></img><spring:message code="pm.setting"/></a> -->
     <c:if test="${user.permission.pmsetting==true}">
     <input type="button" onclick="window.open('getAllPmSetting')" id="setpm" class="button_1" name="setpm" value="绩效考核设置"/>
@@ -42,13 +37,12 @@
     <s:a action="logout"><spring:message code="list.logout"/></s:a>
     <div class="div_3">
     <div class="div_1" id="div_1">
-        <ul class="tabs">
-			<li><a href="#" name=".tab1_1">未完成</a></li>
-			<li><a href="#" name=".tab1_2">已完成</a></li>  
-		</ul>
-		
-		<div class="content">
-			<div class="tab1_1">
+		<!-- <input name="show" type="button" onClick="showTask();" value="显示个人分配任务">
+        <input name="show" type="button" onClick="hiddenTask();" value="隐藏个人分配任务"> -->
+		<div class="content" id="assign_task_content">
+		    <input name="show" type="button" onClick="show_assign_task_not_finished_panel();" value="未完成">
+		    <input name="show" type="button" onClick="show_assign_task_finished_panel();" value="已完成">
+            <div id="assign_task_not_finished_panel">
 			<table border="1" class="table_1">
 			<tr class="tr_3">
                 <th><spring:message code="peme.no"/></th>
@@ -104,8 +98,8 @@
                 </td>
                 </tr>
             </c:if>
-            <s:if test="#session.SelfAndDeptAndStaffAndManagerPmTables!=null">
-                <s:iterator value="#session.SelfAndDeptAndStaffAndManagerPmTables" id="pt">
+            <s:if test="#session.SelfAndDeptAndStaffPmTables!=null">
+                <s:iterator value="#session.SelfAndDeptAndStaffPmTables" id="pt">
                     <s:if test="#pt.statu==false">
                     <tr>
                         <td>
@@ -177,7 +171,41 @@
             </s:if>
             </table>
 			</div>
-			<div class="tab1_2">
+			<div id="assign_task_finished_panel">
+			<!-- assign task finished page -->
+			<s:if test="#session.current_user_finished_pmtable_page!=null">
+                <s:if test="#session.current_user_finished_pmtable_page.hasPrePage==true">
+                    <a class="a_1" onclick="save_layout_on_change_finished_pmtable_page();" href="getPmTableByPage?finished_pmtable_page_index=${current_user_finished_pmtable_page.currentPage-1}">
+                        <spring:message code="peme.previous_page"/>
+                    </a>
+                </s:if>
+                <s:if test="#session.current_user_finished_pmtable_page.hasPrePage==false">
+                    <span class="span_2">
+                        <spring:message code="peme.previous_page"/>
+                    </span>
+                </s:if>
+                
+                <c:forEach  begin="1" end="${current_user_finished_pmtable_page.totalPage}" var="pageIndex"> 
+                <c:if test="${pageIndex==current_user_finished_pmtable_page.currentPage}">
+                ${pageIndex}
+                </c:if>
+                <c:if test="${pageIndex!=current_user_finished_pmtable_page.currentPage}">
+                <a onclick="save_layout_on_change_finished_pmtable_page();" href="getPmTableByPage?finished_pmtable_page_index=${pageIndex}">${pageIndex}</a> 
+                </c:if>
+                </c:forEach>
+                
+                <s:if test="#session.current_user_finished_pmtable_page.hasNextPage==true">
+                    <a class="a_1" onclick="save_layout_on_change_finished_pmtable_page();" href="getPmTableByPage?finished_pmtable_page_index=${current_user_finished_pmtable_page.currentPage+1}">
+                        <spring:message code="peme.next_page"/>
+                    </a>
+                </s:if>
+                <s:if test="#session.current_user_finished_pmtable_page.hasNextPage==false">
+                    <span class="span_2">
+                        <spring:message code="peme.next_page"/>
+                    </span>
+                </s:if>
+            </s:if>
+			
 			<table border="1" class="table_1">
             <tr class="tr_3">
                 <th><spring:message code="peme.no"/></th>
@@ -189,8 +217,8 @@
                 
             </tr>
         
-            <s:if test="#session.user.pmTablesForUid!=null">
-                <s:iterator value="#session.user.pmTablesForUid" id="pt">
+            <s:if test="#session.current_user_finished_pmtables!=null">
+                <s:iterator value="#session.current_user_finished_pmtables" id="pt">
                     <s:if test="#pt.statu==true">
                     <tr>
                         <td>
@@ -274,36 +302,40 @@
         
     </div>
     <div class="div_2">
+    
             <c:if test="${user.permission.viewAllPm==true}">
-            <input name="show" type="button" onClick="showTask();" value="show">
-            <input name="show" type="button" onClick="hiddenTask();" value="hidden">
-            <s:if test="#session.page!=null">
-                <s:if test="#session.page.hasPrePage==true">
-                    <a class="a_1" href="summaryGetPage?pageIndex=${page.currentPage-1}">
+            
+            <input name="show" type="button" onClick="show_personal_task_panel();" value="显示个人列表">
+            <input name="show" type="button" onClick="show_all_task_panel();" value="显示总体列表">
+            
+            <div id="all_task_panel">
+            <s:if test="#session.pmtask_page!=null">
+                <s:if test="#session.pmtask_page.hasPrePage==true">
+                    <a class="a_1" onclick="save_layout_on_change_all_pmtask_page();" href="summaryGetPage?pageIndex=${pmtask_page.currentPage-1}">
                         <spring:message code="peme.previous_page"/>
                     </a>
                 </s:if>
-                <s:if test="#session.page.hasPrePage==false">
+                <s:if test="#session.pmtask_page.hasPrePage==false">
                     <span class="span_2">
                         <spring:message code="peme.previous_page"/>
                     </span>
                 </s:if>
                 
-                <c:forEach  begin="1" end="${page.totalPage}" var="pageIndex"> 
-                <c:if test="${pageIndex==page.currentPage}">
+                <c:forEach  begin="1" end="${pmtask_page.totalPage}" var="pageIndex"> 
+                <c:if test="${pageIndex==pmtask_page.currentPage}">
                 ${pageIndex}
                 </c:if>
-                <c:if test="${pageIndex!=page.currentPage}">
-                <a href="summaryGetPage?pageIndex=${pageIndex}">${pageIndex}</a> 
+                <c:if test="${pageIndex!=pmtask_page.currentPage}">
+                <a onclick="save_layout_on_change_all_pmtask_page();" href="summaryGetPage?pageIndex=${pageIndex}">${pageIndex}</a> 
                 </c:if>
                 </c:forEach>
                 
-                <s:if test="#session.page.hasNextPage==true">
-                    <a class="a_1" href="summaryGetPage?pageIndex=${page.currentPage+1}">
+                <s:if test="#session.pmtask_page.hasNextPage==true">
+                    <a class="a_1" onclick="save_layout_on_change_all_pmtask_page();" href="summaryGetPage?pageIndex=${pmtask_page.currentPage+1}">
                         <spring:message code="peme.next_page"/>
                     </a>
                 </s:if>
-                <s:if test="#session.page.hasNextPage==false">
+                <s:if test="#session.pmtask_page.hasNextPage==false">
                     <span class="span_2">
                         <spring:message code="peme.next_page"/>
                     </span>
@@ -398,7 +430,7 @@
                                     )</span>;
                                 </s:if>
                             </s:iterator>
-                            
+                            <br>
                             
                             <!-- <s:iterator value="#pt.pmTablesForTid" id="table">
                                 <span class="span_1">
@@ -483,7 +515,7 @@
                                     </s:if>
                                 </s:iterator>
                                 
-                                <c:set var="max_without_score_1" value="${score_2/score_2_num}"></c:set>
+                                <!--<c:set var="max_without_score_1" value="${score_2/score_2_num}"></c:set>
                                 <c:if test="${score_3>max_without_score_1}">
                                     <c:set var="max_without_score_1" value="${score_3}"></c:set>
                                 </c:if>
@@ -492,7 +524,7 @@
                                 </c:if>
                                 <c:if test="${(score_5/score_5_num)>max_without_score_1}">
                                     <c:set var="max_without_score_1" value="${score_5/score_5_num}"></c:set>
-                                </c:if>
+                                </c:if>-->
                                 
                                 <c:set var="min_without_score_1" value="${score_2/score_2_num}"></c:set>
                                 <c:if test="${score_3<min_without_score_1}">
@@ -506,19 +538,32 @@
                                 </c:if>
                                 
                                 <c:set var="exception" value="0"></c:set>
-                                <c:if test="${score_1>(max_without_score_1+15)}">
+                                <!--<c:if test="${score_1>(max_without_score_1+15)}">
+                                    <c:set var="exception" value="1"></c:set>
+                                </c:if>-->
+                                <c:if test="${score_1>(score_2/score_2_num+15)}">
                                     <c:set var="exception" value="1"></c:set>
                                 </c:if>
+                                <c:if test="${score_1>(score_3+15)}">
+                                    <c:set var="exception" value="1"></c:set>
+                                </c:if>
+                                <c:if test="${score_1>(score_4/score_4_num+15)}">
+                                    <c:set var="exception" value="1"></c:set>
+                                </c:if>
+                                <c:if test="${score_1>(score_5/score_5_num+15)}">
+                                    <c:set var="exception" value="1"></c:set>
+                                </c:if>
+                                
                                 
                                 <c:if test="${exception==0}">
                                 <span class="span_5">
                                 <br>
                                 <spring:message code="peme.task.total_score"/>:
-                                    <fmt:formatNumber type="number" value="${(score_1*pt.optionsBySid.selfEval/100)}" maxFractionDigits="2"/>+
-                                    <fmt:formatNumber type="number" value="${((score_2/score_2_num)*pt.optionsBySid.deptEval/100)}" maxFractionDigits="2"/>+
-                                    <fmt:formatNumber type="number" value="${(score_3*pt.optionsBySid.managerEval/100)}" maxFractionDigits="2"/>+
-                                    <fmt:formatNumber type="number" value="${((score_4/score_4_num)*pt.optionsBySid.companyEval/100)}" maxFractionDigits="2"/>+
-                                    <fmt:formatNumber type="number" value="${((score_5/score_5_num)*pt.optionsBySid.colleaguesEval/100)}" maxFractionDigits="2"/>
+                                    <fmt:formatNumber type="number" value="${score_1}" maxFractionDigits="2"/>*${pt.optionsBySid.selfEval}%+
+                                    <fmt:formatNumber type="number" value="${score_2/score_2_num}" maxFractionDigits="2"/>*${pt.optionsBySid.deptEval}%+
+                                    <fmt:formatNumber type="number" value="${score_3}" maxFractionDigits="2"/>*${pt.optionsBySid.managerEval}%+
+                                    <fmt:formatNumber type="number" value="${score_4/score_4_num}" maxFractionDigits="2"/>*${pt.optionsBySid.companyEval}%+
+                                    <fmt:formatNumber type="number" value="${score_5/score_5_num}" maxFractionDigits="2"/>*${pt.optionsBySid.colleaguesEval}%
                                     =<fmt:formatNumber type="number" value="${(score_1*pt.optionsBySid.selfEval/100)+((score_2/score_2_num)*pt.optionsBySid.deptEval/100)+(score_3*pt.optionsBySid.managerEval/100)+((score_4/score_4_num)*pt.optionsBySid.companyEval/100)+((score_5/score_5_num)*pt.optionsBySid.colleaguesEval/100)}" maxFractionDigits="2"/>
                                     <!-- ${(score_1*pt.optionsBySid.selfEval/100)+((score_2/score_2_num)*pt.optionsBySid.deptEval/100)+(score_3*pt.optionsBySid.managerEval/100)+(score_4*pt.optionsBySid.companyEval/100)+((score_5/score_5_num)*pt.optionsBySid.colleaguesEval/100)} -->
                                     
@@ -634,9 +679,10 @@
                 </s:iterator>
             </s:if>
             </table>
+            </div>
             </c:if>
             
-            <c:if test="${user.permission.viewAllPm==false}">
+            <div id="personal_task_panel">
             <table border="1" class="table_1">
             <tr class="tr_3">
                 <th><spring:message code="peme.task.no"/></th>
@@ -646,8 +692,8 @@
                 <th><spring:message code="peme.task.statu"/></th>
             </tr>
         
-            <s:if test="#session.user.pmTasksForUid!=null">
-                <s:iterator value="#session.user.pmTasksForUid" id="pt">
+            <s:if test="#session.current_user_pmtask!=null">
+                <s:iterator value="#session.current_user_pmtask" id="pt">
                     <s:if test="#pt.managerEvaluate==false">
                     <tr>
                         <td>
@@ -908,7 +954,7 @@
                                 <br>
                             </s:iterator>
                         </td>
-                        <td>
+                        <td>-
                             <s:if test="#pt.statu==true">
                                 <spring:message code="peme.task.statu_1"/>
                             </s:if>
@@ -921,7 +967,7 @@
                 </s:iterator>
             </s:if>
             </table>
-            </c:if>
+            </div>
     </div>
     </div>
     

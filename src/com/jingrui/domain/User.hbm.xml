@@ -64,13 +64,15 @@
         <property name="isboss" type="java.lang.Boolean">
             <column name="isboss" />
         </property>
-        <set name="pmTablesForUid" inverse="true" lazy="false" order-by="pid desc">
+        <!-- lazy="false" -->
+        <set name="pmTablesForUid" inverse="true" order-by="pid desc">
             <key>
                 <column name="uid" not-null="true" />
             </key>
             <one-to-many class="com.jingrui.domain.PmTable" />
         </set>
-        <set name="pmTasksForUid" inverse="true" lazy="false" order-by="pid asc">
+        <!-- lazy="false" -->
+        <set name="pmTasksForUid" inverse="true" order-by="pid asc">
             <key>
                 <column name="uid" not-null="true" />
             </key>
@@ -85,5 +87,8 @@
         <many-to-one name="managerEvaluateSetting" class="com.jingrui.domain.ManagerEvaluateSetting" fetch="select" lazy="false">
             <column name="mesid" not-null="true" />
         </many-to-one>
+        <property name="validity" type="java.lang.Boolean">
+            <column name="validity" />
+        </property>
     </class>
 </hibernate-mapping>

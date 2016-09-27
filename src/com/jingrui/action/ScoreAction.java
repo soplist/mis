@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
@@ -116,9 +117,9 @@ public class ScoreAction extends ActionSupport {
 	public String previousLaunch(){
 		logger.info("previous launch.");
 		try {
-			Map request = (Map)ActionContext.getContext().get("request");
+			HttpServletRequest request = ServletActionContext.getRequest();
 			List<User> userList = userService.findAllUser();
-			request.put("userList", userList);
+			request.setAttribute("userList", userList);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -129,9 +130,9 @@ public class ScoreAction extends ActionSupport {
 	public String previousRelaunch(){
 		logger.info("previous relaunch.");
 		try {
-			Map request = (Map)ActionContext.getContext().get("request");
+			HttpServletRequest request = ServletActionContext.getRequest();
 			List<User> userList = userService.findAllUser();
-			request.put("userList", userList);
+			request.setAttribute("userList", userList);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -143,8 +144,8 @@ public class ScoreAction extends ActionSupport {
 		logger.info("launch score task.");
 		try {
 			HttpServletRequest request = ServletActionContext.getRequest();
-			Map session = (Map)ActionContext.getContext().getSession();
-			User u = (User) session.get("user");
+			HttpSession session=ServletActionContext.getRequest().getSession();
+			User u = (User) session.getAttribute("user");
 			
 			date = request.getParameter("date");
 			String npStr = request.getParameter("noticePeople");
@@ -164,8 +165,8 @@ public class ScoreAction extends ActionSupport {
 		    task.setStatus(0);
 		    
 		    User newUser = pipe.lunch(task,noticePeople,u);
-		    session.remove("user");
-		    session.put("user", newUser);
+		    session.removeAttribute("user");
+		    session.setAttribute("user", newUser);
 		
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -180,10 +181,10 @@ public class ScoreAction extends ActionSupport {
 		int id = new Integer(ServletActionContext.getRequest().getParameter("id").trim()) ;
 		int taskId = new Integer(ServletActionContext.getRequest().getParameter("task_id").trim()) ;
 		
-		Map session = (Map)ActionContext.getContext().getSession();
-		User u = (User) session.get("user");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		User u = (User) session.getAttribute("user");
 		User newUser = pipe.agre(id,taskId,u);
-        session.remove("user");
+        session.removeAttribute("user");
 		
 		/*
 		Set<NoticePeople> npSet = u.getNoticePeoplesForUserId();
@@ -198,11 +199,11 @@ public class ScoreAction extends ActionSupport {
 		}
 		u.setNoticePeoplesForUserId(npSet);
 		*/
-		session.put("user", newUser);
+		session.setAttribute("user", newUser);
 		
 		List<Task> tasks = taskService.getApproveTask();
-		session.remove("approveTaskList");
-   	    session.put("approveTaskList", tasks);
+		session.removeAttribute("approveTaskList");
+   	    session.setAttribute("approveTaskList", tasks);
 		
 		return "agreeSuccess";
 	}
@@ -212,15 +213,15 @@ public class ScoreAction extends ActionSupport {
 		
 		int taskId = new Integer(ServletActionContext.getRequest().getParameter("task_id").trim()) ;
 		
-		Map session = (Map)ActionContext.getContext().getSession();
-		User u = (User) session.get("user");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		User u = (User) session.getAttribute("user");
 		User newUser = pipe.reject(taskId,u);
-		session.remove("user");
-		session.put("user", newUser);
+		session.removeAttribute("user");
+		session.setAttribute("user", newUser);
 		
 		List<Task> tasks = taskService.getApproveTask();
-		session.remove("approveTaskList");
-   	    session.put("approveTaskList", tasks);
+		session.removeAttribute("approveTaskList");
+   	    session.setAttribute("approveTaskList", tasks);
 		
 		return "rejectSuccess";
 	}
@@ -229,25 +230,25 @@ public class ScoreAction extends ActionSupport {
         logger.info("approve score task.");
 		
 		int taskId = new Integer(ServletActionContext.getRequest().getParameter("task_id").trim()) ;
-		Map session = (Map)ActionContext.getContext().getSession();
-		User u = (User) session.get("user");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		User u = (User) session.getAttribute("user");
 		
 		List<Task> taskList = pipe.approve(taskId,u);
-		session.remove("approveTaskList");
-   	    session.put("approveTaskList", taskList);
+		session.removeAttribute("approveTaskList");
+   	    session.setAttribute("approveTaskList", taskList);
    	    
    	    User newUser = userService.findUserByName(u.getName());
-   	    session.remove("user");
-	    session.put("user", newUser);
+   	    session.removeAttribute("user");
+	    session.setAttribute("user", newUser);
 	    
 	    TreeMap<String,Integer> table=StatisticsHelper.getStatistics(newUser.getNoticePeoplesForUserId());
-	    session.remove("task_a");
-   	    session.put("task_a", table);
+	    session.removeAttribute("statisticsTable");
+   	    session.setAttribute("statisticsTable", table);
    	    
    	    DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String date = format.format(new Date());
 	    List<NoticePeople> nps = StatisticsHelper.getNoticePeoplesByMonth(date.substring(0, 7),newUser.getNoticePeoplesForUserId());
-	    session.put("nps", nps);
+	    session.setAttribute("nps", nps);
 		return "approveSuccess";
 	}
 	
@@ -255,20 +256,20 @@ public class ScoreAction extends ActionSupport {
 		logger.info("delete score task.");
 		
 		int taskId = new Integer(ServletActionContext.getRequest().getParameter("task_id").trim()) ;
-		Map session = (Map)ActionContext.getContext().getSession();
-		User u = (User) session.get("user");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		User u = (User) session.getAttribute("user");
 		User newUser = pipe.delete(taskId,u);
-		session.remove("user");
-		session.put("user", newUser);
+		session.removeAttribute("user");
+		session.setAttribute("user", newUser);
 		
 		return "deleteSuccess";
 	}
 
 	public String scoreListByRealName(){
 		logger.info("score list by real Name");
-		Map request = (Map)ActionContext.getContext().get("request");
-		Map session = (Map)ActionContext.getContext().getSession();
-		User u = (User) session.get("user");
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		User u = (User) session.getAttribute("user");
 		//u.getStaffScoresForNameId();
 		
         if(u.getPermission().getPmnName().equals("normal")){
@@ -276,13 +277,13 @@ public class ScoreAction extends ActionSupport {
     	    
     	    System.out.println("scoreListByRealName scoreSet size:"+scoreSet.size());
     	    if(!scoreSet.isEmpty()||scoreSet != null){
-    	        request.put("scoreSet",scoreSet);
+    	        request.setAttribute("scoreSet",scoreSet);
     	    }
 		    return "listScoreByRealName";
 		}else if(u.getPermission().getPmnName().equals("administrator")){
 			List<StaffScore> scoreList=scoreService.listStaffScore();
 			if(!scoreList.isEmpty()||scoreList != null){
-				request.put("scoreSet",scoreList);
+				request.setAttribute("scoreSet",scoreList);
 			}
 		    return "listScore";
 		}
@@ -292,10 +293,10 @@ public class ScoreAction extends ActionSupport {
 	}
 	
 	public String loadTasks(){
-		Map session = (Map)ActionContext.getContext().getSession();
-		session.remove("approveTaskList");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		session.removeAttribute("approveTaskList");
 		List<Task> taskList = taskService.getApproveTask();
-   	    session.put("approveTaskList", taskList);
+   	    session.setAttribute("approveTaskList", taskList);
 		
 		return "loadTasksSuccess";
 	}
@@ -303,11 +304,11 @@ public class ScoreAction extends ActionSupport {
 	public String getDetailTask(){
         logger.info("get task detail.");
 		
-        Map session = (Map)ActionContext.getContext().getSession();
+        HttpSession session=ServletActionContext.getRequest().getSession();
 		int taskId = new Integer(ServletActionContext.getRequest().getParameter("task_id").trim()) ;
 		Task t = taskService.getTaskById(taskId);
-		session.remove("task_1");
-		session.put("task_1", t);
+		session.removeAttribute("task");
+		session.setAttribute("task", t);
 		
 		return "getDetailTaskSuccess";
 	}
@@ -316,14 +317,14 @@ public class ScoreAction extends ActionSupport {
 		logger.info("get archive task by month.");
 		
 		HttpServletRequest request = ServletActionContext.getRequest();
-		Map session = (Map)ActionContext.getContext().getSession();
-		User u = (User) session.get("user");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		User u = (User) session.getAttribute("user");
 		String month = request.getParameter("months");
 		//System.out.println(month);
 		
 		List<NoticePeople> nps = StatisticsHelper.getNoticePeoplesByMonth(month,u.getNoticePeoplesForUserId());
-		session.remove("nps");
-		session.put("nps", nps);
+		session.removeAttribute("nps");
+		session.setAttribute("nps", nps);
 		return "getArchiveByMonthSuccess";
 	}
 }

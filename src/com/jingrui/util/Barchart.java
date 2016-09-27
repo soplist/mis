@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -30,8 +34,8 @@ public class Barchart {
 	   
     private static CategoryDataset createDataset(String year)
     {
-    	Map mapsession = (Map)ActionContext.getContext().getSession();
-		User u = (User) mapsession.get("user");
+    	HttpSession session=ServletActionContext.getRequest().getSession();
+		User u = (User) session.getAttribute("user");
 		Set<NoticePeople> nps = u.getNoticePeoplesForUserId();
 		System.out.println("size:"+nps.size());
 		int a = 0;

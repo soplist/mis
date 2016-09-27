@@ -25,10 +25,6 @@
        <legend><spring:message code="list.modify_password"/></legend> 
        <s:form action="modifyPassDel" method="post">
           ${user.name}<br></br>
-          <input type="hidden" name="uid" value="${user.uid}"> 
-          <input type="hidden" name="username" value="${user.name}"> 
-          <input type="hidden" name="realName" value="${user.realName}">
-          <input type="hidden" name="pid" value="${user.permission.pid}">
           <s:password id="pass_1" name="password"></s:password><br></br>
           <s:password id="pass_2" name="confirmPass"></s:password><br></br>
           <s:submit label="submit"></s:submit>

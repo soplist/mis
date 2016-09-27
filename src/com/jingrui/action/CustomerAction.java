@@ -10,6 +10,7 @@ import java.util.Set;
 import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
@@ -301,50 +302,50 @@ public class CustomerAction extends ActionSupport {
 	
 	public String previousAdd(){
 		logger.info("previous add customer.");
-		Map request = (Map)ActionContext.getContext().get("request");
+		HttpServletRequest request = ServletActionContext.getRequest();
 		List<Department> list = departmentService.listDptm();
 		System.out.println("previousAdd list.size():"+list.size());
-	    request.put("departlist",list);
+	    request.setAttribute("departlist",list);
 	    
 	    String []s= {"汉滨区","旬阳县","石泉县","汉阴县","平利县","白河县","紫阳县","岚皋县","宁陕县","镇坪县"};
-	    Map session = (Map)ActionContext.getContext().getSession();
+	    HttpSession session=ServletActionContext.getRequest().getSession();
 	    List<Area> areaList = new ArrayList<Area>();
 	    for(int i=0;i<s.length;i++){
 	    	Area a = new Area(s[i],s[i]);
 	    	areaList.add(a);
 	    }
-	    session.remove("areaList");
-	    session.put("areaList",areaList);
+	    session.removeAttribute("areaList");
+	    session.setAttribute("areaList", areaList);
 		return "addCustomer";
 	}
 	
 	public String previousUpdate(){
 		logger.info("previous update customer.");
-		Map request = (Map)ActionContext.getContext().get("request");
+		HttpServletRequest request = ServletActionContext.getRequest();
 		List<Department> list = departmentService.listDptm();
 		System.out.println("previousAdd list.size():"+list.size());
-	    request.put("departlist",list);
+	    request.setAttribute("departlist",list);
 	    
 	    String []s= {"汉滨区","旬阳县","石泉县","汉阴县","平利县","白河县","紫阳县","岚皋县","宁陕县","镇坪县"};
-	    Map session = (Map)ActionContext.getContext().getSession();
+	    HttpSession session=ServletActionContext.getRequest().getSession();
 	    List<Area> areaList = new ArrayList<Area>();
 	    for(int i=0;i<s.length;i++){
 	    	Area a = new Area(s[i],s[i]);
 	    	areaList.add(a);
 	    }
-	    session.remove("areaList");
-	    session.put("areaList",areaList);
+	    session.removeAttribute("areaList");
+	    session.setAttribute("areaList", areaList);
 		
 		int id = new Integer(ServletActionContext.getRequest().getParameter("id").trim()) ;
 		System.out.println("CustomerAction.previousUpdate.id:"+id);
 		Customer c = customerService.findCustomerById(id);
-	    request.remove("customer");
-	    request.put("customer",c);
+	    request.removeAttribute("customer");
+	    request.setAttribute("customer",c);
 		return "updateCustomer";
 	}
     
     public String list(){
-    	logger.info("list customer.");
+    	/*logger.info("list customer.");
     	HttpServletRequest req = ServletActionContext.getRequest();
 		String sflag = req.getParameter("sflag");
 		if(sflag!=null && "1".equals(sflag)){
@@ -356,7 +357,12 @@ public class CustomerAction extends ActionSupport {
     	    request.remove("list");
     	    request.put("list",customerService.listCustomer());
     	    return "listCustomer";
-		}
+		}*/
+    	HttpServletRequest request = ServletActionContext.getRequest();
+	    request.removeAttribute("list");
+	    request.setAttribute("list",customerService.listCustomer());
+	    return "listCustomer";
+    	
     }
     
     public String listByCompany(){
@@ -365,7 +371,7 @@ public class CustomerAction extends ActionSupport {
 		//System.out.println("method listByCompany in CustomerAction,company="+company);
     	logger.info("list customer by company.");
     	
-    	Map request = (Map)ActionContext.getContext().get("request");
+    	HttpServletRequest request = ServletActionContext.getRequest();
     	List<Customer> list = null;
     	try {
     		list = customerService.listCustomerByCompany(this.company);
@@ -373,14 +379,14 @@ public class CustomerAction extends ActionSupport {
 			e.printStackTrace();
 		}
     	System.out.println("method listByCompany in CustomerAction,list.size="+list.size());
-    	request.remove("list");
-    	request.put("list",list);
+    	request.removeAttribute("list");
+    	request.setAttribute("list",list);
     	return "listCustomer";
     }
     
     public String listByCompanyAndLegalRepr(){
     	logger.info("list customer by company and representative.");
-    	Map request = (Map)ActionContext.getContext().get("request");
+    	HttpServletRequest request = ServletActionContext.getRequest();
     	List<Customer> list = null;
     	try {
     		list = customerService.listCustomerByCompanyAndLegalRepr(this.company,this.legalRepresentative);
@@ -388,27 +394,27 @@ public class CustomerAction extends ActionSupport {
 			e.printStackTrace();
 		}
     	System.out.println("method listByCompanyAndLegalRepr in CustomerAction,list.size="+list.size());
-    	request.remove("list");
-    	request.put("list",list);
+    	request.removeAttribute("list");
+    	request.setAttribute("list",list);
     	return "listCustomer";
     }
     
     public String listByDepartment(){
     	logger.info("list customer by department.");
-    	HttpServletRequest req = ServletActionContext.getRequest();
-		Map session = (Map)ActionContext.getContext().getSession();
-		Map request = (Map)ActionContext.getContext().get("request");
+    	HttpSession session=ServletActionContext.getRequest().getSession();
+    	HttpServletRequest request = ServletActionContext.getRequest();
 		
-		int id = new Integer(req.getParameter("dept").trim()) ;
+		int id = new Integer(request.getParameter("dept").trim()) ;
 		//System.out.println("listByDepartment.dept:"+dept);
-		List<Department> list = (List<Department>) session.get("dptmlist");
+		List<Department> list = (List<Department>) session.getAttribute("dptmlist");
+		
 		System.out.println("listByDepartment.list.size:"+list.size());
 		for (Department department : list) {
 			if(department.getDid() == id){
 				Set<Customer> cstms = department.getCustomers();
 				Set<Customer> set=StringHelper.cutdownIntroduction(cstms);
-				request.remove("list");
-				request.put("list",set);
+				request.removeAttribute("list");
+				request.setAttribute("list",set);
 			}
 		}
     	
@@ -417,17 +423,16 @@ public class CustomerAction extends ActionSupport {
     
     public String listByArea(){
     	logger.info("list customer by area");
-    	HttpServletRequest req = ServletActionContext.getRequest();
-		Map session = (Map)ActionContext.getContext().getSession();
-		Map request = (Map)ActionContext.getContext().get("request");
+    	HttpSession session=ServletActionContext.getRequest().getSession();
+    	HttpServletRequest request = ServletActionContext.getRequest();
 		try {
-			req.setCharacterEncoding("UTF-8");
-			String area = req.getParameter("area").trim().toString();
+			request.setCharacterEncoding("UTF-8");
+			String area = request.getParameter("area").trim().toString();
 			String s = StringHelper.decode(area);
 			System.out.println(s);
 			List<Customer> list = customerService.listCustomerByArea(s);
-			request.remove("list");
-	    	request.put("list",list);
+			request.removeAttribute("list");
+	    	request.setAttribute("list",list);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -442,11 +447,11 @@ public class CustomerAction extends ActionSupport {
     	System.out.println("delete customer id:"+id);
     	customerService.deleteById(id);
     	
-    	Map request = (Map)ActionContext.getContext().get("request");
+    	HttpServletRequest request = ServletActionContext.getRequest();
     	List<Customer> list = customerService.listCustomer();
     	System.out.println("list size:"+list.size());
-    	request.remove("list");
-    	request.put("list",list);
+    	request.removeAttribute("list");
+    	request.setAttribute("list",list);
     	return "listCustomer";
     }
     

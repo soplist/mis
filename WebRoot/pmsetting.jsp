@@ -49,15 +49,16 @@
             <th><spring:message code="pm.manager_evaluate_staff"/></th>
             <th><spring:message code="pm.company_evaluate_staff"/></th>
             <th><spring:message code="pm.colleagues_evaluate_staff"/></th>
+            <th><spring:message code="pm.status"/></th>
             <th><spring:message code="pm.operate"/></th>
         </tr>
          <s:iterator value="#session.userList" id="u">  
             <tr>  
                 <td>  
-                    <s:property value="#u.department.departmentName"/>  
+                    <s:property value="#u.realName"/>  
                 </td>
                 <td>  
-                    <s:property value="#u.realName"/>  
+                    <s:property value="#u.department.departmentName"/>
                 </td>
                 <td>  
                     <s:property value="%{getText('{0,date,yyyy-MM-dd }',{#u.option.settingTime})}"/>  
@@ -115,7 +116,7 @@
                 <td>  
                     <s:if test="#session.userList!=null">
                     <s:iterator value="#session.userList" id="user"> 
-                        <c:if test="${(user.department.did==u.department.did)&&(user.uid!=u.uid)}">
+                        <c:if test="${(user.department.did==u.department.did)&&(user.uid!=u.uid)&&(user.validity!=false)}">
                              <s:property value="#user.realName"/>,       
                         </c:if>
                     </s:iterator>
@@ -178,7 +179,7 @@
                     </select>-->
                     <s:if test="#session.userList!=null">
                     <s:iterator value="#session.userList" id="user"> 
-                        <c:if test="${(user.ismanager)&&(user.uid!=u.uid)}">
+                        <c:if test="${(user.ismanager)&&(user.uid!=u.uid)&&(user.validity!=false)}">
                              <s:property value="#user.realName"/>,       
                         </c:if>
                     </s:iterator>
@@ -210,6 +211,16 @@
                     </s:iterator>
                     </s:if>
                     </select> -->
+                </td>
+                <td>
+                   <c:if test="${u.validity}">
+                       <spring:message code="pm.status_1"/>
+                   </c:if>
+                   <c:if test="${!u.validity}">
+                       <span class="span_1">
+                           <spring:message code="pm.status_2"/>
+                       </span>
+                   </c:if>
                 </td>
                 <td>
                     <c:if test="${u.ismanager}">

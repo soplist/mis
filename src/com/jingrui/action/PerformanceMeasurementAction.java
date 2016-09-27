@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -182,9 +183,9 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	
 	public String getAllPmSetting(){
 		try{
-			Map session = (Map)ActionContext.getContext().getSession();
+			HttpSession session=ServletActionContext.getRequest().getSession();
 			List<User> users = userService.findAllUser();
-	   	    session.put("userList", users);
+	   	    session.setAttribute("userList", users);
 	   	    System.out.println("DeptEvaluate:"+users.get(0).getOption().getDeptEval());
 	   	    System.out.println("SelfEvaluate:"+users.get(0).getOption().getSelfEval());
 		}catch(Exception ex){
@@ -195,11 +196,11 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	
 	public String previousManagerOrCompanyEvaluate(){
 		HttpServletRequest request = ServletActionContext.getRequest();
-		Map session = (Map)ActionContext.getContext().getSession();
+		HttpSession session=ServletActionContext.getRequest().getSession();
 		
 		String type = request.getParameter("managerEvaluateOrCompanyEvaluate");
-		session.remove("managerEvaluateOrCompanyEvaluate");
-		session.put("managerEvaluateOrCompanyEvaluate", type);
+		session.removeAttribute("managerEvaluateOrCompanyEvaluate");
+		session.setAttribute("managerEvaluateOrCompanyEvaluate", type);
 		
 		return "evaluate";
 	}
@@ -210,20 +211,12 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		String type = request.getParameter("type");
 		Integer int_pm_table_id = Integer.parseInt(pm_table_id);
 		//session.user.pmTablesForUid
-		Map session = (Map)ActionContext.getContext().getSession();
-		User user = (User) session.get("user");
-		Set<PmTable> tableList = user.getPmTablesForUid();
+		HttpSession session=ServletActionContext.getRequest().getSession();
 		
-		PmTable pt_1 = null;
-		for (PmTable pmTable : tableList) {
-			System.out.println(pmTable.getPid()+","+int_pm_table_id+":"+(pmTable.getPid()==int_pm_table_id));
-			if(pmTable.getPid().equals(int_pm_table_id)){
-				pt_1 = pmTable;
-			}
-		}
+		PmTable table = pmTableService.getPmTableById(int_pm_table_id);
 		
-		session.remove("table");
-		session.put("table", pt_1);
+		session.removeAttribute("table");
+		session.setAttribute("table", table);
 		if(type.equals("1"))
 		    return "evaluate";
 		else if(type.equals("2")){
@@ -247,8 +240,9 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		System.out.println(item8);
 		System.out.println(item9);
 		System.out.println(item10);*/
-		Map session = (Map)ActionContext.getContext().getSession();
-		PmTable pt = (PmTable) session.get("table");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		PmTable pt = (PmTable) session.getAttribute("table");
+		
 		if(null!=pt){
 		    pt.setItem1(item1);
 		    pt.setItem2(item2);
@@ -296,8 +290,8 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		System.out.println(item8);
 		System.out.println(item9);
 		System.out.println(item10);*/
-		Map session = (Map)ActionContext.getContext().getSession();
-		PmTable pt = (PmTable) session.get("table");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		PmTable pt = (PmTable) session.getAttribute("table");
 		pt.setItem11(item11);
 		pt.setStatu(true);
 		
@@ -322,8 +316,8 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	}
 	
 	public String evaluate3(){
-		Map session = (Map)ActionContext.getContext().getSession();
-		PmTable pt = (PmTable) session.get("table");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		PmTable pt = (PmTable) session.getAttribute("table");
 		if(null!=pt){
 		    pt.setItem1(pt.getPmTaskByTid().getUserByUid().getManagerEvaluateSetting().getItem1());
 		    pt.setItem2(item2);
@@ -364,7 +358,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	}
 	
 	public String evaluate4(){
-		Map session = (Map)ActionContext.getContext().getSession();
+		HttpSession session=ServletActionContext.getRequest().getSession();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String type = request.getParameter("type");
 		String data = request.getParameter("data");
@@ -375,7 +369,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		String[] idAndscore = data.split(",");
 		
 		if(type.equals("3")){
-			List<PmTable> managerPmTables = (List<PmTable>) session.get("managerPmTables");
+			List<PmTable> managerPmTables = (List<PmTable>) session.getAttribute("managerPmTables");
 			for(int i=0;i<idAndscore.length;i+=2){
 				String id = idAndscore[i];
 				String score = idAndscore[i+1];
@@ -392,10 +386,26 @@ public class PerformanceMeasurementAction extends ActionSupport{
 				currentPtTable.setStatu(true);
 				
 				pmTableService.update(currentPtTable);
+				
+				//check task finished or not
+				PmTask pmTask = currentPtTable.getPmTaskByTid();
+			    Set<PmTable> pmTableList = pmTask.getPmTablesForTid();
+				boolean passed = true;
+			    for (PmTable pmTable : pmTableList) {
+					if(!pmTable.isStatu()){
+						passed = false;
+						break;
+					}
+				}
+			    
+			    if(passed){
+			    	pmTask.setStatu(true);
+			    	pmTaskService.update(pmTask);
+			    }
 			}
 		}
         if(type.equals("4")){
-        	List<PmTable> companyPmTables = (List<PmTable>) session.get("companyPmTables");
+        	List<PmTable> companyPmTables = (List<PmTable>) session.getAttribute("companyPmTables");
         	for(int i=0;i<idAndscore.length;i+=2){
 				String id = idAndscore[i];
 				String score = idAndscore[i+1];
@@ -412,6 +422,22 @@ public class PerformanceMeasurementAction extends ActionSupport{
 				currentPtTable.setStatu(true);
 				
 				pmTableService.update(currentPtTable);
+				
+				//check task finished or not
+				PmTask pmTask = currentPtTable.getPmTaskByTid();
+			    Set<PmTable> pmTableList = pmTask.getPmTablesForTid();
+				boolean passed = true;
+			    for (PmTable pmTable : pmTableList) {
+					if(!pmTable.isStatu()){
+						passed = false;
+						break;
+					}
+				}
+			    
+			    if(passed){
+			    	pmTask.setStatu(true);
+			    	pmTaskService.update(pmTask);
+			    }
 			}
 		}
 			
@@ -421,16 +447,22 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	public String launchTask(){
 		try{
 		    HttpServletRequest request = ServletActionContext.getRequest();
-		    Map session = (Map)ActionContext.getContext().getSession();
+		    HttpSession session=ServletActionContext.getRequest().getSession();
 		
 		
 		    String user_id = request.getParameter("user_id");
 		    Integer int_user_id = Integer.parseInt(user_id);
-		    List<User> allUsers = (List<User>) session.get("userList");
+		    List<User> allUsers = (List<User>) session.getAttribute("userList");
+		    List<User> allUserValidity = new ArrayList<User>();
 		    List<User> inDepartmentUsers = new ArrayList<User>();
 		    List<User> outDepartmentUsers = new ArrayList<User>();
 		    List<User> managers = new ArrayList<User>();
 		    
+		    for (User u : allUsers) {
+			    if(u.isValidity()){
+			    	allUserValidity.add(u);
+			    }
+		    }
 		    User user_1 = null;
 		    for (User u : allUsers) {
 			    if(u.getUid().equals(int_user_id)){
@@ -454,7 +486,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	    		return null;
 	        }
 		    
-		    for(User u : allUsers){
+		    for(User u : allUserValidity){
 			    if(u.getDepartment().getDid().equals(user_1.getDepartment().getDid())){
 				    inDepartmentUsers.add(u);
 			    }else{
@@ -472,7 +504,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		    System.out.println("pt_id:"+pt_id);
 		    
 		    
-		    if(user_1.getIsboss()){
+		    /*if(user_1.getIsboss()){
 		    	PmTable companyEvaluate = new PmTable();
 		        companyEvaluate.setUserByUid(user_1);
 		        companyEvaluate.setPmTaskByTid(pt);
@@ -486,7 +518,12 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		    			managers.add(u);
 		    		}
 		    	}
-		    }
+		    }*/
+		    for(User u : allUserValidity){
+	    		if(u.getIsmanager()){
+	    			managers.add(u);
+	    		}
+	    	}
 		
 		    Set<Joinin> joinins = user_1.getOption().getJoininsForSid();
 		    for (Joinin joinin : joinins) {
@@ -571,13 +608,19 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	public String launchManagerTask(){
 		try{
 		    HttpServletRequest request = ServletActionContext.getRequest();
-		    Map session = (Map)ActionContext.getContext().getSession();
+		    HttpSession session=ServletActionContext.getRequest().getSession();
 		
 		
 		    String user_id = request.getParameter("user_id");
 		    Integer int_user_id = Integer.parseInt(user_id);
-		    List<User> allUsers = (List<User>) session.get("userList");
+		    List<User> allUsers = (List<User>) session.getAttribute("userList");
+		    List<User> allUserValidity = new ArrayList<User>();
 		    
+		    for (User u : allUsers) {
+			    if(u.isValidity()){
+			    	allUserValidity.add(u);
+			    }
+		    }
 		    User user_1 = null;
 		    User boss = null;
 		    for (User u : allUsers) {
@@ -614,7 +657,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		    
 		    //add staff evaluate
 		    List<User> inDepartmentUsers = new ArrayList<User>();
-		    for(User u : allUsers){
+		    for(User u : allUserValidity){
 			    if(u.getDepartment().getDid().equals(user_1.getDepartment().getDid())){
 				    inDepartmentUsers.add(u);
 			    }
@@ -653,9 +696,9 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	
 	public String updateJoinin(){
 		HttpServletRequest request = ServletActionContext.getRequest();
-		Map session = (Map)ActionContext.getContext().getSession();
+		HttpSession session=ServletActionContext.getRequest().getSession();
 		String type = request.getParameter("type");
-		List<User> users = (List<User>) session.get("userList");
+		List<User> users = (List<User>) session.getAttribute("userList");
 		if(type.equals("1")){
 			String joinin_1 = request.getParameter("joinin_1");
 			String user_id = request.getParameter("user_id");
@@ -865,7 +908,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	
 	public String updatePercentage(){
 		HttpServletRequest request = ServletActionContext.getRequest();
-		Map session = (Map)ActionContext.getContext().getSession();
+		HttpSession session=ServletActionContext.getRequest().getSession();
 		
 		String per = request.getParameter("per");
 		String userid = request.getParameter("uid");
@@ -873,7 +916,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		Integer intper = Integer.parseInt(per);
 		Integer intuserid = Integer.parseInt(userid);
 		
-		List<User> users = (List<User>) session.get("userList");
+		List<User> users = (List<User>) session.getAttribute("userList");
 		User currentUser=null;
 		for (User user : users) {
 			if(user.getUid().equals(intuserid)){
@@ -903,41 +946,60 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		System.out.println("setting id:"+settingid);
 		System.out.println("userid:"+intuserid);
 		
-		session.remove("userList");
-		List<User> users_1 = userService.findAllUser();
-   	    session.put("userList", users_1);
+		session.removeAttribute("userList");
+		List<User> usersList = userService.findAllUser();
+   	    session.setAttribute("userList", usersList);
 		return "setting";
 	}
 	
 	public String summaryGetPage(){
-		Map session = (Map)ActionContext.getContext().getSession();
+		HttpSession session=ServletActionContext.getRequest().getSession();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		
 		String pageIndex = request.getParameter("pageIndex");
 		Integer int_pageIndex = Integer.parseInt(pageIndex);
-		Page page = (Page) session.get("page");
-		page = PageUtil.createPage(page.getEveryPage(), page.getTotalCount(), int_pageIndex);
-		page.setCurrentPage(int_pageIndex);
+		Page pmtask_page = (Page) session.getAttribute("pmtask_page");
+		pmtask_page = PageUtil.createPage(pmtask_page.getEveryPage(), pmtask_page.getTotalCount(), int_pageIndex);
+		pmtask_page.setCurrentPage(int_pageIndex);
 		
-		List<PmTask> tasks = pmTaskService.queryByPage(page);
+		List<PmTask> tasks = pmTaskService.queryByPage(pmtask_page);
 		
-		session.put("page", page);
-		session.put("allPmTask", tasks);
+		session.setAttribute("pmtask_page", pmtask_page);
+		session.setAttribute("allPmTask", tasks);
+		
+		return "performanceMeasurement";
+	}
+	
+	public String getPmTableByPage(){
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		
+		String pageIndex = request.getParameter("finished_pmtable_page_index");
+		Integer int_pageIndex = Integer.parseInt(pageIndex);
+		Page current_user_finished_pmtable_page = (Page) session.getAttribute("current_user_finished_pmtable_page");
+		current_user_finished_pmtable_page = PageUtil.createPage(current_user_finished_pmtable_page.getEveryPage(), current_user_finished_pmtable_page.getTotalCount(), int_pageIndex);
+		current_user_finished_pmtable_page.setCurrentPage(int_pageIndex);
+		
+		User u = (User) session.getAttribute("user");
+		List<PmTable> current_user_finished_pmtables = pmTableService.queryFinishedByPageAndUser(current_user_finished_pmtable_page, u);
+		
+		session.setAttribute("current_user_finished_pmtable_page", current_user_finished_pmtable_page);
+		session.setAttribute("current_user_finished_pmtables", current_user_finished_pmtables);
 		
 		return "performanceMeasurement";
 	}
 	
 	public String previousManagerEvaluateSetting(){
-		Map session = (Map)ActionContext.getContext().getSession();
+		HttpSession session=ServletActionContext.getRequest().getSession();
 		List<User> managers = userService.getAllManagers();
-		session.put("managers", managers);
+		session.setAttribute("managers", managers);
 		return "managerEvaluateSetting";
 	}
 	
 	public String updateManagerEvaluateFixedScore(){
 		//System.out.println("managerEvaluateSetting");
         HttpServletRequest request = ServletActionContext.getRequest();
-        Map session = (Map)ActionContext.getContext().getSession();
+        HttpSession session=ServletActionContext.getRequest().getSession();
 		
 		String score = request.getParameter("score");
 		String mid = request.getParameter("mid");
@@ -946,7 +1008,8 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		Integer int_mid = Integer.parseInt(mid);
 		
 		ManagerEvaluateSetting currentManagerEvaluateSetting = null;
-		List<User> managers = (List<User>) session.get("managers");
+		List<User> managers = (List<User>) session.getAttribute("managers");
+		
 		for (User u : managers) {
 			if(u.getManagerEvaluateSetting().getMid().equals(int_mid)){
 				currentManagerEvaluateSetting=u.getManagerEvaluateSetting();
@@ -967,6 +1030,10 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		}
 		
 		managerEvaluateSettingService.update(currentManagerEvaluateSetting);
+		
+		User user = (User) session.getAttribute("user");
+		User u = userService.findUserByName(user.getName());
+		session.setAttribute("user", u);
 		
 		return "managerEvaluateSetting";
 	}

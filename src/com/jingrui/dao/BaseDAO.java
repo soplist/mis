@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.Query;
 
 import com.jingrui.domain.Page;
+import com.jingrui.domain.User;
 
 public interface BaseDAO<T> {
 	@SuppressWarnings("unchecked")
@@ -19,4 +20,5 @@ public interface BaseDAO<T> {
     public T get(Class<T> c, Serializable id);
     public Long getTotalCount(String table);
     public List<T> queryByPage(String hql,Page page);
+    public Long getPmTableFinishedTotalCountByUser(User user);
 }

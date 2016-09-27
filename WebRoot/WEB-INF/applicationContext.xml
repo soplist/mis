@@ -123,26 +123,27 @@
     </bean>
     
     <!-- action -->
-    <bean id="customerAction" class="com.jingrui.action.CustomerAction">
+    <bean id="customerAction" class="com.jingrui.action.CustomerAction" scope="session">
          <property name="customerService" ref="customerServiceImpl" />
          <property name="departmentService" ref="departmentServiceImpl" />
     </bean>
-    <bean id="loginAction" class="com.jingrui.action.LoginAction">
+    <bean id="loginAction" class="com.jingrui.action.LoginAction" scope="session">
          <property name="userService" ref="userServiceImpl" />
          <property name="deptService" ref="departmentServiceImpl" />
          <property name="taskService" ref="taskServiceImpl" />
          <property name="pmTaskService" ref="pmTaskServiceImpl" />
+         <property name="pmTableService" ref="pmTableServiceImpl" />
     </bean>
-    <bean id="scoreAction" class="com.jingrui.action.ScoreAction">
+    <bean id="scoreAction" class="com.jingrui.action.ScoreAction" scope="session">
          <property name="scoreService" ref="scoreServiceImpl" />
          <property name="userService" ref="userServiceImpl" />
          <property name="taskService" ref="taskServiceImpl" />
          <property name="pipe" ref="pipeImpl" />
     </bean>
-    <bean id="chartAction" class="com.jingrui.action.ChartAction">
+    <bean id="chartAction" class="com.jingrui.action.ChartAction" scope="session">
          <property name="scoreService" ref="scoreServiceImpl" />
     </bean>
-    <bean id="performanceMeasurementAction" class="com.jingrui.action.PerformanceMeasurementAction">
+    <bean id="performanceMeasurementAction" class="com.jingrui.action.PerformanceMeasurementAction" scope="session">
          <property name="userService" ref="userServiceImpl" />
          <property name="settingService" ref="settingServiceImpl" />
          <property name="joininService" ref="joininServiceImpl" />
@@ -150,7 +151,7 @@
          <property name="pmTableService" ref="pmTableServiceImpl" />
          <property name="managerEvaluateSettingService" ref="managerEvaluateSettingServiceImpl" />
     </bean>
-    <bean id="permissionAction" class="com.jingrui.action.PermissionAction">
+    <bean id="permissionAction" class="com.jingrui.action.PermissionAction" scope="session">
          <property name="permissionService" ref="permissionServiceImpl" />
          <property name="userService" ref="userServiceImpl" />
     </bean>

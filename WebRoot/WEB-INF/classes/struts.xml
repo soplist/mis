@@ -136,6 +136,9 @@
         <action name="summaryGetPage" method="summaryGetPage" class="performanceMeasurementAction">
             <result name="performanceMeasurement">/performance_measurement.jsp</result>
         </action>
+        <action name="getPmTableByPage" method="getPmTableByPage" class="performanceMeasurementAction">
+            <result name="performanceMeasurement">/performance_measurement.jsp</result>
+        </action>
         <action name="previousManagerEvaluateSetting" method="previousManagerEvaluateSetting" class="performanceMeasurementAction">
             <result name="managerEvaluateSetting">/manager_evaluate_setting.jsp</result>
         </action>

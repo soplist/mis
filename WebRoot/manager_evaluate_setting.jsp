@@ -60,7 +60,7 @@
 	    	}
 	    	else if(kind=="4"){
 	    	    if(floatval>70||floatval<0){
-	    		    alert("团队个人积分完成情况范围在0-100之间");
+	    		    alert("团队个人积分完成情况范围在0-70之间");
 	    		    return false;
 	    	    }
 	    	}

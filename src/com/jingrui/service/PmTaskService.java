@@ -13,4 +13,5 @@ public interface PmTaskService {
 	public boolean currentMonthPMExist(User u,String month);
 	public Long getTotalCount();
 	public List<PmTask> queryByPage(Page page);
+	public List<PmTask> getPmTasksByUser(User user);
 }

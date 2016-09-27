@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -33,22 +34,22 @@ public class PermissionAction {
 		this.userService = userService;
 	}
 	public String previousPermissionSet(){
-		Map session = (Map)ActionContext.getContext().getSession();
+		HttpSession session=ServletActionContext.getRequest().getSession();
 		List<Permission> permissionList = permissionService.getAll();
 		List<User> users = userService.findAllUser();
-   	    session.put("userList", users);
-		session.put("permissions", permissionList);
+   	    session.setAttribute("userList", users);
+		session.setAttribute("permissions", permissionList);
 		return "set";
 	}
 	
 	public String updateUsers(){
 		HttpServletRequest request = ServletActionContext.getRequest();
-		Map session = (Map)ActionContext.getContext().getSession();
+		HttpSession session=ServletActionContext.getRequest().getSession();
 		String users = request.getParameter("users");
 		String permission_id = request.getParameter("id");
 		Integer int_permission_id = Integer.parseInt(permission_id);
-		List<Permission> permissions = (List<Permission>) session.get("permissions");
-		List<User> userList = (List<User>) session.get("userList");
+		List<Permission> permissions = (List<Permission>) session.getAttribute("permissions");
+		List<User> userList = (List<User>) session.getAttribute("userList");
 		Integer normal_permission_id = permissionService.getNormalPermissionId();
 		Permission permission = null;
 		for (Permission p : permissions) {
@@ -57,20 +58,20 @@ public class PermissionAction {
 			}
 		}
 		
-		String[] users_arr = users.split(",");
-		Set<User> us = permission.getUsersForPid();
+		String[] foreground_user = users.split(",");
+		Set<User> background_user = permission.getUsersForPid();
 		
-		
-		for (User user : us) {
-			boolean exist = false;
-			for (String u : users_arr) {
+		for (User user : background_user) {
+			boolean exist_in_foreground = false;
+			if(!users.equals(""))
+			for (String u : foreground_user) {
 				if((user.getUid().equals(Integer.parseInt(u)))){
-					exist = true;
+					exist_in_foreground = true;
 					break;
 				}
 			}
-			if(!users.equals(""))
-			if(!exist){
+			
+			if(!exist_in_foreground){
 				Permission p = new Permission();
 				p.setPid(normal_permission_id);
 				user.setPermission(p);
@@ -79,15 +80,15 @@ public class PermissionAction {
 		}
 		
 		if(!users.equals(""))
-		for (String u : users_arr) {
-			boolean exist = false;
-			for (User user : us) {
+		for (String u : foreground_user) {
+			boolean exist_in_background = false;
+			for (User user : background_user) {
 				if((user.getUid().equals(Integer.parseInt(u)))){
-					exist = true;
+					exist_in_background = true;
 					break;
 				}
 			}
-			if(!exist){
+			if(!exist_in_background){
 				User u1 = getUserByUid(userList,Integer.parseInt(u));
 				if(u1!=null){
 				    u1.setPermission(permission);
@@ -116,8 +117,8 @@ public class PermissionAction {
 		Integer int_permission_id = Integer.parseInt(permission_id);
 		
 		
-		Map session = (Map)ActionContext.getContext().getSession();
-		List<Permission> permissions = (List<Permission>) session.get("permissions");
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		List<Permission> permissions = (List<Permission>) session.getAttribute("permissions");
 		
 		Permission current_permission = null;
 		for (Permission permission : permissions) {
