@@ -1,6 +1,7 @@
 package com.jingrui.action;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,9 +22,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.jingrui.domain.Area;
 import com.jingrui.domain.Customer;
 import com.jingrui.domain.Department;
+import com.jingrui.domain.Page;
+import com.jingrui.domain.PmTask;
+import com.jingrui.domain.User;
 import com.jingrui.service.CustomerService;
 import com.jingrui.service.DepartmentService;
 import com.jingrui.service.UserService;
+import com.jingrui.util.PageUtil;
 import com.jingrui.util.StringHelper;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -208,6 +213,11 @@ public class CustomerAction extends ActionSupport {
 		this.did = new Integer(request.getParameter("department"));
 		this.area = request.getParameter("area");
 		
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		User u = (User) session.getAttribute("user");
+		//DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+		
 		System.out.println("customer action,add customer.");
 		Customer c = new Customer();
 		try {
@@ -231,6 +241,8 @@ public class CustomerAction extends ActionSupport {
 		    d.setDid(this.did);
 		    c.setDepartment(d);
 		    c.setArea(this.area);
+		    c.setAddUser(u);
+		    c.setAddDate(date);
 		    
 		    if(customerService == null)
 			    System.out.println("customerService is null in add!");
@@ -442,10 +454,13 @@ public class CustomerAction extends ActionSupport {
     }
     
     public String delete(){
-    	logger.info("delete customer by id");
     	int id = new Integer(ServletActionContext.getRequest().getParameter("id").trim()) ;
     	System.out.println("delete customer id:"+id);
     	customerService.deleteById(id);
+    	
+    	HttpSession session=ServletActionContext.getRequest().getSession();
+		User u = (User) session.getAttribute("user");
+		logger.info("delete customer by id:"+u.getRealName());
     	
     	HttpServletRequest request = ServletActionContext.getRequest();
     	List<Customer> list = customerService.listCustomer();
@@ -459,4 +474,22 @@ public class CustomerAction extends ActionSupport {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(d);
     }
+    
+    public String listCustomersByPage(){
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		
+		String pageIndex = request.getParameter("pageIndex");
+		Integer int_pageIndex = Integer.parseInt(pageIndex);
+		Page customer_page = (Page) session.getAttribute("customer_page");
+		customer_page = PageUtil.createPage(customer_page.getEveryPage(), customer_page.getTotalCount(), int_pageIndex);
+		customer_page.setCurrentPage(int_pageIndex);
+		
+		List<Customer> customerList = customerService.queryCustomersByPage(customer_page);
+		
+		session.setAttribute("customer_page", customer_page);
+		request.setAttribute("list", customerList);
+		
+		return "listCustomer";
+	}
 }

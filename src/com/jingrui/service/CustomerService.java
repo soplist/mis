@@ -2,6 +2,8 @@ package com.jingrui.service;
 
 import java.util.List;
 import com.jingrui.domain.Customer;
+import com.jingrui.domain.Page;
+import com.jingrui.domain.User;
 
 public interface CustomerService {
 	public void insertCustomer(Customer customer);  
@@ -13,4 +15,6 @@ public interface CustomerService {
 	public void deleteById(int id);
     public void update(Customer customer);  
     public Customer findCustomerById(int id);   
+    public List<Customer> queryCustomersByPage(Page page);
+    public Long getTotalCount();
 }

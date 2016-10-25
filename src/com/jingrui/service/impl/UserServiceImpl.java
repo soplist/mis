@@ -57,4 +57,9 @@ public class UserServiceImpl implements UserService {
     	List<User> list = baseDao.qryInfo("from User where ismanager=true");
     	return list;
     }
+    
+    public List<User> getAllManagersAndOnTheJob(){
+    	List<User> list = baseDao.qryInfo("from User where ismanager=true and validity=true");
+    	return list;
+    }
 }

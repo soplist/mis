@@ -99,13 +99,45 @@
        </div>
     </div>
     <div  class="div_5">
+    <s:if test="#session.customer_page!=null">
+        <s:if test="#session.customer_page.hasPrePage==true">
+            <a class="a_2" href="listCustomersByPage?pageIndex=${customer_page.currentPage-1}">
+                <spring:message code="peme.previous_page"/>
+            </a>
+        </s:if>
+        <s:if test="#session.customer_page.hasPrePage==false">
+            <span class="span_2">
+                <spring:message code="peme.previous_page"/>
+            </span>
+        </s:if>
+                
+        <c:forEach  begin="1" end="${customer_page.totalPage}" var="pageIndex"> 
+            <c:if test="${pageIndex==customer_page.currentPage}">
+                ${pageIndex}
+            </c:if>
+            <c:if test="${pageIndex!=customer_page.currentPage}">
+                <a href="listCustomersByPage?pageIndex=${pageIndex}">${pageIndex}</a> 
+            </c:if>
+        </c:forEach>
+                
+        <s:if test="#session.customer_page.hasNextPage==true">
+            <a class="a_2" href="listCustomersByPage?pageIndex=${customer_page.currentPage+1}">
+                <spring:message code="peme.next_page"/>
+            </a>
+        </s:if>
+        <s:if test="#session.customer_page.hasNextPage==false">
+            <span class="span_2">
+                <spring:message code="peme.next_page"/>
+            </span>
+        </s:if>
+    </s:if>
     <table class="table_1" border="1" width="80%" align="center">  
         <tr class="tr_1">
             <th><spring:message code="list.id"/></th>  
-            <th class="th_1"><spring:message code="list.department"/></th>
-            <th class="th_1"><spring:message code="list.area"/></th>
-            <th class="th_1"><spring:message code="list.start_date"/></th>  
-            <th class="th_1"><spring:message code="list.company"/></th>  
+            <th><spring:message code="list.department"/></th>
+            <th><spring:message code="list.area"/></th>
+            <th><spring:message code="list.start_date"/></th>  
+            <th><spring:message code="list.company"/></th>  
             <th><spring:message code="list.cost"/></th>  
             <th><spring:message code="list.legal_representative"/></th>  
             <th><spring:message code="list.office_staff"/></th>
@@ -119,7 +151,10 @@
             <th><spring:message code="list.possible_business"/></th>  
             <th><spring:message code="list.client_evaluation"/></th>  
             <th><spring:message code="list.comment"/></th> 
+            <th><spring:message code="list.add_date"/></th>
+            <th><spring:message code="list.add_user"/></th>
             <th><spring:message code="list.operation"/></th> 
+            
         </tr>  
         <s:if test="#request.list==null">
             <jsp:forward page="/login.jsp"></jsp:forward>
@@ -179,6 +214,12 @@
                 </td>  
                 <td>  
                     <s:property value="#cus.comment"/>  
+                </td>
+                <td>  
+                    <s:property value="%{getText('{0,date,yyyy-MM-dd }',{#cus.addDate})}"/>  
+                </td>
+                <td>  
+                    <s:property value="#cus.addUser.realName"/>  
                 </td>
                 <td>
                     <c:if test="${user.permission.d==true}">

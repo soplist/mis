@@ -61,5 +61,12 @@
         <property name="area" type="java.lang.String">
             <column name="area" length="20" not-null="true" />
         </property>
+        
+        <many-to-one name="addUser" class="com.jingrui.domain.User" fetch="select" lazy="false">
+            <column name="add_user" not-null="true" />
+        </many-to-one>
+        <property name="addDate" type="java.util.Date">
+            <column name="add_date" length="10" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

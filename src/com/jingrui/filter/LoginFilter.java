@@ -97,6 +97,11 @@ public class LoginFilter implements  Filter{
 		    return;
 		}
 		
+		if(path.indexOf("listCustomersByPage") > -1) {
+		    chain.doFilter(servletRequest, servletResponse);
+		    return;
+		}
+		
 		else{
 			if (u == null) {
 				servletResponse.sendRedirect("/mis/login.jsp");

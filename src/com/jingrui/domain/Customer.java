@@ -32,6 +32,8 @@ public class Customer implements java.io.Serializable {
 	private String comment;
 	private Department department;
 	private String area;
+	private User addUser;
+	private Date addDate;
 
 	// Constructors
 
@@ -238,5 +240,23 @@ public class Customer implements java.io.Serializable {
 	public void setArea(String area) {
 		this.area = area;
 	}
+	
+	public User getAddUser() {
+		return addUser;
+	}
+
+	public void setAddUser(User addUser) {
+		this.addUser = addUser;
+	}
+
+	public Date getAddDate() {
+		return addDate;
+	}
+
+	public void setAddDate(Date addDate) {
+		this.addDate = addDate;
+	}
+
+	
 
 }

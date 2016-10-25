@@ -991,7 +991,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	
 	public String previousManagerEvaluateSetting(){
 		HttpSession session=ServletActionContext.getRequest().getSession();
-		List<User> managers = userService.getAllManagers();
+		List<User> managers = userService.getAllManagersAndOnTheJob();
 		session.setAttribute("managers", managers);
 		return "managerEvaluateSetting";
 	}

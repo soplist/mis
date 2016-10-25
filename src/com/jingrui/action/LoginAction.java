@@ -9,12 +9,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
 
 import com.jingrui.domain.Area;
+import com.jingrui.domain.Customer;
 import com.jingrui.domain.NoticePeople;
 import com.jingrui.domain.Page;
 import com.jingrui.domain.Permission;
@@ -22,6 +24,7 @@ import com.jingrui.domain.PmTable;
 import com.jingrui.domain.PmTask;
 import com.jingrui.domain.Task;
 import com.jingrui.domain.User;
+import com.jingrui.service.CustomerService;
 import com.jingrui.service.DepartmentService;
 import com.jingrui.service.PmTableService;
 import com.jingrui.service.PmTaskService;
@@ -47,6 +50,7 @@ public class LoginAction extends ActionSupport{
     private TaskService taskService;
 	private PmTaskService pmTaskService;
 	private PmTableService pmTableService;
+	private CustomerService customerService;
     
     private static Logger logger = Logger.getLogger(LoginAction.class);
 	
@@ -119,7 +123,18 @@ public class LoginAction extends ActionSupport{
     		 	areaList.add(a);
     		}
     		session.removeAttribute("areaList");
-    		session.setAttribute("areaList", areaList);    	 
+    		session.setAttribute("areaList", areaList); 
+    		
+    		HttpServletRequest request = ServletActionContext.getRequest();
+    	    
+    	    Long TotalCustomerCount = customerService.getTotalCount();
+    	    Page customer_page = PageUtil.createPage(100, TotalCustomerCount, 1);
+    	    List<Customer> customer_per_page = customerService.queryCustomersByPage(customer_page);
+    	    request.removeAttribute("list");
+    	    
+    	    session.setAttribute("customer_page", customer_page);
+    	    request.setAttribute("list",customer_per_page);
+    		
             return "customerList";
     	}else if(sys.equals("3")){
     		List<Task> taskList_1 = taskService.getApproveTask();
@@ -266,6 +281,11 @@ public class LoginAction extends ActionSupport{
 	public void setSys(String sys) {
 		this.sys = sys;
 	}
-	
+	public CustomerService getCustomerService() {
+		return customerService;
+	}
+	public void setCustomerService(CustomerService customerService) {
+		this.customerService = customerService;
+	}
 	
 }

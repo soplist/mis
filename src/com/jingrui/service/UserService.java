@@ -10,4 +10,5 @@ public interface UserService {
 	public List<User> findAllUser();
 	public void update(User u);
 	public List<User> getAllManagers();
+	public List<User> getAllManagersAndOnTheJob();
 }

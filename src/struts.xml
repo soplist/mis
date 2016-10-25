@@ -10,7 +10,7 @@
             <result name="login">/login.jsp</result>
             <result name="input">/login.jsp</result>
             <!--<result name="list">/customer_list.jsp</result> -->
-            <result name="customerList" type="redirect">listCustomer</result>
+            <result name="customerList">/customer_list.jsp</result>
             <result name="scoreList" type="redirect">listScore</result>
             <result name="performanceMeasurement">/performance_measurement.jsp</result>
         </action>
@@ -86,6 +86,9 @@
             <result name="listCustomer">/customer_list.jsp</result>
         </action>
         <action name="listCustomerByArea" method="listByArea" class="customerAction">
+            <result name="listCustomer">/customer_list.jsp</result>
+        </action>
+        <action name="listCustomersByPage" method="listCustomersByPage" class="customerAction">
             <result name="listCustomer">/customer_list.jsp</result>
         </action>
         <action name="pieChartForabcPerMonth" method="pieChartForabcPerMonth" class="chartAction">
