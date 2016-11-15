@@ -1,5 +1,6 @@
 package com.jingrui.action;
 
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -159,7 +161,12 @@ public class LoginAction extends ActionSupport{
     		session.setAttribute("nps", nps);
     		    	 
     		return "scoreList";
-    	}else{
+    	}else if(sys.equals("4")){
+    		
+    		
+    		return "bossVisualAngle";
+    	}
+    	else{
     		return "login";
     	}
     		//return "loginSuccess";

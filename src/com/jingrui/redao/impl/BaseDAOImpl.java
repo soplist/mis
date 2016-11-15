@@ -1,4 +1,4 @@
-package com.jingrui.dao.impl;
+package com.jingrui.redao.impl;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.jingrui.dao.BaseDAO;
+import com.jingrui.redao.BaseDAO;
 import com.jingrui.domain.Page;
 import com.jingrui.domain.User;
 
@@ -111,6 +111,10 @@ public class BaseDAOImpl<T> implements BaseDAO<T>{
     	return (Long) this.getCurrentSession().createQuery("select count(*) from PmTable pt where pt.userByUid.uid="+user.getUid()+" and pt.statu=true").uniqueResult();
 	}
     
+    public String catchPmTaskLastMonth(){
+    	return (String) this.getCurrentSession().createQuery("select launchTime from PmTask order by pid desc").uniqueResult();
+    }
+    
     public List<T> queryByPage(String hql,Page page){
     	Query qry = null;
     	List<T> list = null;
@@ -120,22 +124,6 @@ public class BaseDAOImpl<T> implements BaseDAO<T>{
     		qry.setMaxResults(page.getEveryPage());  
             qry.setFirstResult(page.getBeginIndex());  
             list = qry.list();
-            session.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-    	return list;
-    }
-    
-    public List<T> queryByTop1(String hql){
-    	Query qry = null;
-    	List<T> list = null;
-    	try {
-    		Session session = this.qryCurrentSesion();
-    		qry = session.createQuery(hql);
-    		qry.setMaxResults(1);
-    		list = qry.list();
             session.close();
 		} catch (Exception e) {
 			// TODO: handle exception

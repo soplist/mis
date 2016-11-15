@@ -52,4 +52,5 @@ public class PmTableServiceImpl implements PmTableService {
 		PmTable pt = baseDao.get(PmTable.class, id);
 		return pt;
 	}
+	
 }

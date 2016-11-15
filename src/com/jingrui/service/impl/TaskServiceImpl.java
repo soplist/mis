@@ -55,4 +55,5 @@ public class TaskServiceImpl implements TaskService {
 	public List<Task> getArchiveTask(){
 		return this.baseDao.qryInfo("from Task where status=2");
 	}
+	
 }

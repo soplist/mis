@@ -31,6 +31,14 @@ public class PmTable implements java.io.Serializable {
     private Float item12;
     private Float item13;
     
+    private Integer managerType;
+    
+	public Integer getManagerType() {
+		return managerType;
+	}
+	public void setManagerType(Integer managerType) {
+		this.managerType = managerType;
+	}
 	public Integer getPid() {
 		return pid;
 	}

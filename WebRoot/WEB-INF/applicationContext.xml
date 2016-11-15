@@ -72,6 +72,20 @@
             <ref local="sessionFactory"/>  
         </property> 
 	</bean>
+	<bean id="sqlServerDBImpl" class="com.jingrui.dao.impl.SqlServerDBImpl" scope="singleton">
+	</bean>
+	<bean id="pointDAOImpl" class="com.jingrui.dao.impl.PointDAOImpl" scope="singleton">
+	</bean>
+	<bean id="sqlServerDAOImpl" class="com.jingrui.sqlserver.impl.SqlServerDAOImpl" scope="singleton">
+	</bean>
+	<bean id="reBaseDAOImpl" class="com.jingrui.redao.impl.BaseDAOImpl" scope="singleton">
+	     <property name="sessionFactory">  
+            <ref local="sessionFactory"/>  
+        </property> 
+	</bean>
+	<bean id="testDAOImpl" class="com.jingrui.dao.impl.TestDAOImpl" scope="singleton">
+	</bean>
+	
 	
 	<!-- service -->
 	<bean id="customerServiceImpl" class="com.jingrui.service.impl.CustomerServiceImpl" scope="singleton">  
@@ -112,6 +126,16 @@
     </bean>
     <bean id="managerEvaluateSettingServiceImpl" class="com.jingrui.service.impl.ManagerEvaluateSettingServiceImpl" scope="singleton">  
         <property name="baseDao" ref="baseDAOImpl" />  
+    </bean>
+    <bean id="sqlServerServiceImpl" class="com.jingrui.service.impl.SqlServerServiceImpl" scope="singleton"> 
+        <property name="sqlServerDAO" ref="sqlServerDAOImpl" />
+    </bean>
+    <bean id="testService1Impl" class="com.jingrui.service.impl.Test1ServiceImpl" scope="singleton">
+    </bean>
+    <bean id="testServiceImpl" class="com.jingrui.service.impl.TestServiceImpl" scope="singleton">
+        <property name="test1Service" ref="testService1Impl" />
+        <property name="testDAO" ref="testDAOImpl" />
+        <property name="baseDao" ref="baseDAOImpl" />
     </bean>
     
     <!-- util -->
@@ -155,6 +179,10 @@
     <bean id="permissionAction" class="com.jingrui.action.PermissionAction" scope="session">
          <property name="permissionService" ref="permissionServiceImpl" />
          <property name="userService" ref="userServiceImpl" />
+    </bean>
+    <bean id="bossVisualAngleAction" class="com.jingrui.action.BossVisualAngleAction" scope="session">
+         <property name="sqlServerService" ref="sqlServerServiceImpl" />
+         <property name="pmTaskService" ref="pmTaskServiceImpl" />
     </bean>
     
     <!-- i18n -->

@@ -1,4 +1,4 @@
-package com.jingrui.dao;
+package com.jingrui.redao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,5 +21,5 @@ public interface BaseDAO<T> {
     public Long getTotalCount(String table);
     public List<T> queryByPage(String hql,Page page);
     public Long getPmTableFinishedTotalCountByUser(User user);
-    public List<T> queryByTop1(String hql);
+    public String catchPmTaskLastMonth();
 }

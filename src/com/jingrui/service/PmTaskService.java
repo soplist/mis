@@ -14,4 +14,7 @@ public interface PmTaskService {
 	public Long getTotalCount();
 	public List<PmTask> queryByPage(Page page);
 	public List<PmTask> getPmTasksByUser(User user);
+	public String queryLastMonth();
+	public List<PmTask> queryPmTaskLastMonth();
+	public List<PmTask> queryManagerPmTaskLastMonth();
 }

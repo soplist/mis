@@ -44,6 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <option value="1">员工绩效评测系统</option>
               <option value="2">客户信息管理系统</option>
               <option value="3">积分系统</option>
+              <option value="4">员工状态汇总</option>
           </select>
           <s:fielderror cssClass="fielderror_1" fieldName="error" theme="simple"/><br><br>
           <s:submit cssClass="button_1" label="submit" value="登录"></s:submit>

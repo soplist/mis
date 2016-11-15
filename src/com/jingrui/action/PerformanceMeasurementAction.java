@@ -645,15 +645,17 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		    pmtable.setPmTaskByTid(pt);
 		    pmtable.setStatu(false);
 		    pmtable.setType(6);
+		    pmtable.setManagerType(1);
 		    pmTableService.add(pmtable);
 		    
 		    //add self evaluate
 		    PmTable selfPmtable = new PmTable();
-		    pmtable.setUserByUid(user_1);
-		    pmtable.setPmTaskByTid(pt);
-		    pmtable.setStatu(false);
-		    pmtable.setType(6);
-		    pmTableService.add(pmtable);
+		    selfPmtable.setUserByUid(user_1);
+		    selfPmtable.setPmTaskByTid(pt);
+		    selfPmtable.setStatu(false);
+		    selfPmtable.setType(6);
+		    selfPmtable.setManagerType(2);
+		    pmTableService.add(selfPmtable);
 		    
 		    //add staff evaluate
 		    List<User> inDepartmentUsers = new ArrayList<User>();
@@ -663,18 +665,28 @@ public class PerformanceMeasurementAction extends ActionSupport{
 			    }
 		    }
 		    
+		    //common
+		    List<User> commonUserList = new ArrayList<User>();
+		    for (User user : inDepartmentUsers) {
+		    	if(user.getIsmanager().equals(false)&&user.getIsboss().equals(false)&&!user.getUid().equals(user_1.getUid())){
+		    		commonUserList.add(user);
+		    	}
+				
+			}
+		    
+		    
 		    Random rand = new Random();
-		    int range = inDepartmentUsers.size();
+		    int range = commonUserList.size();
 		    UserSet user3 = new UserSet(user_1,3);
 		    if(range>3){
 		        boolean full = false;
 		        while(!full){
 		            int random_id = rand.nextInt(range);
-		            User u = inDepartmentUsers.get(random_id);
+		            User u = commonUserList.get(random_id);
 		            full=user3.add(u);
 		        }
             }else{
-			    for (User u : inDepartmentUsers) {
+			    for (User u : commonUserList) {
 			    	user3.add(u);
 			    }
 		    }
@@ -684,6 +696,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 			    pmt.setPmTaskByTid(pt);
 			    pmt.setStatu(false);
 			    pmt.setType(6);
+			    pmt.setManagerType(3);
 			    pmTableService.add(pmt);
 		    }
 		    

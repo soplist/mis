@@ -12,7 +12,7 @@ public class PmTask implements java.io.Serializable {
 	private Integer pid;
 	private Options optionsBySid;
 	private boolean statu;
-	private Set pmTablesForTid = new HashSet(0);
+	private Set<PmTable> pmTablesForTid = new HashSet<PmTable>(0);
 	private User userByUid;
 	private boolean managerEvaluate = false;
 	private Date launchTime;
@@ -35,10 +35,10 @@ public class PmTask implements java.io.Serializable {
 	public void setStatu(boolean statu) {
 		this.statu = statu;
 	}
-	public Set getPmTablesForTid() {
+	public Set<PmTable> getPmTablesForTid() {
 		return pmTablesForTid;
 	}
-	public void setPmTablesForTid(Set pmTablesForTid) {
+	public void setPmTablesForTid(Set<PmTable> pmTablesForTid) {
 		this.pmTablesForTid = pmTablesForTid;
 	}
 	public User getUserByUid() {

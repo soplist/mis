@@ -67,5 +67,8 @@
         <property name="item13" type="java.lang.Float">
             <column name="item_13"/>
         </property>
+        <property name="managerType" type="java.lang.Integer">
+            <column name="manager_type" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>

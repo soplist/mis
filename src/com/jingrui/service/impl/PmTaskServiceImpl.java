@@ -1,11 +1,15 @@
 package com.jingrui.service.impl;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import com.jingrui.dao.BaseDAO;
 import com.jingrui.domain.Customer;
 import com.jingrui.domain.Page;
 import com.jingrui.domain.Permission;
+import com.jingrui.domain.PmTable;
 import com.jingrui.domain.PmTask;
 import com.jingrui.domain.User;
 import com.jingrui.service.PmTaskService;
@@ -57,5 +61,24 @@ public class PmTaskServiceImpl implements PmTaskService {
 	public List<PmTask> getPmTasksByUser(User user){
 		List<PmTask> list = baseDao.qryInfo("from PmTask pt where pt.userByUid.uid="+user.getUid());
 		return list;
+	}
+	
+    public List<PmTask> queryPmTaskLastMonth(){
+    	List<PmTask> list = baseDao.qryInfo("from PmTask pt where pt.launchTime='"+queryLastMonth()+"' and pt.statu=true and pt.managerEvaluate=false");
+		return list;
+    }
+    
+    public List<PmTask> queryManagerPmTaskLastMonth(){
+    	List<PmTask> list = baseDao.qryInfo("from PmTask pt where pt.launchTime='"+queryLastMonth()+"' and pt.statu=true and pt.managerEvaluate=true");
+		return list;
+    }
+    
+	public String queryLastMonth(){
+		List<PmTask> list = baseDao.queryByTop1("from PmTask order by pid desc");
+		PmTask pt = list.get(0);
+		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String s = format1.format(pt.getLaunchTime());
+		//System.out.print("last month:"+s);
+		return s;
 	}
 }
