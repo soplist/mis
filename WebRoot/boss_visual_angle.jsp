@@ -14,5 +14,6 @@
     <div id="container" style="width: 1600px;"></div>
     <div style="float:left;" id="container1" style="width: 600px;"></div>
     <div style="float:left;" id="container2" style="width: 600px;"></div>
+    <div id="container3" style="width: 1600px;"></div>
   </body>
 </html>

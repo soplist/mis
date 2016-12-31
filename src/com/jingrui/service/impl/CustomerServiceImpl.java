@@ -88,5 +88,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public Long getTotalCount(){
 		return baseDao.getTotalCount("Customer");
 	}
+	
+	public List<Customer> queryCustomerBetweenTwoTimes(String date1,String date2){
+		List<Customer> list = baseDao.qryInfo("from Customer c where addDate between '"+date1+"' and '"+date2+"'");
+		return list;
+	}
 
 }

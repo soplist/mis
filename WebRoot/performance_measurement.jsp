@@ -572,6 +572,7 @@
                                 
                                 <c:if test="${exception==1}">
                                 <span class="span_3">
+                                    ${score_1}${score_1>(score_2/score_2_num+15)}${score_1>(score_3+15)}${score_1>(score_4/score_4_num+15)}${score_1>(score_5/score_5_num+15)}
                                     <spring:message code="peme.task.exception"/>
                                     <spring:message code="peme.task.total_score"/>:
                                         ${min_without_score_1}

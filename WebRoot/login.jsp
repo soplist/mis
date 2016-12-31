@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <spring:message code="login.username"/>:<s:textfield name="username" cssClass="text_1" label="username"></s:textfield><br><br>
           <spring:message code="login.password"/>:<s:password name="password"  cssClass="text_1" label="password"></s:password><br><br>
           <!--<s:radio list="#{'1':'客户信息管理系统','0':'积分系统'}" name="sys" value="1"></s:radio><br></br>-->
-          <select class="select_1" name="sys">
+          <select class="select_1" name="system">
               <option value="0">--select--</option>
               <option value="1">员工绩效评测系统</option>
               <option value="2">客户信息管理系统</option>

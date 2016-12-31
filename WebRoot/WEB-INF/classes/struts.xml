@@ -173,5 +173,10 @@
                 <param name="managerPmTaskUserList">managerPmTaskUserList</param>
             </result>
         </action>
+        <action name="catchInputCustomerData" method="catchInputCustomerData" class="bossVisualAngleAction">
+            <result type="json">
+                <param name="customerMessageInputList">customerMessageInputList</param>
+            </result>
+        </action>
     </package>
 </struts>

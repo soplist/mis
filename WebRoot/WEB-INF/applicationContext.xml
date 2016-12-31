@@ -183,6 +183,8 @@
     <bean id="bossVisualAngleAction" class="com.jingrui.action.BossVisualAngleAction" scope="session">
          <property name="sqlServerService" ref="sqlServerServiceImpl" />
          <property name="pmTaskService" ref="pmTaskServiceImpl" />
+         <property name="customerService" ref="customerServiceImpl" />
+         <property name="userService" ref="userServiceImpl" />
     </bean>
     
     <!-- i18n -->

@@ -11,4 +11,5 @@ public interface UserService {
 	public void update(User u);
 	public List<User> getAllManagers();
 	public List<User> getAllManagersAndOnTheJob();
+	public List<User> getAllUserValidity();
 }

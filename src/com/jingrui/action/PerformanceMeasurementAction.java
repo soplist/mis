@@ -24,6 +24,7 @@ import com.jingrui.domain.Page;
 import com.jingrui.domain.PmTable;
 import com.jingrui.domain.PmTask;
 import com.jingrui.domain.User;
+import com.jingrui.parameter.AssessmentTableType;
 import com.jingrui.service.JoininService;
 import com.jingrui.service.ManagerEvaluateSettingService;
 import com.jingrui.service.PmTableService;
@@ -470,7 +471,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 			    }
 		    }
 		    
-		    DateFormat format1 = new SimpleDateFormat("yyyy-MM");
+		    /*DateFormat format1 = new SimpleDateFormat("yyyy-MM");
 	        String month = format1.format(new Date());
 	        boolean exist = pmTaskService.currentMonthPMExist(user_1, month);
 	        if(exist){
@@ -484,7 +485,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 	    			e.printStackTrace();
 	    		}
 	    		return null;
-	        }
+	        }*/
 		    
 		    for(User u : allUserValidity){
 			    if(u.getDepartment().getDid().equals(user_1.getDepartment().getDid())){
@@ -543,7 +544,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		    selfEvaluate.setUserByUid(user_1);
 		    selfEvaluate.setPmTaskByTid(pt);
 		    selfEvaluate.setStatu(false);
-		    selfEvaluate.setType(1);
+		    selfEvaluate.setType(AssessmentTableType.PERSONAL_EVALUATION);
 		    pmTableService.add(selfEvaluate);
 		
 		
@@ -554,7 +555,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 			        departmentEvaluate.setUserByUid(u);
 			        departmentEvaluate.setPmTaskByTid(pt);
 			        departmentEvaluate.setStatu(false);
-			        departmentEvaluate.setType(2);
+			        departmentEvaluate.setType(AssessmentTableType.DEPARTMENT_EVALUATION);
 			        pmTableService.add(departmentEvaluate);
 			    }
 		    }
@@ -567,7 +568,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 			        companyEvaluate.setUserByUid(u);
 			        companyEvaluate.setPmTaskByTid(pt);
 			        companyEvaluate.setStatu(false);
-			        companyEvaluate.setType(4);
+			        companyEvaluate.setType(AssessmentTableType.COMPANY_EVALUATION);
 			        companyEvaluate.setSimple(true);
 			        pmTableService.add(companyEvaluate);
 			    }
@@ -595,7 +596,7 @@ public class PerformanceMeasurementAction extends ActionSupport{
 			    pmtable.setUserByUid(u);
 			    pmtable.setPmTaskByTid(pt);
 			    pmtable.setStatu(false);
-			    pmtable.setType(5);
+			    pmtable.setType(AssessmentTableType.COLLEAGUE_EVALUATION);
 			    pmTableService.add(pmtable);
 		    }
 		}catch(Exception e){

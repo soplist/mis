@@ -17,4 +17,5 @@ public interface CustomerService {
     public Customer findCustomerById(int id);   
     public List<Customer> queryCustomersByPage(Page page);
     public Long getTotalCount();
+    public List<Customer> queryCustomerBetweenTwoTimes(String date1,String date2);
 }

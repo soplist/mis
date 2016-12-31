@@ -1,8 +1,12 @@
 package com.jingrui.action;
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,15 +15,20 @@ import org.apache.struts2.json.annotations.JSON;
 
 import com.jingrui.dao.SqlServerDB;
 import com.jingrui.dao.impl.SqlServerDBImpl;
+import com.jingrui.domain.Customer;
 import com.jingrui.domain.PmTable;
 import com.jingrui.domain.PmTask;
+import com.jingrui.domain.User;
+import com.jingrui.domain.UserCustomerInfo;
 import com.jingrui.domain.UserInfo;
 import com.jingrui.domain.UserInfoManagerPmTask;
 import com.jingrui.domain.UserInfoPmTask;
+import com.jingrui.service.CustomerService;
 import com.jingrui.service.PmTableService;
 import com.jingrui.service.PmTaskService;
 import com.jingrui.service.SqlServerService;
 import com.jingrui.service.TestService;
+import com.jingrui.service.UserService;
 import com.jingrui.sqlserver.SqlServerDAO;
 import com.jingrui.sqlserver.impl.SqlServerDAOImpl;
 import com.opensymphony.xwork2.ActionSupport;
@@ -32,9 +41,39 @@ public class BossVisualAngleAction extends ActionSupport{
 	private SqlServerService sqlServerService;
 	
 	private PmTaskService pmTaskService;
-	private List<UserInfoPmTask> pmTaskUserList;
+	private CustomerService customerService;
+	private UserService userService;
+	
+    private List<UserInfoPmTask> pmTaskUserList;
 	private List<UserInfo> userList;
 	private List<UserInfoManagerPmTask> managerPmTaskUserList;
+	
+	private List<UserCustomerInfo> customerMessageInputList;
+	
+	@JSON(serialize=false)
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	@JSON(serialize=false)
+	public CustomerService getCustomerService() {
+		return customerService;
+	}
+
+	public void setCustomerService(CustomerService customerService) {
+		this.customerService = customerService;
+	}
+	public List<UserCustomerInfo> getCustomerMessageInputList() {
+		return customerMessageInputList;
+	}
+
+	public void setCustomerMessageInputList(
+			List<UserCustomerInfo> customerMessageInputList) {
+		this.customerMessageInputList = customerMessageInputList;
+	}
 
 	public List<UserInfoManagerPmTask> getManagerPmTaskUserList() {
 		return managerPmTaskUserList;
@@ -113,6 +152,52 @@ public class BossVisualAngleAction extends ActionSupport{
 		List<PmTask> list = pmTaskService.queryManagerPmTaskLastMonth();
 		managerPmTaskUserList = encapsulatesManagerPmTask(list);
 		return SUCCESS;
+	}
+	
+	public String catchInputCustomerData() throws Exception{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String date1 = sdf.format(new Date());
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -30);
+		String date2 = sdf.format(calendar.getTime());
+		System.out.println("date1:"+date1+",date2:"+date2);
+		List<Customer> originalList = customerService.queryCustomerBetweenTwoTimes(date2, date1);
+		//for (Customer customer : originalList) {
+			//System.out.println("company:"+customer.getCompany()+",add date:"+customer.getAddDate()+",add user:"+customer.getAddUser().getRealName());
+		//}
+		handleCustomerData(originalList);
+		return SUCCESS;
+	}
+	
+	private void handleCustomerData(List<Customer> customers){
+		List<User> users = userService.getAllUserValidity();
+		customerMessageInputList = new ArrayList<UserCustomerInfo>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		//init return data
+		for (User user : users) {
+			UserCustomerInfo uci = new UserCustomerInfo();
+			uci.setName(user.getRealName());
+			Map<String,Integer> mapValue = uci.getMapValue();
+			Calendar calendar = Calendar.getInstance();
+			for(int i=1;i<=30;i++){
+				String date = sdf.format(calendar.getTime());
+				calendar.add(Calendar.DATE, -1);
+				mapValue.put(date, 0);
+			}
+			customerMessageInputList.add(uci);
+		}
+		
+		for (Customer customer : customers) {
+			String addUser = customer.getAddUser().getRealName();
+			String addDate = sdf.format(customer.getAddDate());
+			for (UserCustomerInfo uci : customerMessageInputList) {
+				if(uci.getName().equals(addUser)){
+					Map<String,Integer> mapValue = uci.getMapValue();
+					Integer valueForDay = mapValue.get(addDate);
+					mapValue.put(addDate, valueForDay+1);
+				}
+			}
+		}
 	}
 	
 	private List<UserInfoManagerPmTask> encapsulatesManagerPmTask(List<PmTask> list1){
