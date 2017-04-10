@@ -178,5 +178,30 @@
                 <param name="customerMessageInputList">customerMessageInputList</param>
             </result>
         </action>
+        <action name="beforeUpdatePassword" method="beforeUpdatePassword" class="accountAction">
+            <result name="updatePassword">/update_password.jsp</result>
+        </action>
+        <action name="updatePassword" method="updatePassword" class="accountAction">
+            <result name="success">/update_password.jsp</result>
+            <result name="failure">/update_password.jsp</result>
+        </action>
+        <action name="launchCommonTask" method="launchCommonTask" class="performanceAppraisalAction">
+            <result name="success">/performance_appraisal_setting.jsp</result>
+        </action>
+        <action name="beforeRedirectToPerformanceAppraisalSettingPage" method="beforeRedirectToPerformanceAppraisalSettingPage" class="performanceAppraisalAction">
+            <result name="success">/performance_appraisal_setting.jsp</result>
+        </action>
+        <action name="beforeRedirectToUserSettingPage" method="beforeRedirectToUserSettingPage" class="performanceMeasurementAction">
+            <result name="success">/user_setting.jsp</result>
+        </action>
+        <action name="beforeAddUserAccount" method="beforeAddUserAccount" class="accountAction">
+            <result name="success">/add_user_account.jsp</result>
+        </action>
+        <action name="addUserAccount" method="addUserAccount" class="accountAction">
+            <result name="success">/add_user_account_success.jsp</result>
+        </action>
+        <action name="userSwitch" method="userSwitch" class="accountAction">
+            <result name="success" type="redirect">beforeRedirectToUserSettingPage</result>
+        </action>
     </package>
 </struts>

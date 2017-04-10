@@ -7,4 +7,5 @@ import com.jingrui.domain.ManagerEvaluateSetting;
 public interface ManagerEvaluateSettingService {
 	public List<ManagerEvaluateSetting> getAllManagerEvaluateSetting();
 	public void update(ManagerEvaluateSetting mes);
+	public Integer insert(ManagerEvaluateSetting managerEvaluateSetting);
 }

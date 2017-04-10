@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+
+<id>10</id>
+<work-status>false</work-status>
+<username>huangshuojie</username>
+
+<user-config-information>
+<permission>2</permission>
+<performance-appraisal-setting>
+</performance-appraisal-setting>
+</user-config-information>
+
+<user-resume-information>
+<name>黄烁洁</name>
+<department>财务部</department>
+<manager-status>true</manager-status>
+<boss-status>false</boss-status>
+<position>总经办主任</position>
+<join-time>2015-01-26</join-time>
+</user-resume-information>
+
+</xml-body>

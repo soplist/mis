@@ -52,6 +52,16 @@
 				<value>com/jingrui/domain/PmTask.hbm.xml</value>
 				<value>com/jingrui/domain/PmTable.hbm.xml</value>
 				<value>com/jingrui/domain/ManagerEvaluateSetting.hbm.xml</value>
+				<value>com/jingrui/domain/UserLoginInformation.hbm.xml</value>
+				<value>com/jingrui/domain/PersonalEvaluationForm.hbm.xml</value>
+				<value>com/jingrui/domain/DepartmentEvaluationForm.hbm.xml</value>
+				<value>com/jingrui/domain/ManagerEvaluationForm.hbm.xml</value>
+				<value>com/jingrui/domain/CompanyEvaluationForm.hbm.xml</value>
+				<value>com/jingrui/domain/ColleagueEvaluationForm.hbm.xml</value>
+				<value>com/jingrui/domain/CommonPerformanceAppraisalTask.hbm.xml</value>
+				<value>com/jingrui/domain/ManagerPerformanceAppraisalTask.hbm.xml</value>
+				<value>com/jingrui/domain/UserPermission.hbm.xml</value>
+				<value>com/jingrui/domain/PerformanceAppraisalTask.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -137,6 +147,18 @@
         <property name="testDAO" ref="testDAOImpl" />
         <property name="baseDao" ref="baseDAOImpl" />
     </bean>
+    <bean id="userLoginInformationServiceImpl" class="com.jingrui.service.impl.UserLoginInformationServiceImpl" scope="singleton"> 
+        <property name="baseDao" ref="baseDAOImpl" />
+    </bean>
+    <bean id="evaluationFormServiceImpl" class="com.jingrui.service.impl.EvaluationFormServiceImpl" scope="singleton"> 
+        <property name="baseDao" ref="baseDAOImpl" />
+    </bean>
+    <bean id="performanceAppraisalTaskServiceImpl" class="com.jingrui.service.impl.PerformanceAppraisalTaskServiceImpl" scope="singleton"> 
+        <property name="baseDao" ref="baseDAOImpl" />
+    </bean>
+    <bean id="userPermissionServiceImpl" class="com.jingrui.service.impl.UserPermissionServiceImpl" scope="singleton"> 
+        <property name="baseDao" ref="baseDAOImpl" />
+    </bean>
     
     <!-- util -->
     <bean id="pipeImpl" class="com.jingrui.workflow.impl.PipeImpl" scope="singleton"> 
@@ -144,6 +166,19 @@
         <property name="noticePeopleService" ref="noticePeopleServiceImpl" />
         <property name="userService" ref="userServiceImpl" /> 
         <property name="operateService" ref="operateServiceImpl" /> 
+    </bean>
+    <bean id="loadAllUserInformationXml" class="com.jingrui.util.LoadAllUserInformationXml" scope="singleton"> 
+    </bean>
+    <bean id="buildCompanyStructure" class="com.jingrui.util.BuildCompanyStructure" scope="singleton"> 
+        <constructor-arg ref="loadAllUserInformationXml"/>
+    </bean>
+    <bean id="loadChineseCharactersListXml" class="com.jingrui.util.LoadChineseCharactersListXml" scope="singleton"> 
+    </bean>
+    <bean id="message" class="com.jingrui.util.Message" scope="singleton"> 
+    </bean>
+    <bean id="base64" class="com.jingrui.util.BASE64" scope="singleton"> 
+    </bean>
+    <bean id="loadManagerPerformanceAppraisalConfigXml" class="com.jingrui.util.LoadManagerPerformanceAppraisalConfigXml" scope="singleton"> 
     </bean>
     
     <!-- action -->
@@ -158,6 +193,12 @@
          <property name="pmTaskService" ref="pmTaskServiceImpl" />
          <property name="pmTableService" ref="pmTableServiceImpl" />
          <property name="customerService" ref="customerServiceImpl" />
+         <!-- <property name="buildCompanyStructure" ref="buildCompanyStructure" /> -->
+         <!-- <property name="userLoginInformationService" ref="userLoginInformationServiceImpl" /> -->
+         <!-- <property name="loadChineseCharactersListXml" ref="loadChineseCharactersListXml" /> -->
+         <!-- <property name="base64" ref="base64" /> -->
+         <!-- <property name="userPermissionService" ref="userPermissionServiceImpl" /> -->
+         <!-- <property name="evaluationFormService" ref="evaluationFormServiceImpl" /> -->
     </bean>
     <bean id="scoreAction" class="com.jingrui.action.ScoreAction" scope="session">
          <property name="scoreService" ref="scoreServiceImpl" />
@@ -185,6 +226,23 @@
          <property name="pmTaskService" ref="pmTaskServiceImpl" />
          <property name="customerService" ref="customerServiceImpl" />
          <property name="userService" ref="userServiceImpl" />
+    </bean>
+    <bean id="accountAction" class="com.jingrui.action.AccountAction" scope="session">
+         <property name="userLoginInformationService" ref="userLoginInformationServiceImpl" />
+         <property name="loadChineseCharactersListXml" ref="loadChineseCharactersListXml" />
+         <property name="message" ref="message" />
+         <property name="base64" ref="base64" />
+         <property name="permissionService" ref="permissionServiceImpl" />
+         <property name="departmentService" ref="departmentServiceImpl" />
+         <property name="settingService" ref="settingServiceImpl" />
+         <property name="managerEvaluateSettingService" ref="managerEvaluateSettingServiceImpl" />
+         <property name="userService" ref="userServiceImpl" />
+    </bean>
+    <bean id="performanceAppraisalAction" class="com.jingrui.action.PerformanceAppraisalAction" scope="session">
+         <property name="buildCompanyStructure" ref="buildCompanyStructure" />
+         <property name="evaluationFormService" ref="evaluationFormServiceImpl" />
+         <property name="performanceAppraisalTaskService" ref="performanceAppraisalTaskServiceImpl" />
+         <property name="loadManagerPerformanceAppraisalConfigXml" ref="loadManagerPerformanceAppraisalConfigXml" />
     </bean>
     
     <!-- i18n -->

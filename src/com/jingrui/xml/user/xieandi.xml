@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+
+<id>3</id>
+<work-status>true</work-status>
+<username>xieandi</username>
+
+<user-config-information>
+<permission>1</permission>
+<performance-appraisal-setting>
+</performance-appraisal-setting>
+</user-config-information>
+
+<user-resume-information>
+<name>谢安迪</name>
+<department>业务部</department>
+<manager-status>true</manager-status>
+<boss-status>false</boss-status>
+<position>软件工程师</position>
+<join-time>2014-05-05</join-time>
+</user-resume-information>
+
+</xml-body>

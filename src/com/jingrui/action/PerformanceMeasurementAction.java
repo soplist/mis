@@ -1051,4 +1051,11 @@ public class PerformanceMeasurementAction extends ActionSupport{
 		
 		return "managerEvaluateSetting";
 	}
+	
+	public String beforeRedirectToUserSettingPage(){
+		HttpSession session=ServletActionContext.getRequest().getSession();
+		List<User> allUserList = userService.findAllUser();
+	   	session.setAttribute("allUserList", allUserList);
+	   	return "success";
+	}
 }

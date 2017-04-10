@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+
+<id>5</id>
+<work-status>true</work-status>
+<username>wangfei</username>
+
+<user-config-information>
+<permission>2</permission>
+<performance-appraisal-setting>
+</performance-appraisal-setting>
+</user-config-information>
+
+<user-resume-information>
+<name>汪飞</name>
+<department>业务部</department>
+<manager-status>false</manager-status>
+<boss-status>false</boss-status>
+<position>业务经理</position>
+<join-time>2013-11-04</join-time>
+</user-resume-information>
+
+</xml-body>

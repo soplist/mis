@@ -10,5 +10,13 @@ package com.jingrui.domain;
  */
 
 public class CompanyEvaluationForm extends EvaluationForm {
+	private Float item_1;
 
+	public Float getItem_1() {
+		return item_1;
+	}
+
+	public void setItem_1(Float item_1) {
+		this.item_1 = item_1;
+	}
 }

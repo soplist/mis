@@ -15,35 +15,44 @@ import java.util.Date;
 public class EvaluationForm implements java.io.Serializable{
     private static final long serialVersionUID = 1L;
 	
-	private Integer pid;
-	private User userByUid;
-    private PmTask pmTaskByTid;
-    private boolean statu;
+	private Integer id;
+	private Integer userId;
+	private Integer evaluationTaskId;
+    private boolean finish;
+    private Integer evaluationType;
     private Date finishTime;
     
-    public Integer getPid() {
-		return pid;
+    private PerformanceAppraisalTask performanceAppraisalTaskByEvaluationTaskId;
+    
+	public Integer getId() {
+		return id;
 	}
-	public void setPid(Integer pid) {
-		this.pid = pid;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	public User getUserByUid() {
-		return userByUid;
+	public Integer getUserId() {
+		return userId;
 	}
-	public void setUserByUid(User userByUid) {
-		this.userByUid = userByUid;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
-	public PmTask getPmTaskByTid() {
-		return pmTaskByTid;
+	public Integer getEvaluationTaskId() {
+		return evaluationTaskId;
 	}
-	public void setPmTaskByTid(PmTask pmTaskByTid) {
-		this.pmTaskByTid = pmTaskByTid;
+	public void setEvaluationTaskId(Integer evaluationTaskId) {
+		this.evaluationTaskId = evaluationTaskId;
 	}
-	public boolean isStatu() {
-		return statu;
+	public boolean isFinish() {
+		return finish;
 	}
-	public void setStatu(boolean statu) {
-		this.statu = statu;
+	public void setFinish(boolean finish) {
+		this.finish = finish;
+	}
+	public Integer getEvaluationType() {
+		return evaluationType;
+	}
+	public void setEvaluationType(Integer evaluationType) {
+		this.evaluationType = evaluationType;
 	}
 	public Date getFinishTime() {
 		return finishTime;
@@ -51,7 +60,11 @@ public class EvaluationForm implements java.io.Serializable{
 	public void setFinishTime(Date finishTime) {
 		this.finishTime = finishTime;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public PerformanceAppraisalTask getPerformanceAppraisalTaskByEvaluationTaskId() {
+		return performanceAppraisalTaskByEvaluationTaskId;
+	}
+	public void setPerformanceAppraisalTaskByEvaluationTaskId(
+			PerformanceAppraisalTask performanceAppraisalTaskByEvaluationTaskId) {
+		this.performanceAppraisalTaskByEvaluationTaskId = performanceAppraisalTaskByEvaluationTaskId;
 	}
 }

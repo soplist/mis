@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+
+<id>19</id>
+<work-status>true</work-status>
+<username>licaihong</username>
+
+<user-config-information>
+<permission>2</permission>
+<performance-appraisal-setting>
+</performance-appraisal-setting>
+</user-config-information>
+
+<user-resume-information>
+<name>李彩虹</name>
+<department>综合部</department>
+<manager-status>false</manager-status>
+<boss-status>false</boss-status>
+<position>客服专员</position>
+<join-time>2015-03-19</join-time>
+</user-resume-information>
+
+</xml-body>

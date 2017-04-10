@@ -2,4 +2,12 @@
 <xml-body>
 <string key="wangkang">王康</string>
 <string key="wangbei">王蓓</string>
+<string key="login_error_1">用户名不存在.</string>
+<string key="login_error_2">用户名不能为空.</string>
+<string key="login_error_3">密码不能为空.</string>
+<string key="login_error_4">请选择登录系统.</string>
+<string key="update_password_message_1">修改密码成功.</string>
+<string key="update_password_message_2">初始用户信息不存在.</string>
+<string key="login_error_5">密码错误.</string>
+<string key="login_error_6">初始密码不存在</string>
 </xml-body>

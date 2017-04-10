@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+
+<id>17</id>
+<work-status>true</work-status>
+<username>luona</username>
+
+<user-config-information>
+<permission>2</permission>
+<performance-appraisal-setting>
+</performance-appraisal-setting>
+</user-config-information>
+
+<user-resume-information>
+<name>罗娜</name>
+<department>综合部</department>
+<manager-status>false</manager-status>
+<boss-status>false</boss-status>
+<position>商务客服</position>
+<join-time>2014-09-02</join-time>
+</user-resume-information>
+
+</xml-body>

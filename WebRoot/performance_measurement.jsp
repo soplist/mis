@@ -34,6 +34,15 @@
     <spring:message code="peme.manager_evaluate_setting"/>
     </a>
     </c:if>
+    <a class="a_1" onclick="window.open('beforeUpdatePassword')">
+    <spring:message code="update_password"/>
+    </a>
+    <a class="a_1" onclick="window.open('beforeRedirectToPerformanceAppraisalSettingPage')">
+    <spring:message code="performance_appraisal_setting"/>
+    </a>
+    <a class="a_1" onclick="window.open('beforeRedirectToUserSettingPage')">
+    <spring:message code="user_setting"/>
+    </a>
     <s:a action="logout"><spring:message code="list.logout"/></s:a>
     <div class="div_3">
     <div class="div_1" id="div_1">
@@ -289,7 +298,7 @@
                             ${pt.item11}
                             </s:if>
                             <s:if test="#pt.type==6">
-                            ${pt.item1+pt.item2+pt.item3+pt.item4+pt.item5},${pt.item6+pt.item7+pt.item8+pt.item9},${pt.item10+pt.item11},${pt.item12+pt.item13}
+                            ${pt.item1+pt.item2+pt.item3+pt.item4+pt.item5},${pt.item6+pt.item7+pt.item8+pt.item9},${pt.item10+pt.item11},${pt.item12}
                             </s:if>
                         </td>
                     </tr>
@@ -368,7 +377,103 @@
                             <span class="span_1">
                                 <spring:message code="peme.task.statu_1"/>:
                             </span>
+                            <br>
+                            <spring:message code="peme.type_1"/>:
                             <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==true&&#table.type==1">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>
+                                    <s:if test="#table.simple==false">
+                                    <span class="span_4">
+                                    ${table.item1+table.item2+table.item3+table.item4+table.item5+table.item6+table.item7+table.item8+table.item9+table.item10}
+                                    </span>
+                                    </s:if>
+                                    <s:if test="#table.simple==true">
+                                    <span class="span_4">
+                                    ${table.item11}
+                                    </span>
+                                    </s:if>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <spring:message code="peme.type_2"/>:
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==true&&#table.type==2">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>
+                                    <s:if test="#table.simple==false">
+                                    <span class="span_4">
+                                    ${table.item1+table.item2+table.item3+table.item4+table.item5+table.item6+table.item7+table.item8+table.item9+table.item10}
+                                    </span>
+                                    </s:if>
+                                    <s:if test="#table.simple==true">
+                                    <span class="span_4">
+                                    ${table.item11}
+                                    </span>
+                                    </s:if>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <spring:message code="peme.type_3"/>:
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==true&&#table.type==3">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>
+                                    <s:if test="#table.simple==false">
+                                    <span class="span_4">
+                                    ${table.item1+table.item2+table.item3+table.item4+table.item5+table.item6+table.item7+table.item8+table.item9+table.item10}
+                                    </span>
+                                    </s:if>
+                                    <s:if test="#table.simple==true">
+                                    <span class="span_4">
+                                    ${table.item11}
+                                    </span>
+                                    </s:if>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <spring:message code="peme.type_4"/>:
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==true&&#table.type==4">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>
+                                    <s:if test="#table.simple==false">
+                                    <span class="span_4">
+                                    ${table.item1+table.item2+table.item3+table.item4+table.item5+table.item6+table.item7+table.item8+table.item9+table.item10}
+                                    </span>
+                                    </s:if>
+                                    <s:if test="#table.simple==true">
+                                    <span class="span_4">
+                                    ${table.item11}
+                                    </span>
+                                    </s:if>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <spring:message code="peme.type_5"/>:
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==true&&#table.type==5">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>
+                                    <s:if test="#table.simple==false">
+                                    <span class="span_4">
+                                    ${table.item1+table.item2+table.item3+table.item4+table.item5+table.item6+table.item7+table.item8+table.item9+table.item10}
+                                    </span>
+                                    </s:if>
+                                    <s:if test="#table.simple==true">
+                                    <span class="span_4">
+                                    ${table.item11}
+                                    </span>
+                                    </s:if>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <!-- <s:iterator value="#pt.pmTablesForTid" id="table">
                                 <s:if test="#table.statu==true">
                                     <span class="span_2">
                                     <s:property value="#table.userByUid.realName"/>,
@@ -400,13 +505,59 @@
                                     ${table.item11}
                                     </span>
                                     </s:if>;
-                                    </s:if>
-                            </s:iterator>
+                                </s:if>
+                            </s:iterator> -->
                             <br>
                             <span class="span_3">
                                 <spring:message code="peme.task.statu_2"/>:
                             </span>
+                            <br>
+                            <spring:message code="peme.type_1"/>:
                             <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==false&&#table.type==1">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <spring:message code="peme.type_2"/>:
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==false&&#table.type==2">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <spring:message code="peme.type_3"/>:
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==false&&#table.type==3">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <spring:message code="peme.type_4"/>:
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==false&&#table.type==4">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <spring:message code="peme.type_5"/>:
+                            <s:iterator value="#pt.pmTablesForTid" id="table">
+                                <s:if test="#table.statu==false&&#table.type==5">
+                                    <span class="span_2">
+                                    <s:property value="#table.userByUid.realName"/>,
+                                    </span>;
+                                </s:if>
+                            </s:iterator>
+                            <br>
+                            <!-- <s:iterator value="#pt.pmTablesForTid" id="table">
                                 <s:if test="#table.statu==false">
                                     <span class="span_3">
                                     <s:property value="#table.userByUid.realName"/>,
@@ -429,7 +580,7 @@
                                     </s:if>
                                     )</span>;
                                 </s:if>
-                            </s:iterator>
+                            </s:iterator> -->
                             <br>
                             
                             <!-- <s:iterator value="#pt.pmTablesForTid" id="table">
@@ -657,12 +808,12 @@
                                 <span class="span_1">
                                 ${table.item10+table.item11},
                                 </span>
-                                ${table.item12},${table.item13},
+                                ${table.item12},
                                 <span class="span_1">
-                                ${table.item12+table.item13},
+                                ${table.item12},
                                 </span>
                                 <spring:message code="peme.task.total_score"/>:
-                                <fmt:formatNumber type="number" value="${(table.item1+table.item2+table.item3+table.item4+table.item5)*0.4+(table.item6+table.item7+table.item8+table.item9)*0.3+(table.item10+table.item11)*0.15+(table.item12+table.item13)*0.15}" maxFractionDigits="2"/>
+                                <fmt:formatNumber type="number" value="${(table.item1+table.item2+table.item3+table.item4+table.item5)*0.4+(table.item6+table.item7+table.item8+table.item9)*0.3+(table.item10+table.item11)*0.15+(table.item12)*0.15}" maxFractionDigits="2"/>
                                 </s:if>
                                 <br>
                             </s:iterator>

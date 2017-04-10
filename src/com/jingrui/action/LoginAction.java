@@ -19,6 +19,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.jingrui.domain.Area;
 import com.jingrui.domain.Customer;
+import com.jingrui.domain.EvaluationForm;
 import com.jingrui.domain.NoticePeople;
 import com.jingrui.domain.Page;
 import com.jingrui.domain.Permission;
@@ -26,12 +27,21 @@ import com.jingrui.domain.PmTable;
 import com.jingrui.domain.PmTask;
 import com.jingrui.domain.Task;
 import com.jingrui.domain.User;
+import com.jingrui.domain.UserInformation;
+import com.jingrui.domain.UserLoginInformation;
+import com.jingrui.domain.UserPermission;
 import com.jingrui.service.CustomerService;
 import com.jingrui.service.DepartmentService;
+import com.jingrui.service.EvaluationFormService;
 import com.jingrui.service.PmTableService;
 import com.jingrui.service.PmTaskService;
 import com.jingrui.service.TaskService;
+import com.jingrui.service.UserLoginInformationService;
+import com.jingrui.service.UserPermissionService;
 import com.jingrui.service.UserService;
+import com.jingrui.util.BASE64;
+import com.jingrui.util.BuildCompanyStructure;
+import com.jingrui.util.LoadChineseCharactersListXml;
 import com.jingrui.util.PageUtil;
 import com.jingrui.util.StatisticsHelper;
 import com.opensymphony.xwork2.ActionContext;
@@ -48,6 +58,18 @@ public class LoginAction extends ActionSupport{
 	private static final int CUSTOMER_MESSAGE_SYSTEM = 2;
 	private static final int POINTS_MANAGEMENT_SYSTEM = 3;
 	private static final int BOSS_VISUAL_ANGLE_SYSTEM = 4;
+	private static final String USERNAME_NOT_EXISTS_KEY = "login_error_1";
+	private static final String USERNAME_CAN_NOT_EMPTY_KEY = "login_error_2";
+	private static final String PASSWORD_CAN_NOT_EMPTY_KEY = "login_error_3";
+	private static final String CHOOSE_LOGIN_SYSTEM_KEY = "login_error_4";
+	private static final String PASSWORD_ERROR_KEY = "login_error_5";
+	private static final String INIT_PASSWORD_NOT_EXIST_KEY = "login_error_6";
+	private static final int LOGIN_SYSTEM_NOT_CHOOSE = 0;
+	private static final String EMPTY_STRING = "";
+	private static final String ERROR = "error";
+	private static final String USER_INFORMATION_SESSION_KEY = "userInformation";
+	private static final String USER_PERMISSION_SESSION_KEY = "userPermission";
+	private static final String NOT_FINISHED_EVALUATION_FORM_SESSION_KEY = "notFinishedEvaluationForm";
 	
 	private String username;
     private String password;
@@ -61,11 +83,36 @@ public class LoginAction extends ActionSupport{
 	private PmTaskService pmTaskService;
 	private PmTableService pmTableService;
 	private CustomerService customerService;
+	private UserLoginInformationService userLoginInformationService;
 	
+	private BuildCompanyStructure buildCompanyStructure;
+	private LoadChineseCharactersListXml loadChineseCharactersListXml;
+	private BASE64 base64;
+	private UserPermissionService userPermissionService;
+	private EvaluationFormService evaluationFormService;
+	
+	private UserInformation userInformation;
 	private HttpSession session;
 	private User user;
+	
+	public LoadChineseCharactersListXml getLoadChineseCharactersListXml() {
+		return loadChineseCharactersListXml;
+	}
+	public void setLoadChineseCharactersListXml(
+			LoadChineseCharactersListXml loadChineseCharactersListXml) {
+		this.loadChineseCharactersListXml = loadChineseCharactersListXml;
+	}
+	
     
     private static Logger logger = Logger.getLogger(LoginAction.class);
+    
+	public BuildCompanyStructure getBuildCompanyStructure() {
+		return buildCompanyStructure;
+	}
+	public void setBuildCompanyStructure(BuildCompanyStructure buildCompanyStructure) {
+		this.buildCompanyStructure = buildCompanyStructure;
+	}
+	
 	
     public LoginAction() {
 		// TODO Auto-generated constructor stub
@@ -84,6 +131,18 @@ public class LoginAction extends ActionSupport{
 		
 		user = userService.findUserByName(username);
     	session.setAttribute("user", user);
+    	
+    	/*if(userInformation != null){
+    		session.setAttribute(USER_INFORMATION_SESSION_KEY, userInformation);
+    		UserPermission userPermission = userPermissionService.getUserPermissionById(userInformation.getUserConfigInformation().getPermission());
+    		session.setAttribute(USER_PERMISSION_SESSION_KEY, userPermission);
+    		List<EvaluationForm> notFinishedEvaluationForm = evaluationFormService.getNotFinishedEvaluationFormByUserId(userInformation.getId());
+    		session.setAttribute(NOT_FINISHED_EVALUATION_FORM_SESSION_KEY, notFinishedEvaluationForm);
+    	}*/
+    	
+    	//HttpServletRequest request = ServletActionContext.getRequest();
+    	//System.out.println("path:"+request.getContextPath());
+    	//System.out.println("path:"+getClass().getClassLoader().getResource("com/jingrui/xml/user").getPath());
     	
     	//system.out.println("");
     	String redirectString = jumpToSubsystem();
@@ -189,6 +248,10 @@ public class LoginAction extends ActionSupport{
     		//return "loginSuccess";
     	
     }
+	
+	public void initPermissionSystem(){
+		
+	}
 	
 	public String jumpToSubsystem(){
 		switch(system){
@@ -307,16 +370,16 @@ public class LoginAction extends ActionSupport{
     	try{
     		System.out.println("validate:"+username);
     		this.clearErrorsAndMessages();
-    	    if(username.equals("")){
-			    this.addFieldError("error", "用户名不能为空");
+    	    if(username.equals(EMPTY_STRING)){
+			    this.addFieldError(ERROR, loadChineseCharactersListXml.getNodeListMap().get(USERNAME_CAN_NOT_EMPTY_KEY));
 		    }
-    	    if(password.equals("")){
-			    this.addFieldError("error", "密码不能为空");
+    	    if(password.equals(EMPTY_STRING)){
+			    this.addFieldError(ERROR, loadChineseCharactersListXml.getNodeListMap().get(PASSWORD_CAN_NOT_EMPTY_KEY));
 		    }
-    	    if(system == 0){
-    	    	this.addFieldError("error", "请选择登录系统");
+    	    if(system == LOGIN_SYSTEM_NOT_CHOOSE){
+    	    	this.addFieldError(ERROR, loadChineseCharactersListXml.getNodeListMap().get(CHOOSE_LOGIN_SYSTEM_KEY));
     	    }
-    	    if(!username.equals("")&&!password.equals("")){
+    	    if(!username.equals(EMPTY_STRING)&&!password.equals(EMPTY_STRING)){
     	    	User u = userService.findUserByName(username);
         	    if(null==u){
         	    	this.addFieldError("error", "用户不存在");
@@ -326,6 +389,24 @@ public class LoginAction extends ActionSupport{
             	    	this.addFieldError("error", "密码不正确");
             	    }
         	    }
+    	    	/*
+    	    	userInformation = buildCompanyStructure.getUserInformationByUsername(username);
+    	    	if(userInformation != null){
+    	    		System.out.println("name:"+userInformation.getUserResumeInformation().getName());
+    	    		
+    	    		UserLoginInformation userLoginInformation = userLoginInformationService.getUserLoginInformationByUserId(userInformation.getId());
+    	    		if(userLoginInformation == null){
+    	    			this.addFieldError(ERROR, loadChineseCharactersListXml.getNodeListMap().get(INIT_PASSWORD_NOT_EXIST_KEY));
+    	    		}else{
+    	    			String dbPassword = new String(base64.decryptBASE64(userLoginInformation.getPassword()));
+    	    			
+        	    		if(!dbPassword.equals(password)){
+        	    			this.addFieldError(ERROR, loadChineseCharactersListXml.getNodeListMap().get(PASSWORD_ERROR_KEY));
+        	    		}
+    	    		}
+    	    	}else{
+    	    		this.addFieldError(ERROR, loadChineseCharactersListXml.getNodeListMap().get(USERNAME_NOT_EXISTS_KEY));
+    	    	}*/
     	    }
     	}catch(Exception ex){
     		ex.printStackTrace();
@@ -364,6 +445,8 @@ public class LoginAction extends ActionSupport{
 	public String logout(){
 		logger.info("logout");
 		ServletActionContext.getRequest().getSession().removeAttribute("user");
+		ServletActionContext.getRequest().getSession().removeAttribute(USER_INFORMATION_SESSION_KEY);
+		ServletActionContext.getRequest().getSession().removeAttribute(USER_PERMISSION_SESSION_KEY);
 		return "logsucc";
 	}
 	
@@ -432,4 +515,30 @@ public class LoginAction extends ActionSupport{
 		this.customerService = customerService;
 	}
 	
+	public UserLoginInformationService getUserLoginInformationService() {
+		return userLoginInformationService;
+	}
+	public void setUserLoginInformationService(
+			UserLoginInformationService userLoginInformationService) {
+		this.userLoginInformationService = userLoginInformationService;
+	}
+	
+	public BASE64 getBase64() {
+		return base64;
+	}
+	public void setBase64(BASE64 base64) {
+		this.base64 = base64;
+	}
+	public UserPermissionService getUserPermissionService() {
+		return userPermissionService;
+	}
+	public void setUserPermissionService(UserPermissionService userPermissionService) {
+		this.userPermissionService = userPermissionService;
+	}
+	public EvaluationFormService getEvaluationFormService() {
+		return evaluationFormService;
+	}
+	public void setEvaluationFormService(EvaluationFormService evaluationFormService) {
+		this.evaluationFormService = evaluationFormService;
+	}
 }

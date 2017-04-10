@@ -2,6 +2,7 @@ package com.jingrui.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,11 +18,19 @@ import org.xml.sax.SAXException;
 
 public class LoadChineseCharactersListXml {
 	
+	private static final String CHINESE_CHARACTERS_XML_PAT = "src/com/jingrui/xml/ChineseCharactersList.xml";
+	private static final String TAG_NAME_STRING = "string";
+	private static final String ATTRIBUTE_KEY = "key";
+	
+	private String chinese_characters_xml_path;
+	
 	private HashMap<String, String> nodeListMap;
 	
 	//load xml file in constructor
     public LoadChineseCharactersListXml(){
+    	
     	try {
+    		chinese_characters_xml_path = getClass().getClassLoader().getResource("com/jingrui/xml/ChineseCharactersList.xml").toURI().getPath();
     		Document doc = buildDocument();
     		NodeList nodeList = getNodeList(doc);
 			
@@ -37,12 +46,15 @@ public class LoadChineseCharactersListXml {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     }
     
     //use dom api to build document object
     public Document buildDocument() throws ParserConfigurationException, SAXException, IOException{
-    	File xmlFile = new File("src/com/jingrui/xml/ChineseCharactersList.xml");
+    	File xmlFile = new File(chinese_characters_xml_path);
     	System.out.println("xml file name:"+xmlFile.getName());
     	
     	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -54,7 +66,7 @@ public class LoadChineseCharactersListXml {
     
     //get all the node list from document
     public NodeList getNodeList(Document doc){
-    	NodeList nodeList = doc.getElementsByTagName("string");
+    	NodeList nodeList = doc.getElementsByTagName(TAG_NAME_STRING);
     	
     	return nodeList;
     }
@@ -63,7 +75,7 @@ public class LoadChineseCharactersListXml {
     public void loopThroughNodeListAndShow(NodeList nodeList){
     	for(int i=0;i<nodeList.getLength();i++){
 			Element element = (Element)nodeList.item(i);
-			String key = element.getAttribute("key");
+			String key = element.getAttribute(ATTRIBUTE_KEY);
 			System.out.print("key:" + key+ ",");
 			
 			String value = element.getTextContent();
@@ -78,7 +90,7 @@ public class LoadChineseCharactersListXml {
     	if(null != nodeList){
     		for(int i=0;i<nodeList.getLength();i++){
 			    Element element = (Element)nodeList.item(i);
-			    String key = element.getAttribute("key");
+			    String key = element.getAttribute(ATTRIBUTE_KEY);
 			    String value = element.getTextContent();
 			    
 			    nodeListMap.put(key, value);

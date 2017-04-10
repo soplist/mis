@@ -53,17 +53,17 @@
 	    	    }
 	    	}
 	    	else if(kind=="3"){
-	    	    if(floatval>30||floatval<0){
+	    	    if(floatval>100||floatval<0){
 	    		    alert("个人积分管理任务完成情况范围在0-30之间");
 	    		    return false;
 	    	    }
 	    	}
-	    	else if(kind=="4"){
-	    	    if(floatval>70||floatval<0){
-	    		    alert("团队个人积分完成情况范围在0-70之间");
-	    		    return false;
-	    	    }
-	    	}
+	    	//else if(kind=="4"){
+	    	    //if(floatval>70||floatval<0){
+	    		    //alert("团队个人积分完成情况范围在0-70之间");
+	    		    //return false;
+	    	    //}
+	    	//}
 	    	//submit data
 	    	//clear input
 	    	if (window.XMLHttpRequest){// code for Firefox, Mozilla, IE7, etc.
@@ -106,7 +106,7 @@
           <th><spring:message code="mes.item1"/></th>
           <th><spring:message code="mes.item6"/></th>
           <th><spring:message code="mes.item12"/></th>
-          <th><spring:message code="mes.item13"/></th>
+          <!-- <th><spring:message code="mes.item13"/></th> -->
       </tr>
           <s:iterator value="#session.managers" id="u">
               <tr>
@@ -125,9 +125,9 @@
                   <td id="item12_${u.managerEvaluateSetting.mid}" onclick="setScoreView(${u.managerEvaluateSetting.mid},3)">
                       <s:property value="#u.managerEvaluateSetting.item12"/>
                   </td>
-                  <td id="item13_${u.managerEvaluateSetting.mid}" onclick="setScoreView(${u.managerEvaluateSetting.mid},4)">
+                  <!-- <td id="item13_${u.managerEvaluateSetting.mid}" onclick="setScoreView(${u.managerEvaluateSetting.mid},4)">
                       <s:property value="#u.managerEvaluateSetting.item13"/>
-                  </td>
+                  </td> -->
               </tr>
           </s:iterator>
       </table>

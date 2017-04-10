@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+
+<evaluation-unit>
+<department>业务部</department>
+<manager>谢安迪</manager>
+</evaluation-unit>
+
+<evaluation-unit>
+<department>综合部</department>
+<manager>陈旭楠</manager>
+</evaluation-unit>
+
+<evaluation-unit>
+<department>财务部</department>
+<manager>屈孝霞</manager>
+</evaluation-unit>
+
+</xml-body>

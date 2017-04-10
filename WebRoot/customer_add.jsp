@@ -179,69 +179,69 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </c:if>
     <s:form id="cform" action="addCustomer" method="post">
        <table class="table_1">
-           <caption><spring:message code="add.title"/></caption>
+           <caption><spring:message code="add_customer.title"/></caption>
            <tr>
-               <td><spring:message code="add.department"/></td>
+               <td><spring:message code="add_customer.department"/></td>
                <td><s:select id="department" list="%{#request.departlist}" listValue="departmentName" listKey="did"></s:select></td>
            </tr>
            <tr>
-               <td><spring:message code="add.area"/></td>
+               <td><spring:message code="add_customer.area"/></td>
                <td><s:select id="area" name="area" list="%{#session.areaList}" listValue="key" listKey="value"></s:select></td>
            </tr>
            <tr>
-               <td><spring:message code="add.start_date"/></td>
+               <td><spring:message code="add_customer.start_date"/></td>
                <td><s:textfield id="start_date" name="startDate"/></td>
            </tr>
            <tr>
-               <td><spring:message code="add.company"/></td>
+               <td><spring:message code="add_customer.company"/></td>
                <td><s:textfield id="company" name="company"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.cost"/></td>
+               <td><spring:message code="add_customer.cost"/></td>
                <td><s:textfield id="cost" name="cost"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.legal_representative"/></td>
+               <td><spring:message code="add_customer.legal_representative"/></td>
                <td><s:textfield id="legal_representative" name="legalRepresentative"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.office_staff"/></td>
+               <td><spring:message code="add_customer.office_staff"/></td>
                <td><s:textfield id="office_staff" name="officeStaff"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.detailed_address"/></td>
+               <td><spring:message code="add_customer.detailed_address"/></td>
                <td><s:textfield id="detailed_address" name="detailedAddress"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.office_telephone"/></td>
+               <td><spring:message code="add_customer.office_telephone"/></td>
                <td><s:textfield id="office_telephone" name="officeTelephone"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.cellphone"/></td>
+               <td><spring:message code="add_customer.cellphone"/></td>
                <td><s:textfield id="cellphone" name="cellphone"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.qq"/></td>
+               <td><spring:message code="add_customer.qq"/></td>
                <td><s:textfield id="qq" name="qq"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.micromsg"/></td>
+               <td><spring:message code="add_customer.micromsg"/></td>
                <td><s:textfield id="micromsg" name="micromsg"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.introduction"/></td>
+               <td><spring:message code="add_customer.introduction"/></td>
                <td><s:textarea id="introduction" name="introduction" cssStyle="width: 150px"></s:textarea></td>
            </tr>
            <tr>
-               <td><spring:message code="add.cooperation_project"/></td>
+               <td><spring:message code="add_customer.cooperation_project"/></td>
                <td><s:textfield id="cooperation_project" name="cooperationProject"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.possible_business"/></td>
+               <td><spring:message code="add_customer.possible_business"/></td>
                <td><s:textfield id="possible_business" name="possibleBusiness"></s:textfield></td>
            </tr>
            <tr>
-               <td><spring:message code="add.client_evaluation"/></td>
+               <td><spring:message code="add_customer.client_evaluation"/></td>
                <td><s:textfield id="client_evaluation" name="clientEvaluation"></s:textfield></td>
            </tr>
            <tr>

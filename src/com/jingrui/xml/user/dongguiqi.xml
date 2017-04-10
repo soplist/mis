@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+
+<id>8</id>
+<work-status>false</work-status>
+<username>dongguiqi</username>
+
+<user-config-information>
+<permission>2</permission>
+<performance-appraisal-setting>
+</performance-appraisal-setting>
+</user-config-information>
+
+<user-resume-information>
+<name>董贵琦</name>
+<department>财务部</department>
+<manager-status>true</manager-status>
+<boss-status>false</boss-status>
+<position>传媒公司总经理</position>
+<join-time>2015-02-01</join-time>
+</user-resume-information>
+
+</xml-body>

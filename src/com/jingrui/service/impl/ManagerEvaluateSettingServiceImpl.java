@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jingrui.dao.BaseDAO;
 import com.jingrui.domain.ManagerEvaluateSetting;
+import com.jingrui.domain.Options;
 import com.jingrui.domain.PmTask;
 import com.jingrui.service.ManagerEvaluateSettingService;
 
@@ -26,4 +27,9 @@ public class ManagerEvaluateSettingServiceImpl implements ManagerEvaluateSetting
 	public void update(ManagerEvaluateSetting mes){
 		baseDao.update(mes);
 	}
+	
+	public Integer insert(ManagerEvaluateSetting managerEvaluateSetting){
+    	baseDao.add(managerEvaluateSetting);
+    	return managerEvaluateSetting.getMid();
+    }
 }

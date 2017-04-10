@@ -275,12 +275,13 @@
             <td colspan="2"></td>
         </tr>
         <tr>
-            <td rowspan="4"><spring:message code="manager_evaluate.content_7"/></td>
+            <td><spring:message code="manager_evaluate.content_7"/></td>
             <td><spring:message code="manager_evaluate.content_7_2_1"/></td>
-            <td colspan="2"><spring:message code="manager_evaluate.content_7_3_1"/></td>
+            <td><spring:message code="manager_evaluate.content_7_3_1"/></td>
+            <td>100-0</td>
             <td><s:property value="#session.table.pmTaskByTid.userByUid.managerEvaluateSetting.item12"/></td>
         </tr>
-        <tr>
+         <!-- <tr>
             <td rowspan="3"><spring:message code="manager_evaluate.content_7_2_2"/></td>
             <td><spring:message code="manager_evaluate.content_7_3_2"/></td>
             <td>70-62</td>
@@ -293,13 +294,13 @@
         <tr>
             <td><spring:message code="manager_evaluate.content_7_3_4"/></td>
             <td>0</td>
-        </tr>
+        </tr> 
         <tr>
             <td colspan="3"><spring:message code="manager_evaluate.content_8"/></td>
             <td colspan="2"></td>
-        </tr>
+        </tr> -->
         <tr>
-            <td colspan="5"><spring:message code="manager_evaluate.content_9"/></td>
+            <td colspan="8"><spring:message code="manager_evaluate.content_9"/></td>
         </tr>
         </table>
         <br/><br/>

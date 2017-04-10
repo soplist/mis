@@ -29,6 +29,10 @@ public class UserServiceImpl implements UserService {
     	return list;
     }
     
+    public User getUserById(int id){
+    	return baseDao.get(User.class, id);
+    }
+    
 	
 	
 	public User findUserByName(String name) {
@@ -66,5 +70,8 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUserValidity(){
     	List<User> list = baseDao.qryInfo("from User where validity=true");
     	return list;
+    }
+    public void add(User user){
+    	baseDao.add(user);
     }
 }

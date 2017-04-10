@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+
+<id>9</id>
+<work-status>true</work-status>
+<username>quxiaoxia</username>
+
+<user-config-information>
+<permission>1</permission>
+<performance-appraisal-setting>
+</performance-appraisal-setting>
+</user-config-information>
+
+<user-resume-information>
+<name>屈孝霞</name>
+<department>财务部</department>
+<manager-status>true</manager-status>
+<boss-status>false</boss-status>
+<position>财务经理</position>
+<join-time>2010-04-28</join-time>
+</user-resume-information>
+
+</xml-body>

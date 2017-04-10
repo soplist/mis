@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+
+<id>7</id>
+<work-status>true</work-status>
+<username>wangli</username>
+
+<user-config-information>
+<permission>2</permission>
+<performance-appraisal-setting>
+</performance-appraisal-setting>
+</user-config-information>
+
+<user-resume-information>
+<name>王丽</name>
+<department>财务部</department>
+<manager-status>false</manager-status>
+<boss-status>false</boss-status>
+<position>库管</position>
+<join-time>2015-04-25</join-time>
+</user-resume-information>
+
+</xml-body>
